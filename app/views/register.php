@@ -24,7 +24,7 @@
 
                     <div class="card-body p-4">
 
-                        <form method="post" action="../controllers/userController.php">
+                        <form method="post" action="<?php echo URL_BASE; ?>index.php">
 
                             <input type="hidden" name="action" value="register">
 

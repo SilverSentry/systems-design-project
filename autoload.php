@@ -4,9 +4,9 @@
 
         //Se definen las carpetas donde buscar las clases
         $directories = [
-        '../app/controllers/',
-        '../app/models/',
-        '../config/'
+        'app/controllers/',
+        'app/models/',
+        'config/'
     ];
 
         //Se recorre en los directorios para ver si el archivo existe mediante un foreach

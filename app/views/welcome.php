@@ -1,5 +1,3 @@
-<?php require_once '../../config/routes.php'; ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

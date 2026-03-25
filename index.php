@@ -4,6 +4,14 @@
 require_once 'config/routes.php';
 require_once 'autoload.php';
 
+//Si hay una acción por POST, se llamam al controlador
+if (isset($_POST['action'])) {
+
+    $controller = new userController();
+    $controller->handleRequest();
+
+}
+
 $pag = isset($_GET['p']) ? $_GET['p'] : 'login';
 
 //Sistema de ruteo simple

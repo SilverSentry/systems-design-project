@@ -1,8 +1,5 @@
 <?php
 
-require_once '../../config/Connection.php';
-require_once '../models/userModel.php';
-
 class userController{
 
     private $userModel;
@@ -11,7 +8,7 @@ class userController{
 
         $database = new connection();
         $db = $database->getConnection();
-        $this->userModel = new user($db);
+        $this->userModel = new userModel($db);
 
     }
 
@@ -47,23 +44,28 @@ class userController{
         $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
         $password = $_POST['password'];
 
-        if (empty($_POST['name']) || empty($_POST['surname']) || empty($_POST['email']) || empty($_POST['password'])) {
+        //Se verifica que los campos no estén vacíos
+        if (empty($name) || empty($surname) || empty($email) || empty($password)) {
 
-        header('location: ../views/register.php?=error_fill_all');
+        header('location: ' . URL_BASE . 'index.php?p=registro&error_fill_all');
+        exit();
 
+        //Se valida el correo electrónico
         } elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
 
-        header('location: ../views/login.php?=error');
+        header('location: ' . URL_BASE . 'index.php?p=registro&error_email');
+        exit();
 
         } else{
 
+            //Si todo es correcto, se registra el usuario
             if($this->userModel->register($name, $surname, $email, $password)){
 
-                header('location: ../views/login.php?=succes');
+                header('location: ' . URL_BASE . 'index.php?p=login&succes');
 
             } else{
 
-                header('location: ../views/register?=error_already_exist');
+                header('location: ' . URL_BASE . 'index.php?p=registro&error_already_exist');
 
             }
 
@@ -83,7 +85,7 @@ class userController{
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_nombre'] = $user['nombre'];
             
-            header("Location: ../views/welcome.php");
+            header('Location: ' . URL_BASE . 'index.php?p=welcome');
 
         } else {
 
@@ -97,9 +99,5 @@ class userController{
     }
 
 }
-
-//Se inicializa el controlador
-$controller = new UserController();
-$controller->handleRequest();
 
 ?>
