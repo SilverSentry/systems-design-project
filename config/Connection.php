@@ -13,10 +13,10 @@ Class connection {
     //Método para obtener la conexión a la base de datos
     public function getConnection() {
 
-        //Inicializamos la conexión como null
+        //Se inicializa la conexión como null
         $this->conn = null;
 
-        //Intentamos conectar a la base de datos mendiante un bloque try-catch
+        //Se intenta conectar a la base de datos mendiante un bloque try-catch
         try {
 
             $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->dbName, $this->user, $this->password);
@@ -28,7 +28,7 @@ Class connection {
 
         }
 
-        //Retornamos si la conexión fue exitosa
+        //Se retorna si la conexión fue exitosa
         return $this->conn;
 
     }

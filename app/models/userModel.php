@@ -1,6 +1,6 @@
 <?php
 
-    class user{
+    class userModel{
 
         private $conn;
         private $tableName = "users";
@@ -45,14 +45,14 @@
 
                             return $row;
 
-            }
+                        }
+
+                }
+
+            return false;
 
         }
 
-        return false;
-
     }
-
-}
 
 ?>

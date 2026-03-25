@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="<?php echo URL_BASE; ?>assets/css/bootstrap.min.css" rel="stylesheet">
   </head>
 </head>
 <body>
@@ -43,7 +43,7 @@
                             </div>
 
                             <div class="text-center mb-2 pt-3">
-                                <label class="">¿No estás registrado?</label><a href="register.php">Regístrate aquí</a>
+                                <label class="">¿No estás registrado?</label><a href="index.php?p=registro">Regístrate aquí</a>
                             </div>
 
                         </form>

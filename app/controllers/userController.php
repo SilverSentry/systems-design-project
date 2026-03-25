@@ -46,9 +46,8 @@ class userController{
         $surname = trim($_POST['surname']);
         $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
         $password = $_POST['password'];
-        $dni = ($_POST['dni']);
 
-        if (empty($_POST['name']) || empty($_POST['surname']) || empty($_POST['email']) || empty($_POST['password']) || empty($_POST['dni'])) {
+        if (empty($_POST['name']) || empty($_POST['surname']) || empty($_POST['email']) || empty($_POST['password'])) {
 
         header('location: ../views/register.php?=error_fill_all');
 
@@ -99,7 +98,7 @@ class userController{
 
 }
 
-//Se inicializaa el controlador
+//Se inicializa el controlador
 $controller = new UserController();
 $controller->handleRequest();
 
