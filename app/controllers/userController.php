@@ -61,7 +61,7 @@ class userController{
             //Si todo es correcto, se registra el usuario
             if($this->userModel->register($name, $surname, $email, $password)){
 
-                header('location: ' . URL_BASE . 'index.php?p=login&succes');
+                header('location: ' . URL_BASE . 'index.php?p=login&success=1');
 
             } else{
 
@@ -90,7 +90,7 @@ class userController{
         } else {
 
             $_SESSION['error'] = "Credenciales incorrectas.";
-            header("Location: ../views/login.php?=error");
+            header('Location: ' . URL_BASE . 'index.php?=login&error');
 
         }
 

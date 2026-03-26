@@ -4,9 +4,7 @@
     <title>Inicio de Sesión</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
     <link href="<?php echo URL_BASE; ?>assets/css/bootstrap.min.css" rel="stylesheet">
-  </head>
 </head>
 <body>
 
@@ -43,7 +41,7 @@
                             </div>
 
                             <div class="text-center mb-2 pt-3">
-                                <label class="">¿No estás registrado?</label><a href="index.php?p=registro">Regístrate aquí</a>
+                                <label class="">¿No estás registrado?</label></br><a href="index.php?p=registro">Regístrate aquí</a>
                             </div>
 
                         </form>
@@ -59,5 +57,7 @@
 
 </div>
 
+<script src="<?php echo URL_BASE; ?>assets/js/sweetalert2.all.min.js"></script>
+<script src="<?php echo URL_BASE; ?>assets/js/validations.js"></script>
 </body>
 </html>

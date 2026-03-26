@@ -53,7 +53,7 @@
                             </div>
 
                             <div class="text-center mb-2 pt-3">
-                                <label class="">¿Ya estás registrado?</label><a href="index.php?p=login">Iniciar Sesión</a>
+                                <label class="">¿Ya estás registrado?</label></br><a href="index.php?p=login">Inicia sesión</a>
                             </div>
 
                         </form>
