@@ -5,7 +5,27 @@ document.addEventListener("DOMContentLoaded", function(){
 
     console.log("Parámetros en URL:", urlParams.toString());
 
-        //Se verifica si existe el parámetro
+        //Manejo del mensaje de error en el login
+        if(urlParams.get('error') === 'auth_failed'){
+
+            //
+            const loginError = document.getElementById("incorrectCredentials");
+
+            //
+            if(loginError){
+                
+                //
+                loginError.classList.remove("d-none");
+
+            }
+
+            //Se limpia la URL para que el mensaje desaparezca si se refresca la página
+            const cleanUrl = window.location.origin + window.location.pathname + "?p=login";
+            window.history.replaceState({}, document.title, cleanUrl);
+
+        }
+
+        //Manejo de mensaje de registro exitoso
         if(urlParams.get('success') === '1'){
 
             Swal.fire({
@@ -24,6 +44,6 @@ document.addEventListener("DOMContentLoaded", function(){
             const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
             window.history.replaceState({path: cleanUrl}, '', cleanUrl);
 
-        }
+        } 
 
 });

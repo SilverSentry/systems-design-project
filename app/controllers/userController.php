@@ -89,8 +89,7 @@ class userController{
 
         } else {
 
-            $_SESSION['error'] = "Credenciales incorrectas.";
-            header('Location: ' . URL_BASE . 'index.php?=login&error');
+            header('Location: ' . URL_BASE . 'index.php?p=login&error=auth_failed');
 
         }
 

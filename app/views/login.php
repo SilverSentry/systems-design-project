@@ -4,7 +4,7 @@
     <title>Inicio de Sesión</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="<?php echo URL_BASE; ?>assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo URL_BASE; ?>assets/Bootstrap/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -22,29 +22,33 @@
 
                     <div class="card-body p-4">
 
-                        <form method="post" action="<?php echo URL_BASE; ?>index.php">
+                        <div class="alert alert-danger text-center mx-auto col-8 d-none" role="alert" id="incorrectCredentials">
+                            Credenciales Incorrectas
+                        </div>
 
-                            <input type="hidden" name="action" value="login">
+                            <form method="post" action="<?php echo URL_BASE; ?>index.php">
 
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Correo electrónico</label>
-                                <input type="email" name="email" class="form-control">
-                            </div>
+                                <input type="hidden" name="action" value="login">
 
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Contraseña</label>
-                                <input type="password" name="password" class="form-control">
-                            </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Correo electrónico</label>
+                                    <input type="email" name="email" class="form-control">
+                                </div>
 
-                            <div class="d-grid gap-2 col-6 mx-auto">
-                                <input type="submit" class="btn btn-primary " value="Ingresar">
-                            </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Contraseña</label>
+                                    <input type="password" name="password" class="form-control">
+                                </div>
 
-                            <div class="text-center mb-2 pt-3">
-                                <label class="">¿No estás registrado?</label></br><a href="index.php?p=registro">Regístrate aquí</a>
-                            </div>
+                                <div class="d-grid gap-2 col-6 mx-auto">
+                                    <input type="submit" class="btn btn-primary " value="Ingresar">
+                                </div>
 
-                        </form>
+                                <div class="text-center mb-2 pt-3">
+                                    <label class="">¿No estás registrado?</label></br><a href="index.php?p=registro">Regístrate aquí</a>
+                                </div>
+
+                            </form>
 
                     </div>
 
@@ -57,7 +61,7 @@
 
 </div>
 
-<script src="<?php echo URL_BASE; ?>assets/js/sweetalert2.all.min.js"></script>
+<script src="<?php echo URL_BASE; ?>assets/SweetAlert2/sweetalert2.all.min.js"></script>
 <script src="<?php echo URL_BASE; ?>assets/js/validations.js"></script>
 </body>
 </html>
