@@ -21,9 +21,8 @@
                 </div>
 
                     <div class="card-body p-4">
-
-                        <div class="alert alert-danger text-center mx-auto col-8 d-none" role="alert" id="incorrectCredentials">
-                            Credenciales Incorrectas
+                        
+                        <div class="alert alert-danger text-center mx-auto col-8 d-none" role="alert" id="errorContainer">
                         </div>
 
                             <form method="post" action="<?php echo URL_BASE; ?>index.php">

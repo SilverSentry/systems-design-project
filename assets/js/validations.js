@@ -3,25 +3,51 @@ document.addEventListener("DOMContentLoaded", function(){
     //Se revisa la URL
     const urlParams = new URLSearchParams(window.location.search);
 
-    console.log("Parámetros en URL:", urlParams.toString());
+    //Se obtiene el id del error
+    const errorContainer = document.getElementById("errorContainer");
 
-        //Manejo del mensaje de error en el login
-        if(urlParams.get('error') === 'auth_failed'){
+        //Manejo de mensajes de error tanto en el login como en el registro
+        if(urlParams.has('error')){
 
-            //
-            const loginError = document.getElementById("incorrectCredentials");
+            //Se obtiene el error
+            const errorType = urlParams.get('error');
 
-            //
-            if(loginError){
-                
-                //
-                loginError.classList.remove("d-none");
+            //Se muestra el mensaje
+            errorContainer.classList.remove("d-none");
+            
+            //Se hace uso de switch para cada caso
+            switch(errorType){
+
+                //Caso para campos vacíos
+                case 'empty_fields':
+                    errorContainer.textContent = "Rellene todos los campos";
+                    break;
+
+                //Caso para credenciales incorrectas
+                case 'auth_failed':
+                    errorContainer.textContent = "Credenciales incorrectas";
+                    break;
+
+                //Caso para nombre y apellido no válidos
+                case 'invalid_name':
+                    errorContainer.textContent = "Nombre y apellido no válidos";
+                    break;
+
+                //Caso para email no válido
+                case 'invalid_email':
+                    errorContainer.textContent = "El formato del email no es válido";
+                    break;
+
+                //Caso para contraseña no válida
+                case 'invalid_pass':
+                    errorContainer.textContent = "Formato de contraseña no válido.";
+                    break;
+
+                //Mensaje prederteminado para cualquier otro error fuera de los anteriores
+                default:
+                    errorContainer.textContent = "Ocurrió un error inesperado";
 
             }
-
-            //Se limpia la URL para que el mensaje desaparezca si se refresca la página
-            const cleanUrl = window.location.origin + window.location.pathname + "?p=login";
-            window.history.replaceState({}, document.title, cleanUrl);
 
         }
 

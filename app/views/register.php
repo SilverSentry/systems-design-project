@@ -24,39 +24,43 @@
 
                     <div class="card-body p-4">
 
-                        <form method="post" action="<?php echo URL_BASE; ?>index.php">
+                        <div class="alert alert-danger text-center mx-auto d-none" role="alert" id="errorContainer">
 
-                            <input type="hidden" name="action" value="register">
+                        </div>
 
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Nombre</label>
-                                <input type="text" name="name" class="form-control">
-                            </div>
+                            <form method="post" action="<?php echo URL_BASE; ?>index.php">
 
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Apellido</label>
-                                <input type="text" name="surname" class="form-control">
-                            </div>
+                                <input type="hidden" name="action" value="register">
 
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Correo electrónico</label>
-                                <input type="email" name="email" class="form-control">
-                            </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Nombre</label>
+                                    <input type="text" name="name" class="form-control">
+                                </div>
 
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Contraseña</label>
-                                <input type="password" name="password" class="form-control">
-                            </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Apellido</label>
+                                    <input type="text" name="surname" class="form-control">
+                                </div>
 
-                            <div class="d-grid gap-2 col-6 mx-auto">
-                                <input type="submit" class="btn btn-primary " value="Registrar">
-                            </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Correo electrónico</label>
+                                    <input type="text" name="email" class="form-control">
+                                </div>
 
-                            <div class="text-center mb-2 pt-3">
-                                <label class="">¿Ya estás registrado?</label></br><a href="index.php?p=login">Inicia sesión</a>
-                            </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Contraseña</label>
+                                    <input type="password" name="password" class="form-control">
+                                </div>
 
-                        </form>
+                                <div class="d-grid gap-2 col-6 mx-auto">
+                                    <input type="submit" class="btn btn-primary " value="Registrar">
+                                </div>
+
+                                <div class="text-center mb-2 pt-3">
+                                    <label class="">¿Ya estás registrado?</label></br><a href="index.php?p=login">Inicia sesión</a>
+                                </div>
+
+                            </form>
 
                     </div>
 
@@ -69,5 +73,7 @@
 
 </div>
 
+<script src="<?php echo URL_BASE; ?>assets/SweetAlert2/sweetalert2.all.min.js"></script>
+<script src="<?php echo URL_BASE; ?>assets/js/validations.js"></script>
 </body>
 </html>

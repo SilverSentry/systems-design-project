@@ -47,16 +47,22 @@ class userController{
         //Se verifica que los campos no estén vacíos
         if (empty($name) || empty($surname) || empty($email) || empty($password)) {
 
-        header('location: ' . URL_BASE . 'index.php?p=registro&error_fill_all');
-        exit();
+            header('location: ' . URL_BASE . 'index.php?p=registro&error=empty_fields');
+            exit();
+
+        //Se valida el nombre y el apellido
+        } elseif(!preg_match("/^[a-zA-z]+$/", $name) || !preg_match("/^[a-zA-z]+$/", $surname)){
+
+            header('location: ' . URL_BASE . 'index.php?p=registro&error=invalid_name');
+            exit();
 
         //Se valida el correo electrónico
         } elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
 
-        header('location: ' . URL_BASE . 'index.php?p=registro&error_email');
-        exit();
+            header('location: ' . URL_BASE . 'index.php?p=registro&error=invalid_email');
+            exit();
 
-        } else{
+        }else{
 
             //Si todo es correcto, se registra el usuario
             if($this->userModel->register($name, $surname, $email, $password)){
@@ -79,6 +85,14 @@ class userController{
         $password = $_POST['password'];
 
         $user = $this->userModel->login($email, $password);
+
+         //Se verifica que los campos no estén vacíos
+        if (empty($email) || empty($password)){
+
+            header('location: ' . URL_BASE . 'index.php?p=login&error=empty_fields');
+            exit();
+
+        }
 
         if($user) {
 

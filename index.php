@@ -30,7 +30,7 @@ switch ($pag) {
         break;
 
     default:
-        include 'app/views/hola.php';
+        include 'app/views/exception.php';
         break;
 }
 
