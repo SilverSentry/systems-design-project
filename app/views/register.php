@@ -18,6 +18,8 @@
 
             <div class="card border-0 shadow-lg">
 
+            <!--<img src="echo URL_BASE;" alt="Logo" width="140" height="150"  class="img-fluid rounded-circle" style="display: block; margin: 0 auto;"> -->
+
                 <div class="card-header bg-dark text-white text-center py-3">
                     <h3 class="fw-bold text-center pt-1 mb-1">Ingrese sus datos</h3>
                 </div>
@@ -28,28 +30,28 @@
 
                         </div>
 
-                            <form method="post" action="<?php echo URL_BASE; ?>index.php">
+                            <form method="post" action="<?php echo URL_BASE; ?>index.php" id="formRegister">
 
                                 <input type="hidden" name="action" value="register">
 
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Nombre</label>
-                                    <input type="text" name="name" class="form-control">
+                                    <input type="text" name="name" class="form-control" id="name">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Apellido</label>
-                                    <input type="text" name="surname" class="form-control">
+                                    <input type="text" name="surname" class="form-control" id="surname">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Correo electrónico</label>
-                                    <input type="text" name="email" class="form-control">
+                                    <input type="text" name="email" class="form-control" id="email">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Contraseña</label>
-                                    <input type="password" name="password" class="form-control">
+                                    <input type="password" name="password" class="form-control" id="password">
                                 </div>
 
                                 <div class="d-grid gap-2 col-6 mx-auto">
@@ -74,6 +76,6 @@
 </div>
 
 <script src="<?php echo URL_BASE; ?>assets/SweetAlert2/sweetalert2.all.min.js"></script>
-<script src="<?php echo URL_BASE; ?>assets/js/validations.js"></script>
+<script src="<?php echo URL_BASE; ?>assets/js/register.js"></script>
 </body>
 </html>

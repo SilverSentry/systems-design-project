@@ -20,23 +20,25 @@
                     <h3 class="fw-bold text-center pt-1 mb-1">Bienvenido</h3>
                 </div>
 
+                <!--<img src="echo URL_BASE;" alt="Logo" width="140" height="150"  class="img-fluid rounded-circle" style="display: block; margin: 0 auto;"> -->
+
                     <div class="card-body p-4">
                         
                         <div class="alert alert-danger text-center mx-auto col-8 d-none" role="alert" id="errorContainer">
                         </div>
 
-                            <form method="post" action="<?php echo URL_BASE; ?>index.php">
+                            <form method="POST" action="<?php echo URL_BASE; ?>index.php" id="formLogin">
 
                                 <input type="hidden" name="action" value="login">
 
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Correo electrónico</label>
-                                    <input type="email" name="email" class="form-control">
+                                    <input type="email" name="email" class="form-control" id="auth">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Contraseña</label>
-                                    <input type="password" name="password" class="form-control">
+                                    <input type="password" name="password" class="form-control" id="auth">
                                 </div>
 
                                 <div class="d-grid gap-2 col-6 mx-auto">
@@ -61,6 +63,6 @@
 </div>
 
 <script src="<?php echo URL_BASE; ?>assets/SweetAlert2/sweetalert2.all.min.js"></script>
-<script src="<?php echo URL_BASE; ?>assets/js/validations.js"></script>
+<script src="<?php echo URL_BASE; ?>assets/js/login.js"></script>
 </body>
 </html>
