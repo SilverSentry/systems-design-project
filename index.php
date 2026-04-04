@@ -2,7 +2,7 @@
 
 session_start();
 
-//Se cargan las configuraciones, sesiones, rutas y el autoload
+//Se cargan las configuraciones y el autoload
 require_once 'config/config.php';
 require_once 'config/routes.php';
 require_once 'autoload.php';
@@ -17,24 +17,14 @@ if (isset($_POST['action'])) {
 
 $pag = isset($_GET['p']) ? $_GET['p'] : 'login';
 
-//Sistema de ruteo simple
-switch ($pag) {
+if(array_key_exists($pag, $routes)) {
 
-    case 'login':
-        include 'app/views/login.php';
-        break;
-        
-    case 'registro':
-        include 'app/views/register.php';
-        break;
-        
-    case 'dashboard':
-        include 'app/views/dashboard.php';
-        break;
+    include $routes[$pag];
 
-    default:
-        include 'app/views/exception.php';
-        break;
+} else{
+
+    include 'app/views/exception.php';
+
 }
 
 ?>
