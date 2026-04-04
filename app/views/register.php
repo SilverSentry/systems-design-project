@@ -8,50 +8,47 @@
     <link href="<?php echo URL_BASE; ?>assets/Bootstrap/bootstrap.min.css" rel="stylesheet">
   </head>
 </head>
-<body>
+<body class="bg-warning-subtle">
 
-<div class="container mt-5">
+<div class="container mt-3">
 
     <div class="row justify-content-center">
 
         <div class="col-md-5">
 
-            <div class="card border-0 shadow-lg">
+            <div class="card border-0  shadow p-3 mb-5 bg-body-tertiary rounded">
 
-            <!--<img src="echo URL_BASE;" alt="Logo" width="140" height="150"  class="img-fluid rounded-circle" style="display: block; margin: 0 auto;"> -->
+                <img src="<?php echo URL_BASE; ?>assets/img/logo.png" alt="Logo" width="140" height="150"  class="img-fluid rounded-circle mt-3" style="display: block; margin: 0 auto;">
 
-                <div class="card-header bg-dark text-white text-center py-3">
-                    <h3 class="fw-bold text-center pt-1 mb-1">Ingrese sus datos</h3>
-                </div>
+                    <h3 class="fw-bold text-center text-black pt-3 mb-1">Ingrese sus datos</h3>
 
                     <div class="card-body p-4">
-
-                        <div class="alert alert-danger text-center mx-auto d-none" role="alert" id="errorContainer">
-
-                        </div>
 
                             <form method="post" action="<?php echo URL_BASE; ?>index.php" id="formRegister">
 
                                 <input type="hidden" name="action" value="register">
 
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Nombre</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Nombre</span>
                                     <input type="text" name="name" class="form-control" id="name">
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Apellido</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Apellido</span>
                                     <input type="text" name="surname" class="form-control" id="surname">
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Correo electrónico</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Correo electrónico</span>
                                     <input type="text" name="email" class="form-control" id="email">
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Contraseña</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Contraseña</span>
                                     <input type="password" name="password" class="form-control" id="password">
+                                </div>
+
+                                <div class="alert alert-danger text-center mx-auto d-none mb-3" role="alert" id="errorContainer">
                                 </div>
 
                                 <div class="d-grid gap-2 col-6 mx-auto">

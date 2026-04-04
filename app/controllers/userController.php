@@ -29,11 +29,14 @@ class userController{
 
                         $this->login();
                         break;
+
+                    case 'logout':
+
+                        $this->logout();
+                        break;
                 }
             }
-
         }
-
     }
 
     private function register(){
@@ -130,14 +133,27 @@ class userController{
             ]);
             exit();
 
+        } elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'El formato del email no es válido',
+                'field' => 'email'
+            ]);
+            exit();
+            
         }
 
         $user = $this->userModel->login($email, $password);
 
         if($user) {
 
+            session_start();
+
+            $_SESSION['user_id'] = $user['id_user'];
+            $_SESSION['name'] = $user['name'];
             $response['status'] = 'success';
-            $response['redirect'] = URL_BASE . 'index.php?p=welcome';
+            $response['redirect'] = URL_BASE . 'index.php?p=dashboard';
 
         } else {
 
@@ -152,6 +168,17 @@ class userController{
         ob_clean();
         header('Content-Type: application/json');
         echo json_encode($response);
+        exit();
+
+    }
+
+    public function logout(){
+
+        session_start();
+        session_unset();//Borra las variables de la sesión actual
+        session_destroy();
+
+        header('location: ' . URL_BASE . 'index.php?p=login');
         exit();
 
     }

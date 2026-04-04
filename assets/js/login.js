@@ -51,25 +51,35 @@ document.addEventListener("DOMContentLoaded", function(){
 
                     } else{
 
-                        //Si hay un error, se cambia el contenido del div dinámicamente
-                        errorContainer.textContent = data.message;
-                        errorContainer.classList.remove("d-none");
+                        //Manejo de error de formato no válido del correo
+                        if(data.field === 'email') {
 
-                        //Se limpia cualquier borde rojo previo (para no acumular errores)
-                        const allInputs = e.target.querySelectorAll('.form-control');
-                        allInputs.forEach(i => i.classList.remove("is-invalid"));
+                            //Se limpia cualquier borde rojo previo (para no acumular errores)
+                            const allInputs = e.target.querySelectorAll('.form-control');
+                            allInputs.forEach(i => i.classList.remove("is-invalid"));
 
-                        if(data.status === 'error'){
+                            const uniqueInput = document.getElementById(data.field);
 
-                            allInputs.forEach(input => { input.classList.add("is-invalid"); });
+                            uniqueInput.classList.add("is-invalid");
 
+                            errorContainer.textContent = data.message;
+                            errorContainer.classList.remove("d-none");
+
+                        } else{
+
+                            //Se muestran los demás errores
+                            errorContainer.textContent = data.message;
+                            errorContainer.classList.remove("d-none");
+                            
+                            const allInputs = e.target.querySelectorAll('.form-control');
+                            allInputs.forEach(i => i.classList.remove("is-invalid"));
+
+                            if(data.status === 'error'){
+
+                                allInputs.forEach(input => { input.classList.add("is-invalid"); });
+
+                            }
                         }
-                       
-
-                        
-
-                        
-                        
                     }
 
             } catch (error) {

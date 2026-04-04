@@ -1,10 +1,12 @@
 <?php
 
+session_start();
+
 //Se cargan las configuraciones y el autoload
 require_once 'config/routes.php';
 require_once 'autoload.php';
 
-//Si hay una acción por POST, se llamam al controlador
+//Si hay una acción por POST, se llama al controlador
 if (isset($_POST['action'])) {
 
     $controller = new userController();
@@ -25,8 +27,8 @@ switch ($pag) {
         include 'app/views/register.php';
         break;
         
-    case 'welcome':
-        include 'app/views/welcome.php';
+    case 'dashboard':
+        include 'app/views/dashboard.php';
         break;
 
     default:
