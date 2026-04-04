@@ -46,12 +46,12 @@ class userController{
         $surname = trim($_POST['surname']);
         $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
         $password = $_POST['password'];
+        $passwordConfirm = $_POST['passwordConfirm'];
 
-        //Array para las respuestas
-        $response = [];
+        $Response = [];
 
         //Se verifica que los campos no estén vacíos
-        if (empty($name) || empty($surname) || empty($email) || empty($password)) {
+        if (empty($name) || empty($surname) || empty($email) || empty($password) || empty($passwordConfirm)) {
 
             echo json_encode([
                 'status' => 'error',
@@ -89,6 +89,24 @@ class userController{
             ]);
             exit(); 
 
+        } elseif(!preg_match("/(?=.*[A-Z])(?=.*\d).{8,}$/",$password)){
+
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'La contraseña no cumple con los requisitos',
+                'field' => 'password'
+            ]);
+            exit();
+
+        } elseif($password != $passwordConfirm){
+
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Las contraseñas no coinciden',
+                'field' => 'password',
+            ]);
+            exit();
+
         }else{
 
             $user = $this->userModel->register($name, $surname, $email, $password);
@@ -96,19 +114,21 @@ class userController{
             //Si todo es correcto, se registra el usuario
             if($user){
 
-                $response['status'] = 'success';
-                $response['redirect'] = URL_BASE . 'index.php?p=login&success=1';
+            $response['status'] = 'success';
+            $response['redirect'] = URL_BASE . 'index.php?p=login&success=1';
 
             } else{
 
-                $response['status'] = 'error';
-                $response['message'] = 'Ocurrió un error inesperado';
+                echo json_encode([
+                'status' => 'error',
+                'message' => 'ocurrió un error inesperado'
+            ]);
+            exit();
 
             }
 
         }
 
-        //Ahora se envía el JSON y se corta la ejecución
         ob_clean();
         header('Content-Type: application/json');
         echo json_encode($response);
@@ -121,7 +141,6 @@ class userController{
         $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
         $password = trim($_POST['password']);
 
-        //Array para las respuestas
         $response = [];
 
          //Se verifica que los campos no estén vacíos
@@ -153,11 +172,11 @@ class userController{
             $_SESSION['user_id'] = $user['id_user'];
             $_SESSION['name'] = $user['name'];
             $response['status'] = 'success';
-            $response['redirect'] = URL_BASE . 'index.php?p=dashboard';
+            $response['redirect'] = URL_BASE . 'dashboard';
 
         } else {
 
-          echo json_encode([
+            echo json_encode([
                 'status' => 'error',
                 'message' => 'Credenciales incorrectas'
             ]);
@@ -178,7 +197,7 @@ class userController{
         session_unset();//Borra las variables de la sesión actual
         session_destroy();
 
-        header('location: ' . URL_BASE . 'index.php?p=login');
+        header('location: ' . URL_BASE . 'login');
         exit();
 
     }

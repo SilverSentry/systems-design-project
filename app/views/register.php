@@ -16,7 +16,7 @@
 
         <div class="col-md-5">
 
-            <div class="card border-0  shadow p-3 mb-5 bg-body-tertiary rounded">
+            <div class="card border-0 shadow p-9 mb-2 bg-body-tertiary rounded">
 
                 <img src="<?php echo URL_BASE; ?>assets/img/logo.png" alt="Logo" width="140" height="150"  class="img-fluid rounded-circle mt-3" style="display: block; margin: 0 auto;">
 
@@ -48,6 +48,13 @@
                                     <input type="password" name="password" class="form-control" id="password">
                                 </div>
 
+                                <figcaption class="blockquote-footer">La contraseña debe tener, al menos, una letra mayúscula, un número y mínimo 8 dígitos.</figcaption>
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Confirmar contraseña</span>
+                                    <input type="password" name="passwordConfirm" class="form-control" id="password">
+                                </div>
+
                                 <div class="alert alert-danger text-center mx-auto d-none mb-3" role="alert" id="errorContainer">
                                 </div>
 
@@ -56,7 +63,7 @@
                                 </div>
 
                                 <div class="text-center mb-2 pt-3">
-                                    <label class="">¿Ya estás registrado?</label></br><a href="index.php?p=login">Inicia sesión</a>
+                                    <label class="">¿Ya estás registrado?</label></br><a href="<?php echo URL_BASE ?>login">Inicia sesión</a>
                                 </div>
 
                             </form>

@@ -1,12 +1,8 @@
 <?php
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-// Si la variable de sesión no existe, significa que no ha pasado por el login
-if (!isset($_SESSION['user_id'])) {
-    header("Location: index.php?p=login");
+//Si la variable de sesión no existe, significa que no ha pasado por el login
+if(!isset($_SESSION['user_id'])) {
+      redirect('login');
     exit();
 }
 
@@ -82,7 +78,7 @@ $userName = $_SESSION['name'];
                 <input type="hidden" name="action" value="logout">
 
                 <div class="d-grid gap-2 col-6 mx-auto">
-                    <a href="<?php URL_BASE ?>index.php" class="text-center"><button type="submit" class="btn btn-primary">Cerrar Sesión</button></a>
+                    <a href="<?php echo URL_BASE; ?>index.php" class="text-center"><button type="submit" class="btn btn-primary">Cerrar Sesión</button></a>
                 </div>
 
                 </form>

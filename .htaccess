@@ -1,1 +1,13 @@
 
+#Activar el motor de reescritura
+RewriteEngine On
+
+#Evitar que se pueda ver el contenido de las carpetas
+Options -Indexes
+
+#Si el archivo o carpeta existe físicamente, no aplicar la regla
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+#Reescribir todo a index.php pasando la ruta como parámetro 'p'
+RewriteRule ^([a-zA-Z0-9/_-]+)$ index.php?p=$1 [L,QSA]

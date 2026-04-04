@@ -57,11 +57,12 @@ document.addEventListener("DOMContentLoaded", function(){
                         const allInputs = e.target.querySelectorAll('.form-control');
                         allInputs.forEach(i => i.classList.remove("is-invalid"));
 
-                            //Se marca solo el campo que envió el servidor
+                            //Caso para los campos vacíos
                             if(data.field === 'all') {
 
                                 allInputs.forEach(input => { input.classList.add("is-invalid"); });
 
+                            //Se marca solo el campo que envió el servidor
                             } else if(data.field){
 
                                 const uniqueInput = document.getElementById(data.field);
@@ -78,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 } catch(error) {
                     console.error("Error en la petición:", error);
-                    errorContainer.textContent = "Error de conexión con el servidor";
+                    errorContainer.textContent = "Ocurrió un error inesperado";
                     errorContainer.classList.remove("d-none");
                 }
         });

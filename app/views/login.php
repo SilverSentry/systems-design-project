@@ -15,7 +15,7 @@
 
         <div class="col-md-5">
 
-            <div class="card border-0 shadow p-3 mb-5 bg-body-tertiary rounded">
+            <div class="card border-0 shadow p-3 mb-3 bg-body-tertiary rounded">
                
                     <img src="<?php echo URL_BASE; ?>assets/img/logo.png" alt="Logo" width="140" height="150"  class="img-fluid rounded-circle mt-3" style="display: block; margin: 0 auto;">
                     <h1 class="fw-bold text-center text-black pt-3 mb-1">Bienvenido</h1>
@@ -44,7 +44,7 @@
                                 </div>
 
                                 <div class="text-center mb-2 pt-3" id="link">
-                                    <label class="">¿No estás registrado?</label></br><a href="index.php?p=registro">Regístrate aquí</a>
+                                    <label class="">¿No estás registrado?</label></br><a href="<?php echo URL_BASE ?>registro">Regístrate aquí</a>
                                 </div>
 
                             </form>

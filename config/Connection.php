@@ -1,38 +1,25 @@
 <?php
 //Archivo de conexión a la base de datos
 
-//Configuración de la base de datos
-Class connection {
+class Connection {
 
-    private $host = "localhost";
-    private $dbName = "ordo_stetic";
-    private $user = "root";
-    private $password = "";
-    public $conn;
+    public static function getConnection() {
 
-    //Método para obtener la conexión a la base de datos
-    public function getConnection() {
-
-        //Se inicializa la conexión como null
-        $this->conn = null;
-
-        //Se intenta conectar a la base de datos mendiante un bloque try-catch
         try {
 
-            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->dbName, $this->user, $this->password);
-            $this->conn->exec("set names utf8");
+            //Usamos las constantes que definimos en config.php
+            $link = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
 
-        } catch (PDOException $exception) {
+            $link->exec("set names utf8");
+            return $link;
 
-            die("Error de conexión: " . $exception->getMessage());
+        } catch (PDOException $e) {
+
+            // Si hay error, no mostramos la contraseña, solo un mensaje genérico
+            die("Error en la conexión a la base de datos.");
 
         }
-
-        //Se retorna si la conexión fue exitosa
-        return $this->conn;
-
     }
-
 }
 
 ?>
