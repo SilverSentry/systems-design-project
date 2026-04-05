@@ -3,6 +3,7 @@
 
 //Se inicia sesión de forma segura (Solo si no ha iniciado)
 if(session_status() === PHP_SESSION_NONE) {
+    
     session_start();
 
 }

@@ -115,7 +115,7 @@ class userController{
             if($user){
 
             $response['status'] = 'success';
-            $response['redirect'] = URL_BASE . 'index.php?p=login&success=1';
+            $response['redirect'] = URL_BASE . 'login?success=1';
 
             } else{
 
