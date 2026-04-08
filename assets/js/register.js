@@ -51,7 +51,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
                         //Si hay un error, se cambia el contenido del div dinámicamente
                         errorContainer.textContent = data.message;
-                        errorContainer.classList.remove("d-none");
+                        errorContainer.classList.remove("invisible");
+                        errorContainer.classList.add("visible");
 
                         //Se limpia cualquier borde rojo previo (para no acumular errores)
                         const allInputs = e.target.querySelectorAll('.form-control');

@@ -7,7 +7,7 @@
 
         public function __construct($db) {
 
-        $this->conn = $db; 
+        $this->conn = $db;
 
     }
 
@@ -25,6 +25,19 @@
             $stmt->bindParam(":password", $password_hash);
 
             return $stmt->execute();
+
+        }
+
+        //Método para validar que no existan dos usuarios con el mismo correo
+        public function emailExists($email){
+
+            $sql = "SELECT id_user FROM " . $this->tableName . " WHERE email = :email LIMIT 1";
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->bindParam(":email", $email);
+            $stmt->execute();
+
+            return $stmt->rowCount() > 0;
 
         }
 

@@ -63,13 +63,15 @@ document.addEventListener("DOMContentLoaded", function(){
                             uniqueInput.classList.add("is-invalid");
 
                             errorContainer.textContent = data.message;
-                            errorContainer.classList.remove("d-none");
+                            errorContainer.classList.remove("invisible");
+                            errorContainer.classList.add("visible");
 
                         } else{
 
                             //Se muestran los demás errores
                             errorContainer.textContent = data.message;
-                            errorContainer.classList.remove("d-none");
+                            errorContainer.classList.remove("invisible");
+                            errorContainer.classList.add("visible");
                             
                             const allInputs = e.target.querySelectorAll('.form-control');
                             allInputs.forEach(i => i.classList.remove("is-invalid"));
@@ -85,7 +87,8 @@ document.addEventListener("DOMContentLoaded", function(){
             } catch (error) {
                 console.error("Error en la petición:", error);
                 errorContainer.textContent = "Error de conexión con el servidor";
-                errorContainer.classList.remove("d-none");
+                errorContainer.classList.remove("invisible");
+                errorContainer.classList.add("visible");
             }
         });
     }

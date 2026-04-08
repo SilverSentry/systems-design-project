@@ -107,6 +107,15 @@ class userController{
             ]);
             exit();
 
+        } elseif($this->userModel->emailExists($email)){
+
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Ya existe un usuario con el correo ingresado',
+                'field' => 'email'
+            ]);
+            exit();
+
         }else{
 
             $user = $this->userModel->register($name, $surname, $email, $password);
@@ -114,8 +123,11 @@ class userController{
             //Si todo es correcto, se registra el usuario
             if($user){
 
-            $response['status'] = 'success';
-            $response['redirect'] = URL_BASE . 'login?success=1';
+            echo json_encode([
+                'status' => 'success',
+                'redirect' => URL_BASE . 'login?success=1'
+            ]);
+            exit();
 
             } else{
 
@@ -128,11 +140,6 @@ class userController{
             }
 
         }
-
-        ob_clean();
-        header('Content-Type: application/json');
-        echo json_encode($response);
-        exit();
 
     }
 
@@ -167,12 +174,14 @@ class userController{
 
         if($user) {
 
-            session_start();
-
             $_SESSION['user_id'] = $user['id_user'];
             $_SESSION['name'] = $user['name'];
-            $response['status'] = 'success';
-            $response['redirect'] = URL_BASE . 'dashboard';
+
+            echo json_encode([
+                'status' => 'success',
+                'redirect' => URL_BASE . 'dashboard'
+            ]);
+            exit();
 
         } else {
 
@@ -183,11 +192,6 @@ class userController{
             exit();
 
         }
-
-        ob_clean();
-        header('Content-Type: application/json');
-        echo json_encode($response);
-        exit();
 
     }
 
