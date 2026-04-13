@@ -42,23 +42,23 @@
         }
 
         //Método para el login
-        public function login($email, $password) {
+        public function login($email, $password){
 
             $query = "SELECT id_user, name, password FROM " . $this->tableName . " WHERE email = :email";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":email", $email);
             $stmt->execute();
 
-                if ($stmt->rowCount() > 0) {
+                if($stmt->rowCount() > 0){
 
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
                     //Se verifica si la contraseña coincide con el hash
-                        if (password_verify($password, $row['password'])) {
+                    if(password_verify($password, $row['password'])){
 
-                            return $row;
+                        return $row;
 
-                        }
+                    }
 
                 }
 

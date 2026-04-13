@@ -5,8 +5,9 @@
     <title>Inicio de Sesión</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="<?php echo URL_BASE; ?>assets/Bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo URL_BASE; ?>assets/Bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo URL_BASE; ?>assets/css/style.css" rel="stylesheet">
+    <link href="<?php echo URL_BASE; ?>assets/Bootstrap-icons/bootstrap-icons.min.css" rel="stylesheet">
 </head>
 
 <body class="d-flex align-items-center min-vh-100">
@@ -17,7 +18,7 @@
 
             <div class="col-lg-10">
 
-                <div class="split-container">
+                <div class="split-container-login">
 
                     <div class="login-section">
                         <div class="text-center mt-1">
@@ -35,20 +36,20 @@
                                 <input type="hidden" name="action" value="login">
 
                                 <div class="mb-3">
-                                    <label for="email">Correo electrónico</label>
-                                    <input type="text" name="email" class="form-control" id="email">
+                                    <label for="email" class="form-label"><i class="bi bi-envelope-fill"> </i>Correo electrónico</label>
+                                    <input type="text" name="email" class="form-control" id="email" placeholder="@example.com">
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="password">Contraseña</label>
-                                    <input type="password" name="password" class="form-control" id="password">
+                                    <label for="password" class="form-label"><i class="bi bi-lock-fill"></i> Contraseña</label>
+                                    <input type="password" name="password" class="form-control" id="password" placeholder="********">
                                 </div>
 
                                 <div class="d-grid gap-2">
                                     <button type="submit" class="btn-golden btn">Ingresar</button>
                                 </div>
 
-                                <div class="text-center mb-2 pt-3" id="link">
+                                <div class="text-center mb-0 pt-1" id="link">
                                     <label class="">¿No estás registrado?</label></br>
                                     <a href="<?php echo URL_BASE ?>register" class="link">Regístrate aquí</a>
                                 </div>
@@ -62,7 +63,6 @@
                         <img src="<?php echo URL_BASE; ?>assets/img/logo.png" alt="Logo" width="140" height="150" class="img-fluid rounded-circle login-logo" style="display: block; margin: 0 auto;">
                         <h1 class="fw-bold welcome">Bienvenido</h1>
                     </div>
-
 
                 </div>
 

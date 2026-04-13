@@ -48,10 +48,8 @@ class userController{
         $password = $_POST['password'];
         $passwordConfirm = $_POST['passwordConfirm'];
 
-        $Response = [];
-
         //Se verifica que los campos no estén vacíos
-        if (empty($name) || empty($surname) || empty($email) || empty($password) || empty($passwordConfirm)) {
+        if(empty($name) || empty($surname) || empty($email) || empty($password) || empty($passwordConfirm)) {
 
             echo json_encode([
                 'status' => 'error',
@@ -103,7 +101,7 @@ class userController{
             echo json_encode([
                 'status' => 'error',
                 'message' => 'Las contraseñas no coinciden',
-                'field' => 'password',
+                'field' => 'passwords'
             ]);
             exit();
 
@@ -116,26 +114,26 @@ class userController{
             ]);
             exit();
 
-        }else{
+        } else{
 
             $user = $this->userModel->register($name, $surname, $email, $password);
 
             //Si todo es correcto, se registra el usuario
             if($user){
 
-            echo json_encode([
-                'status' => 'success',
-                'redirect' => URL_BASE . 'login?success=1'
-            ]);
-            exit();
+                echo json_encode([
+                    'status' => 'success',
+                    'redirect' => URL_BASE . 'login?success=1'
+                ]);
+                exit();
 
             } else{
 
                 echo json_encode([
-                'status' => 'error',
-                'message' => 'ocurrió un error inesperado'
-            ]);
-            exit();
+                    'status' => 'error',
+                    'message' => 'ocurrió un error inesperado'
+                ]);
+                exit();
 
             }
 
@@ -148,14 +146,12 @@ class userController{
         $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
         $password = trim($_POST['password']);
 
-        $response = [];
-
-         //Se verifica que los campos no estén vacíos
-        if (empty($email) || empty($password)){
+        //Se verifica que los campos no estén vacíos
+        if(empty($email) || empty($password)){
 
            echo json_encode([
                 'status' => 'error',
-                'message' => 'Rellene todos los campos'
+                'message' => messages::ERR_EMPTY_FIELDS
             ]);
             exit();
 

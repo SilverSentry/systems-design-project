@@ -58,9 +58,11 @@ document.addEventListener("DOMContentLoaded", function(){
                             const allInputs = e.target.querySelectorAll('.form-control');
                             allInputs.forEach(i => i.classList.remove("is-invalid"));
 
-                            const uniqueInput = document.getElementById(data.field);
+                            const emailError = document.getElementById(data.field);
 
-                            uniqueInput.classList.add("is-invalid");
+                            if(emailError) emailError.classList.add("is-invalid");
+
+                            emailError.focus();
 
                             errorContainer.textContent = data.message;
                             errorContainer.classList.remove("invisible");

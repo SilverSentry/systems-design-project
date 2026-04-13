@@ -4,9 +4,9 @@
 define('URL_BASE', 'http://localhost/ordo_stetic/');
 
 $routes = [
-    'login'    => 'app/views/login.php',
+    'login' => 'app/views/login.php',
     'register' => 'app/views/register.php',
-    'dashboard'  => 'app/views/dashboard.php'
+    'dashboard' => 'app/views/dashboard.php'
 ];
 
 ?>

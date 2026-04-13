@@ -63,16 +63,23 @@ document.addEventListener("DOMContentLoaded", function(){
 
                                 allInputs.forEach(input => { input.classList.add("is-invalid"); });
 
+                            //Se marca ambos campos de contraseña
+                            } else if(data.field === 'passwords'){
+
+                                const p1 = document.getElementById("password");
+                                const p2 = document.getElementById("passwordConfirm");
+
+                                if(p1) p1.classList.add("is-invalid");
+                                if(p2) p2.classList.add("is-invalid");
+
                             //Se marca solo el campo que envió el servidor
                             } else if(data.field){
 
                                 const uniqueInput = document.getElementById(data.field);
 
-                                    if(uniqueInput){
+                                if(uniqueInput) uniqueInput.classList.add("is-invalid");
 
-                                        uniqueInput.classList.add("is-invalid");
-
-                                    }
+                                uniqueInput.focus()
 
                             }
                             
