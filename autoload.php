@@ -1,4 +1,5 @@
 <?php
+//Archivo para la carga automática de las clases
 
     spl_autoload_register(function ($class){
 

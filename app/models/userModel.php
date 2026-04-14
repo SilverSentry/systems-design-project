@@ -1,5 +1,6 @@
 <?php
 
+    //Clase para manejar los comportamientos del registro y el login
     class userModel{
 
         private $conn;

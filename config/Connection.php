@@ -1,5 +1,5 @@
 <?php
-//Archivo de conexión a la base de datos
+//Archivo para la conexión a la base de datos
 
 //Clase para configuración de la base de datos
 Class connection {

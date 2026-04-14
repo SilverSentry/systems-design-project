@@ -1,7 +1,7 @@
 <?php
 //Archivo para manejar las sesiones
 
-//Se inicia sesión de forma segura (Solo si no ha iniciado)
+//Se inicia sesión de forma segura (Solo si no se ha iniciado)
 if(session_status() === PHP_SESSION_NONE) {
     
     session_start();

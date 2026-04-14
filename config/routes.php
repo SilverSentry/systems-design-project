@@ -1,4 +1,6 @@
 <?php
+//Archivo para el manejo de las rutas
+
 
 //Se definen las rutas
 define('URL_BASE', 'http://localhost/ordo_stetic/');

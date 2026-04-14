@@ -95,6 +95,7 @@ body{
 /* Responsividad */
 @media (max-width: 768px){
     .brand-section { display: none; } /* Oculta la parte estética en móviles para ahorrar espacio */
+    .brand-section-register { display: none; }
     .split-container { margin: 20px; }
 }   
 
