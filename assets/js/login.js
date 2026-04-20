@@ -30,68 +30,80 @@ document.addEventListener("DOMContentLoaded", function(){
 
             e.preventDefault(); //Evita que se recargue la página
 
+            const submitBtn = document.getElementById("submitBtn");
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Validando datos...`;
+
             //Se recogen los datos del formulario
             const formData = new FormData(e.target);
+            const urlAction = e.target.getAttribute('action');
 
-                try{
+            fetch(urlAction, {
+                method: "POST",
+                body: formData
+            })
 
-                    //Se envían los datos al controlador
-                    const response = await fetch(e.target.getAttribute('action'), {
-                        method: 'POST',
-                        body: formData
-                    });
+            .then(response => response.json())
+            .then(data => {
 
-                    //Se convierte la respuesta a un objeto JS
-                    const data = await response.json();
+                //Si todo está bien, se redirige
+                if(data.status === 'success'){
 
-                    if (data.status === 'success') {
+                    submitBtn.innerText = "¡Éxito! Redirigiendo...";
+                    window.location.href = data.redirect;
 
-                        //Si todo está bien, se redirige
-                        window.location.href = data.redirect;
+                //En otro caso, se muestran los errores correspondientes
+                } else{
+
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = 'Ingresar';
+
+                    //Se limpia cualquier borde rojo previo (para no acumular errores)
+                    const allInputs = e.target.querySelectorAll('.form-control');
+                    allInputs.forEach(i => i.classList.remove("is-invalid"));
+
+                    errorContainer.textContent = data.message;
+                    errorContainer.classList.remove("invisible");
+                    errorContainer.classList.add("visible");
+
+                    //Manejo de error de formato no válido del correo
+                    if(data.field === 'email') {
+
+                        const emailError = document.getElementById(data.field);
+
+                        if(emailError) emailError.classList.add("is-invalid");
+
+                        emailError.focus();
 
                     } else{
 
-                        //Manejo de error de formato no válido del correo
-                        if(data.field === 'email') {
-
-                            //Se limpia cualquier borde rojo previo (para no acumular errores)
-                            const allInputs = e.target.querySelectorAll('.form-control');
-                            allInputs.forEach(i => i.classList.remove("is-invalid"));
-
-                            const emailError = document.getElementById(data.field);
-
-                            if(emailError) emailError.classList.add("is-invalid");
-
-                            emailError.focus();
-
-                            errorContainer.textContent = data.message;
-                            errorContainer.classList.remove("invisible");
-                            errorContainer.classList.add("visible");
-
-                        } else{
-
-                            //Se muestran los demás errores
-                            errorContainer.textContent = data.message;
-                            errorContainer.classList.remove("invisible");
-                            errorContainer.classList.add("visible");
+                        //Se muestran los demás errores
+                        errorContainer.textContent = data.message;
+                        errorContainer.classList.remove("invisible");
+                        errorContainer.classList.add("visible");
                             
-                            const allInputs = e.target.querySelectorAll('.form-control');
-                            allInputs.forEach(i => i.classList.remove("is-invalid"));
+                        const allInputs = e.target.querySelectorAll('.form-control');
+                        allInputs.forEach(i => i.classList.remove("is-invalid"));
 
-                            if(data.status === 'error'){
+                            if(data.field === 'all'){
 
                                 allInputs.forEach(input => { input.classList.add("is-invalid"); });
 
                             }
-                        }
                     }
 
-            } catch (error) {
-                console.error("Error en la petición:", error);
+                }
+            })
+             
+            .catch (error => {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Ingresar";
+                console.error("Error en la petición: ", error);
                 errorContainer.textContent = "Error de conexión con el servidor";
                 errorContainer.classList.remove("invisible");
                 errorContainer.classList.add("visible");
-            }
+            });
         });
     }
 

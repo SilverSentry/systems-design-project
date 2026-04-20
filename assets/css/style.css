@@ -6,7 +6,7 @@ body{
 /* botón dorado */
 .btn-golden{
     border: none;
-    background: linear-gradient(135deg, #b59410 0%, #d9b83b 100%); /* Degradado dorado suave */
+    background: linear-gradient(135deg, #b59410 0%, #d9b83b 100%);
     color: #121212; /* Texto oscuro sobre fondo claro */
     font-weight: 600;
     border-radius: 8px;
@@ -50,7 +50,7 @@ body{
 
 .brand-section-register{
     flex: 1;
-    background: linear-gradient(70deg, rgb(0, 0, 0) 0% );
+    background: linear-gradient(1deg, rgb(160, 137, 73) 10%, rgb(102, 87, 47) 30%, rgb(0, 0, 0) 70%);;
     background-size: cover;
     background-position: center;
     display: flex;
@@ -77,10 +77,9 @@ body{
 
 }
 
-/* Branding */
 .brand-section{
     flex: 1;
-    background: linear-gradient(70deg, rgb(0, 0, 0) 0% );
+    background: linear-gradient(1deg, rgb(160, 137, 73) 10%, rgb(102, 87, 47) 30%, rgb(0, 0, 0) 65%);
     background-size: cover;
     background-position: center;
     display: flex;
@@ -97,7 +96,7 @@ body{
     .brand-section { display: none; } /* Oculta la parte estética en móviles para ahorrar espacio */
     .brand-section-register { display: none; }
     .split-container { margin: 20px; }
-}   
+}
 
 .btn-golden:hover{
     background: linear-gradient(135deg, #d9b83b 0%, #f0d56b 100%);

@@ -27,69 +27,81 @@ document.addEventListener("DOMContentLoaded", function(){
 
             e.preventDefault(); //Evita que se recargue la página
 
+            const submitBtn = document.getElementById("submitBtn");
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Validando datos...`;
+
             //Se recogen los datos del formulario
             const formData = new FormData(e.target);
+            const urlAction = e.target.getAttribute('action');
 
-                try{
+            fetch(urlAction, {
+                method: "POST",
+                body: formData
+            })
 
-                    //Se envían los datos al controlador
-                    const response = await fetch(e.target.getAttribute('action'), {
-                        method: 'POST',
-                        body: formData
-                    });
+            .then(response => response.json())
+            .then(data => {
 
-                    //Se convierte la respuesta a un objeto JS
-                    const data = await response.json();
+                //Si todo está bien, se redirige
+                if(data.status === 'success'){
 
-                    //Manejo de mensaje de registro exitoso
-                    if(data.status === 'success'){
+                    submitBtn.innerText = "¡Éxito! Redirigiendo...";
+                    window.location.href = data.redirect;
 
-                        //Se redirige
-                        window.location.href = data.redirect;
+                //En caso contrario, se muestra los respectivos mensajes de error
+                } else{
 
-                    } else{
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = 'Registrar';
 
-                        //Si hay un error, se cambia el contenido del div dinámicamente
-                        errorContainer.textContent = data.message;
-                        errorContainer.classList.remove("invisible");
-                        errorContainer.classList.add("visible");
+                    //Si hay un error, se cambia el contenido del div dinámicamente
+                    errorContainer.textContent = data.message;
+                    errorContainer.classList.remove("invisible");
+                    errorContainer.classList.add("visible");
 
-                        //Se limpia cualquier borde rojo previo (para no acumular errores)
-                        const allInputs = e.target.querySelectorAll('.form-control');
-                        allInputs.forEach(i => i.classList.remove("is-invalid"));
+                    //Se limpia cualquier borde rojo previo (para no acumular errores)
+                    const allInputs = e.target.querySelectorAll('.form-control');
+                    allInputs.forEach(i => i.classList.remove("is-invalid"));
 
-                            //Caso para los campos vacíos
-                            if(data.field === 'all') {
+                    //Caso para los campos vacíos
+                    if(data.field === 'all') {
 
-                                allInputs.forEach(input => { input.classList.add("is-invalid"); });
+                        allInputs.forEach(input => { input.classList.add("is-invalid"); });
 
-                            //Se marca ambos campos de contraseña
-                            } else if(data.field === 'passwords'){
+                        //Se marca ambos campos de contraseña
+                        } else if(data.field === 'passwords'){
 
-                                const p1 = document.getElementById("password");
-                                const p2 = document.getElementById("passwordConfirm");
+                            const p1 = document.getElementById("password");
+                            const p2 = document.getElementById("passwordConfirm");
 
-                                if(p1) p1.classList.add("is-invalid");
-                                if(p2) p2.classList.add("is-invalid");
+                            if(p1) p1.classList.add("is-invalid");
+                            if(p2) p2.classList.add("is-invalid");
 
-                            //Se marca solo el campo que envió el servidor
-                            } else if(data.field){
+                        //Se marca solo el campo que envió el servidor
+                        } else if(data.field){
 
-                                const uniqueInput = document.getElementById(data.field);
+                            const uniqueInput = document.getElementById(data.field);
 
-                                if(uniqueInput) uniqueInput.classList.add("is-invalid");
+                            if(uniqueInput) uniqueInput.classList.add("is-invalid");
 
-                                uniqueInput.focus()
+                            uniqueInput.focus()
 
-                            }
+                        }
                             
-                    }
+                }                  
 
-                } catch(error) {
-                    console.error("Error en la petición:", error);
-                    errorContainer.textContent = "Ocurrió un error inesperado";
-                    errorContainer.classList.remove("d-none");
-                }
+            })
+            .catch (error => {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Registrar";
+                console.error("Error en la petición:", error);
+                errorContainer.textContent = "Error de conexión con el servidor";
+                errorContainer.classList.remove("invisible");
+                errorContainer.classList.add("visible");
+            });
+
         });
 
     }

@@ -1,7 +1,7 @@
 <?php
+//Controlador para manejar las peticiones del usuario
 
-//Clase para controlar las acciones del usuario
-class userController{
+class authController{
 
     private $userModel;
 
@@ -131,7 +131,7 @@ class userController{
 
                 echo json_encode([
                     'status' => 'success',
-                    'redirect' => URL_BASE . 'login?success=1'
+                    'redirect' => paths::to('login?success=1')
                 ]);
                 exit();
 
@@ -162,7 +162,8 @@ class userController{
 
            echo json_encode([
                 'status' => 'error',
-                'message' => messages::ERR_EMPTY_FIELDS
+                'message' => messages::ERR_EMPTY_FIELDS,
+                'field' => 'all'
             ]);
             exit();
 
@@ -188,7 +189,7 @@ class userController{
 
             echo json_encode([
                 'status' => 'success',
-                'redirect' => URL_BASE . 'dashboard'
+                'redirect' => paths::to('AdminDashboard')
             ]);
             exit();
 
@@ -197,7 +198,8 @@ class userController{
 
             echo json_encode([
                 'status' => 'error',
-                'message' => messages::ERR_INCORRECT_CREDENTIALS
+                'message' => messages::ERR_INCORRECT_CREDENTIALS,
+                'field' => 'all'
             ]);
             exit();
 
@@ -212,7 +214,7 @@ class userController{
         session_unset();//Borra las variables de la sesión actual
         session_destroy();
 
-        header('location: ' . URL_BASE . 'login');
+        header('location: ' . paths::to('login'));
         exit();
 
     }
