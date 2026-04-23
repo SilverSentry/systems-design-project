@@ -33,9 +33,9 @@ class router {
 
         }else {
 
-            //Si la ruta no existe, cargamos 404
-            include 'app/views/exception.php';
-            
+            http_response_code(404);
+            echo "<h2>Error 404 - Página No Encontrada</h2>";
+
         }
     }
 }

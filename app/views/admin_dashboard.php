@@ -26,6 +26,8 @@ $userName = $_SESSION['name'];
 <body>
 
   <div class="d-flex" id="wrapper">
+
+    <!-- SIDEBAR -->
     <nav id="sidebar" class="bg-dark border-end border-secondary">
       <div class="sidebar-header p-4 text-center">
         <img src="assets/img/logo.png" class="img-fluid rounded-circle" width="80" alt="Logo">
@@ -46,16 +48,16 @@ $userName = $_SESSION['name'];
           <a href="#" class="nav-link"><i class="bi bi-box-seam me-2"></i> Inventario</a>
         </li>
         <hr class="text-secondary">
+        <form method="post" action="index.php">
+          <input type="hidden" name="action" value="logout">
+          <button type="submit" class="btn btn-danger"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
+        </form>
       </ul>
     </nav>
 
     <div id="page-content-wrapper" class="w-100">
 
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3 px-4 shadow-sm">
-        <form method="post" action="index.php">
-          <input type="hidden" name="action" value="logout">
-          <button type="submit" class="btn btn-danger"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
-        </form>
       </nav>
 
       <div class="container-fluid p-4 mb-3" style="background: linear-gradient(149deg, #b69f44 0%, #eedd9a 100%)">
@@ -66,8 +68,8 @@ $userName = $_SESSION['name'];
         <div class="container">
           <div class="row row-cols-1 row-cols-md-3 g-4">
 
-            <div class="col-md-4 mb-4">
-              <div class="card h-100 text-center text-white border-secondary mb-3" id="card" style="width: 18rem;">
+            <div class="col">
+              <div class="card h-100 shadow-sm text-center text-white" id="card" style="width: 18rem;">
                 <div class="card-body">
                   <h5 class="card-title">Special title treatment</h5>
                   <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
@@ -75,8 +77,8 @@ $userName = $_SESSION['name'];
               </div>
             </div>
 
-            <div class="col-md-4 mb-4">
-              <div class="card h-100 shadow-sm text-center text-white border-secondary mb-3" id="card" style="width: 18rem;">
+            <div class="col">
+              <div class="card h-100 shadow-sm text-white" id="card" style="width: 18rem;">
                 <div class="card-body">
                   <h5 class="card-title">Special title treatment</h5>
                   <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
@@ -84,8 +86,8 @@ $userName = $_SESSION['name'];
               </div>
             </div>
 
-            <div class="col-md-4 mb-4">
-              <div class="card h-100 shadow-sm text-center text-white border-secondary mb-3" id="card" style="width: 18rem;">
+            <div class="col">
+              <div class="card h-100 shadow-sm text-white" id="card" style="width: 18rem;">
                 <div class="card-body">
                   <h5 class="card-title">Special title treatment</h5>
                   <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>

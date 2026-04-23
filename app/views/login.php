@@ -21,15 +21,15 @@
                 <div class="split-container-login">
 
                     <div class="login-section">
-                        <div class="text-center mt-1">
+                        <div class="text-center">
                             <!-- <img src="<php echo URL_BASE; ?>assets/img/logo.png" alt="Logo" width="140" height="150"  class="img-fluid rounded-circle mt-3" style="display: block; margin: 0 auto;"> -->
-                            <h1 class="fw-bold text-center text-black pt-1 mb-1">Iniciar Sesión</h1>
+                            <h1 class="fw-bold text-center text-black pt-1 mb-4">Iniciar Sesión</h1>
                         </div>
 
-                        <div class="card-body p-4">
+                        <div class="card-body p-2">
 
-                            <div class="alert alert-danger text-center mx-auto invisible mb-2" role="alert" id="errorContainer" style="min-height: 58px;">
-                            </div>
+                            <!--<div class="alert alert-danger text-center mx-auto invisible mb-2" role="alert" id="errorContainer" style="min-height: 58px;">
+                            </div>-->
 
                             <form method="POST" action="index.php" id="formLogin">
 
@@ -60,8 +60,7 @@
                     </div>
 
                     <div class="brand-section">
-                        <img src="<?= paths::asset('img/logo.png')?>" alt="Logo" width="140" height="150" class="img-fluid rounded-circle login-logo" style="display: block; margin: 0 auto;">
-                        <h1 class="fw-bold welcome">Bienvenido</h1>
+                        <img src="<?= paths::asset('img/logo.png')?>" alt="Logo" width="200" height="150" class="img-fluid rounded-circle login-logo" style="display: block; margin: 0 auto;">
                     </div>
 
                 </div>

@@ -56,10 +56,17 @@ document.addEventListener("DOMContentLoaded", function(){
                     submitBtn.disabled = false;
                     submitBtn.innerText = 'Registrar';
 
-                    //Si hay un error, se cambia el contenido del div dinámicamente
-                    errorContainer.textContent = data.message;
-                    errorContainer.classList.remove("invisible");
-                    errorContainer.classList.add("visible");
+                    //Mostrar un mensaje
+                    Swal.mixin({
+                        toast: true,
+                        position: "top",                      
+                        showConfirmButton: false,
+                        timer: 2000,
+
+                    }).fire({
+                        icon: "error",
+                        title: data.message
+                    });
 
                     //Se limpia cualquier borde rojo previo (para no acumular errores)
                     const allInputs = e.target.querySelectorAll('.form-control');

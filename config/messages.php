@@ -1,7 +1,7 @@
 <?php
 
 //Clase para el manejo de mensajes
-class messages{
+class messages {
 
     //Mensajes generales
     public const ERR_EMPTY_FIELDS = 'Rellene todos los campos';

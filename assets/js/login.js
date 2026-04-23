@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function(){
             const submitBtn = document.getElementById("submitBtn");
 
             submitBtn.disabled = true;
-            submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Validando datos...`;
+            submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Validando...`;
 
             //Se recogen los datos del formulario
             const formData = new FormData(e.target);
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 //Si todo está bien, se redirige
                 if(data.status === 'success'){
 
-                    submitBtn.innerText = "¡Éxito! Redirigiendo...";
+                    submitBtn.innerText = "¡Acceso concedido!";
                     window.location.href = data.redirect;
 
                 //En otro caso, se muestran los errores correspondientes
@@ -59,13 +59,21 @@ document.addEventListener("DOMContentLoaded", function(){
                     submitBtn.disabled = false;
                     submitBtn.innerText = 'Ingresar';
 
+                    //Mostrar el mensaje
+                    Swal.mixin({
+                        toast: true,
+                        position: "top",                      
+                        showConfirmButton: false,
+                        timer: 2000,
+
+                    }).fire({
+                        icon: "error",
+                        title: data.message
+                    });
+
                     //Se limpia cualquier borde rojo previo (para no acumular errores)
                     const allInputs = e.target.querySelectorAll('.form-control');
                     allInputs.forEach(i => i.classList.remove("is-invalid"));
-
-                    errorContainer.textContent = data.message;
-                    errorContainer.classList.remove("invisible");
-                    errorContainer.classList.add("visible");
 
                     //Manejo de error de formato no válido del correo
                     if(data.field === 'email') {
@@ -76,12 +84,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
                         emailError.focus();
 
+                    //Manejo de otros mensajes de error
                     } else{
-
-                        //Se muestran los demás errores
-                        errorContainer.textContent = data.message;
-                        errorContainer.classList.remove("invisible");
-                        errorContainer.classList.add("visible");
                             
                         const allInputs = e.target.querySelectorAll('.form-control');
                         allInputs.forEach(i => i.classList.remove("is-invalid"));
@@ -120,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 timer: 5000, //Se cierra solo en 5 segundos si el usuario no hace nada
                 timerProgressBar: true
 
-            });
+            })
 
             //Se limpia la URL sin recargar la página
             const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;

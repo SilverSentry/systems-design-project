@@ -20,7 +20,7 @@ body{
     border-radius: 20px;
     background-color: #fff;
     box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-    min-height: 500px;
+    min-height: 300px;
 }
 
 .split-container-register{
@@ -79,7 +79,7 @@ body{
 
 .brand-section{
     flex: 1;
-    background: linear-gradient(1deg, rgb(160, 137, 73) 10%, rgb(102, 87, 47) 30%, rgb(0, 0, 0) 65%);
+    background: linear-gradient(149deg, #a58f38 20%, #e2c660 80%);
     background-size: cover;
     background-position: center;
     display: flex;
