@@ -1,16 +1,49 @@
 body{
     font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(149deg, #867328 0%, #eedd9a 100%);
+    background: linear-gradient(149deg, #c29c55 5%, #fee28f 35%, #c29c55 85%);
 }
 
 /* botón dorado */
 .btn-golden{
     border: none;
-    background: linear-gradient(135deg, #b59410 0%, #d9b83b 100%);
-    color: #121212; /* Texto oscuro sobre fondo claro */
+    background: linear-gradient(135deg, #c29c55 0%, #fff5c8 50%, #c29c55 100%);
+    color: #121212;
     font-weight: 600;
     border-radius: 8px;
     transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn-golden::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-25deg);
+    transition: left 0.5s ease;
+    z-index: -1;
+}
+
+.btn-golden:hover{
+    background: linear-gradient(135deg, #c29c55 0%, #fff5c8 50%, #c29c55 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(200, 169, 110, 0.4), 0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+.btn-golden:hover::after {
+    left: 100%;
+}
+
+/* Form controls personalizados */
+.form-control:focus {
+    border-color: #c8a96e;
+    box-shadow: 0 0 0 0.25rem rgba(200, 169, 110, 0.25);
+    outline: 0;
 }
 
 /* contenedor principal split */
@@ -38,6 +71,20 @@ body{
     padding: 50px 50px 50px;
     background-color: #ffffff;
     color: #333;
+}
+
+.brand-section{
+    flex: 1;
+    background: linear-gradient(70deg, rgb(0, 0, 0) 0% );
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    padding: 50px;
+    text-align: center;
 }
 
 .register-section{
@@ -77,20 +124,6 @@ body{
 
 }
 
-.brand-section{
-    flex: 1;
-    background: linear-gradient(149deg, #a58f38 20%, #e2c660 80%);
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    padding: 40px;
-    text-align: center;
-}
-
 /* Responsividad */
 @media (max-width: 768px){
     .brand-section { display: none; } /* Oculta la parte estética en móviles para ahorrar espacio */
@@ -98,14 +131,9 @@ body{
     .split-container { margin: 20px; }
 }
 
-.btn-golden:hover{
-    background: linear-gradient(135deg, #d9b83b 0%, #f0d56b 100%);
-    transform: translateY(-1px);
-}
-
 /* Enlaces */
 .link{
-    color: #d9b83b !important;
+    color: #d4a373 !important;
     text-decoration: none;
     font-weight: 600;
 }

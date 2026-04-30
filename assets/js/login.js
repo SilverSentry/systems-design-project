@@ -57,14 +57,14 @@ document.addEventListener("DOMContentLoaded", function(){
                 } else{
 
                     submitBtn.disabled = false;
-                    submitBtn.innerText = 'Ingresar';
+                    submitBtn.innerHTML = "<i class='bi bi-box-arrow-in-right'></i> Ingresar";
 
                     //Mostrar el mensaje
                     Swal.mixin({
                         toast: true,
                         position: "top",                      
                         showConfirmButton: false,
-                        timer: 2000,
+                        timer: 2000
 
                     }).fire({
                         icon: "error",
@@ -81,8 +81,6 @@ document.addEventListener("DOMContentLoaded", function(){
                         const emailError = document.getElementById(data.field);
 
                         if(emailError) emailError.classList.add("is-invalid");
-
-                        emailError.focus();
 
                     //Manejo de otros mensajes de error
                     } else{
@@ -102,11 +100,18 @@ document.addEventListener("DOMContentLoaded", function(){
              
             .catch (error => {
                 submitBtn.disabled = false;
-                submitBtn.innerText = "Ingresar";
+                submitBtn.innerHTML = "<i class='bi bi-box-arrow-in-right'></i> Ingresar";
                 console.error("Error en la petición: ", error);
-                errorContainer.textContent = "Error de conexión con el servidor";
-                errorContainer.classList.remove("invisible");
-                errorContainer.classList.add("visible");
+                Swal.mixin({
+                        toast: true,
+                        position: "top",                      
+                        showConfirmButton: false,
+                        timer: 2000
+
+                    }).fire({
+                        icon: "error",
+                        title: "Error de conexión con el servidor" 
+                    });
             });
         });
     }

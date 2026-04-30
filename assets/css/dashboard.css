@@ -1,5 +1,5 @@
 body{
-    background: black;
+    background: linear-gradient(149deg, #b69f44 0%, #eedd9a 100%);
 
 }
 
@@ -20,7 +20,7 @@ body{
 /* Cards */
 #card{
 
-    background: oklch(0.205 0 0);
+    background: oklch(88.875% 0.03372 97.757);
     border-radius: 10px;
 
 }

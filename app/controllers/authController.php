@@ -1,7 +1,7 @@
 <?php
 //Controlador para manejar las peticiones del usuario
 
-class authController{
+class authController {
 
     private $userModel;
 
@@ -184,8 +184,11 @@ class authController{
         //Si todo es correcto, se intenta iniciar sesión
         if($user) {
 
-            $_SESSION['user_id'] = $user['id_user'];
-            $_SESSION['name'] = $user['name'];
+            SessionManager::regenerate(); //Previene session fixation
+            SessionManager::setUser([
+                'id' => $user['id_user'],
+                'name' => $user['name']
+            ]);
 
             echo json_encode([
                 'status' => 'success',
@@ -193,29 +196,25 @@ class authController{
             ]);
             exit();
 
-        //Si el inicio de sesión falla, se muestra que las credenciales son incorrectas
-        } else {
+        } else{
 
+            //Si el inicio de sesión falla, se muestra el mensaje de error
             echo json_encode([
                 'status' => 'error',
                 'message' => messages::ERR_INCORRECT_CREDENTIALS,
                 'field' => 'all'
             ]);
             exit();
-
-        }
+    }
 
     }
 
     //Método para cerrar la sesión
     public function logout(){
 
-        session_start();
-        session_unset();//Borra las variables de la sesión actual
-        session_destroy();
-
-        header('location: ' . paths::to('login'));
-        exit();
+        SessionManager::logout();
+        SessionManager::destroy();
+        redirect('login');
 
     }
 

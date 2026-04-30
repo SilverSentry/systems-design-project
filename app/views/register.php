@@ -40,22 +40,22 @@
                                     <div class="col-md">
                                         <div class="mb-3">
                                             <label for="name" class="form-label"><i class="bi bi-person"></i> Nombre</label>
-                                            <input type="text" name="name" class="form-control" id="name" placeholder="">
+                                            <input type="text" name="name" class="form-control" id="name" placeholder="Nombre">
                                         </div>
                                     </div>
 
                                     <div class="col-md">
                                         <div class="mb-3">
                                             <label for="surname" class="form-label"><i class="bi bi-person-fill"></i> Apellido</label>
-                                            <input type="text" name="surname" class="form-control" id="surname" placeholder="">
+                                            <input type="text" name="surname" class="form-control" id="surname" placeholder="Apellido">
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- input correo -->
                                 <div class="mb-3">
-                                    <label for="email" class="form-label"><i class="bi bi-envelope-fill"></i> Correo electrónico</label>
-                                    <input type="text" name="email" class="form-control" id="email" placeholder="user@example.com">
+                                    <label for="email" class="form-label"><i class="bi bi-envelope"></i> Correo electrónico</label>
+                                    <input type="text" name="email" class="form-control" id="email" placeholder="usuario@ejemplo.com">
                                 </div>
 
                                 <!-- input contraseña y confirmar contraseña -->
@@ -66,7 +66,6 @@
                                             <input type="password" name="password" class="form-control" id="password" placeholder="********">
                                         </div>
                                     </div>
-
                                     <div class="col-md">
                                         <div class="mb-3">
                                             <label for="password" class="form-label"><i class="bi bi-lock-fill"></i> Confirmar contraseña</label>
@@ -78,7 +77,7 @@
                                 <figcaption class="blockquote-footer text-dark-emphasis">La contraseña debe tener, al menos, una letra mayúscula, un número y mínimo 8 dígitos.</figcaption>
 
                                 <div class="d-grid gap-2">
-                                    <button type="submit" class="btn btn-golden" id="submitBtn">Registrar</button>
+                                    <button type="submit" class="btn btn-golden" id="submitBtn"><i class="bi bi-person-plus"></i> Registrar</button>
                                 </div>
 
                                 <div class="text-center mb-0 pt-2">
@@ -91,7 +90,7 @@
                     </div>
 
                     <div class="brand-section">
-                        <img src="<?= paths::asset('img/logo.png') ?>" alt="Logo" width="200" height="150" class="img-fluid rounded-circle register-logo" style="display: block; margin: 0 auto;">
+                        <img src="<?= paths::asset('img/logo.png') ?>" alt="Logo" width="350" height="350" class="img-fluid rounded-circle register-logo" style="display: block; margin: 0 auto;">
                     </div>
 
                 </div>

@@ -1,13 +1,11 @@
 <?php
 
-//Si la variable de sesión no existe, significa que no ha pasado por el login
-//Por lo tanto, se redirige
-if (!isset($_SESSION['user_id'])) {
+//Si el usuario no ha iniciado sesión, se redirige al login
+if(!SessionManager::isLogged()){
   redirect('login');
-  exit();
 }
 
-$userName = $_SESSION['name'];
+$user = SessionManager::getUser(); //Obtenemos los datos del usuario logueado
 
 ?>
 
@@ -57,11 +55,8 @@ $userName = $_SESSION['name'];
 
     <div id="page-content-wrapper" class="w-100">
 
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3 px-4 shadow-sm">
-      </nav>
-
-      <div class="container-fluid p-4 mb-3" style="background: linear-gradient(149deg, #b69f44 0%, #eedd9a 100%)">
-        <h2 class="fw-bold text-white text-center">Bienvenido, <?php echo ucfirst($userName); ?></h2>
+      <div class="container-fluid p-4 p-lg-5 mb-3" style="background: black">
+        <h2 class="fw-bold text-white text-center">Bienvenido, <?php echo ucfirst($user['name']); ?></h2>
       </div>
 
       <section class="py-5">
@@ -69,7 +64,7 @@ $userName = $_SESSION['name'];
           <div class="row row-cols-1 row-cols-md-3 g-4">
 
             <div class="col">
-              <div class="card h-100 shadow-sm text-center text-white" id="card" style="width: 18rem;">
+              <div class="card h-100 shadow-sm text-center text-black" id="card" style="width: 18rem;">
                 <div class="card-body">
                   <h5 class="card-title">Special title treatment</h5>
                   <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
@@ -78,7 +73,7 @@ $userName = $_SESSION['name'];
             </div>
 
             <div class="col">
-              <div class="card h-100 shadow-sm text-white" id="card" style="width: 18rem;">
+              <div class="card h-100 shadow-sm  text-black" id="card" style="width: 18rem;">
                 <div class="card-body">
                   <h5 class="card-title">Special title treatment</h5>
                   <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
@@ -87,7 +82,7 @@ $userName = $_SESSION['name'];
             </div>
 
             <div class="col">
-              <div class="card h-100 shadow-sm text-white" id="card" style="width: 18rem;">
+              <div class="card h-100 shadow-sm  text-black" id="card" style="width: 18rem;">
                 <div class="card-body">
                   <h5 class="card-title">Special title treatment</h5>
                   <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'config/router.php';
+require_once 'core/router.php';
 
 $router = new router();
 

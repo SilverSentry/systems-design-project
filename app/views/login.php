@@ -36,17 +36,17 @@
                                 <input type="hidden" name="action" value="login">
 
                                 <div class="mb-3">
-                                    <label for="email" class="form-label"><i class="bi bi-envelope-fill"> </i>Correo electrónico</label>
-                                    <input type="text" name="email" class="form-control" id="email" placeholder="user@example.com">
+                                    <label for="email" class="form-label"><i class="bi bi-envelope"></i> Correo electrónico</label>
+                                    <input type="text" name="email" class="form-control" id="email" placeholder="usuario@ejemplo.com">
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="password" class="form-label"><i class="bi bi-lock-fill"></i> Contraseña</label>
+                                    <label for="password" class="form-label"><i class="bi bi-lock"></i> Contraseña</label>
                                     <input type="password" name="password" class="form-control" id="password" placeholder="********">
                                 </div>
 
                                 <div class="d-grid gap-2">
-                                    <button type="submit" class="btn-golden btn" id="submitBtn">Ingresar</button>
+                                    <button type="submit" class="btn-golden btn" id="submitBtn"><i class="bi bi-box-arrow-in-right"></i> Ingresar</button>
                                 </div>
 
                                 <div class="text-center mb-0 pt-2">
@@ -60,7 +60,7 @@
                     </div>
 
                     <div class="brand-section">
-                        <img src="<?= paths::asset('img/logo.png')?>" alt="Logo" width="200" height="150" class="img-fluid rounded-circle login-logo" style="display: block; margin: 0 auto;">
+                        <img src="<?= paths::asset('img/logo.png')?>" alt="Logo" width="350" height="350" class="img-fluid rounded-circle login-logo" style="display: block; margin: 0 auto;">
                     </div>
 
                 </div>

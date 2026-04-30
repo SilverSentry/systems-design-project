@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 } else{
 
                     submitBtn.disabled = false;
-                    submitBtn.innerText = 'Registrar';
+                    submitBtn.innerHTML = "<i class='bi bi-person-plus'></i> Registrar";
 
                     //Mostrar un mensaje
                     Swal.mixin({
@@ -93,8 +93,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
                             if(uniqueInput) uniqueInput.classList.add("is-invalid");
 
-                            uniqueInput.focus()
-
                         }
                             
                 }                  
@@ -102,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function(){
             })
             .catch (error => {
                 submitBtn.disabled = false;
-                submitBtn.innerText = "Registrar";
+                submitBtn.innerHTML = "<i class='bi bi-person-plus'></i> Registrar";
                 console.error("Error en la petición:", error);
                 errorContainer.textContent = "Error de conexión con el servidor";
                 errorContainer.classList.remove("invisible");
