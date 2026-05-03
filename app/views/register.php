@@ -5,9 +5,9 @@
     <title>Registro de Usuario</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="<?= paths::asset('Bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
-    <link href="<?= paths::asset('css/style.css') ?>" rel="stylesheet">
-    <link href="<?= paths::asset('Bootstrap-icons/bootstrap-icons.min.css')?>" rel="stylesheet">
+    <link href="<?= Paths::asset('Bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link href="<?= Paths::asset('css/style.css') ?>" rel="stylesheet">
+    <link href="<?= Paths::asset('Bootstrap-icons/bootstrap-icons.min.css')?>" rel="stylesheet">
 </head>
 </head>
 
@@ -82,7 +82,7 @@
 
                                 <div class="text-center mb-0 pt-2">
                                     <span class="form-text">¿Ya estás registrado?</span></br>
-                                    <a href="<?= paths::to('login') ?>" class="link">Inicia sesión</a>
+                                    <a href="<?= Paths::to('login') ?>" class="link">Inicia sesión</a>
                                 </div>
 
                             </form>
@@ -90,7 +90,7 @@
                     </div>
 
                     <div class="brand-section">
-                        <img src="<?= paths::asset('img/logo.png') ?>" alt="Logo" width="350" height="350" class="img-fluid rounded-circle register-logo" style="display: block; margin: 0 auto;">
+                        <img src="<?= Paths::asset('img/logo.png') ?>" alt="Logo" width="350" height="350" class="img-fluid rounded-circle register-logo" style="display: block; margin: 0 auto;">
                     </div>
 
                 </div>
@@ -98,8 +98,8 @@
         </div>
     </div>
 
-    <script src="<?= paths::asset('SweetAlert2/sweetalert2.all.min.js') ?>"></script>
-    <script src="<?= paths::asset('js/register.js') ?>"></script>
+    <script src="<?= Paths::asset('SweetAlert2/sweetalert2.all.min.js') ?>"></script>
+    <script src="<?= Paths::asset('js/register.js') ?>"></script>
 </body>
 
 </html>

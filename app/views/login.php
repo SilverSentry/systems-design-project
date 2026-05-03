@@ -5,9 +5,9 @@
     <title>Inicio de Sesión</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="<?= paths::asset('Bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
-    <link href="<?= paths::asset('css/style.css') ?>" rel="stylesheet">
-    <link href="<?= paths::asset('Bootstrap-icons/bootstrap-icons.min.css')?>" rel="stylesheet">
+    <link href="<?= Paths::asset('Bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link href="<?= Paths::asset('css/style.css') ?>" rel="stylesheet">
+    <link href="<?= Paths::asset('Bootstrap-icons/bootstrap-icons.min.css')?>" rel="stylesheet">
 </head>
 
 <body class="d-flex align-items-center min-vh-100">
@@ -51,7 +51,7 @@
 
                                 <div class="text-center mb-0 pt-2">
                                     <span class="form-text">¿No estás registrado?</span></br>
-                                    <a href="<?= paths::to('register') ?>" class="link">Regístrate aquí</a>
+                                    <a href="<?= Paths::to('register') ?>" class="link">Regístrate aquí</a>
                                 </div>
 
                             </form>
@@ -60,7 +60,7 @@
                     </div>
 
                     <div class="brand-section">
-                        <img src="<?= paths::asset('img/logo.png')?>" alt="Logo" width="350" height="350" class="img-fluid rounded-circle login-logo" style="display: block; margin: 0 auto;">
+                        <img src="<?= Paths::asset('img/logo.png')?>" alt="Logo" width="350" height="350" class="img-fluid rounded-circle login-logo" style="display: block; margin: 0 auto;">
                     </div>
 
                 </div>
@@ -71,8 +71,8 @@
 
     </div>
 
-    <script src="<?= paths::asset('SweetAlert2/sweetalert2.all.min.js') ?>"></script>
-    <script src="<?= paths::asset('js/login.js') ?>"></script>
+    <script src="<?= Paths::asset('SweetAlert2/sweetalert2.all.min.js') ?>"></script>
+    <script src="<?= Paths::asset('js/login.js') ?>"></script>
 </body>
 
 </html>

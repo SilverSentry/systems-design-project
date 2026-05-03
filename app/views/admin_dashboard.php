@@ -15,9 +15,9 @@ $user = SessionManager::getUser(); //Obtenemos los datos del usuario logueado
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="<?= paths::asset('Bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
-  <link href="<?= paths::asset('css/dashboard.css') ?>" rel="stylesheet">
-  <link href="<?= paths::asset('Bootstrap-icons/bootstrap-icons.css') ?>" rel="stylesheet">
+  <link href="<?= Paths::asset('Bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
+  <link href="<?= Paths::asset('css/dashboard.css') ?>" rel="stylesheet">
+  <link href="<?= Paths::asset('Bootstrap-icons/bootstrap-icons.css') ?>" rel="stylesheet">
   <title>Welcome</title>
 </head>
 

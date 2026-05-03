@@ -1,8 +1,8 @@
 <?php
 
-require_once 'core/router.php';
+require_once 'core/Router.php';
 
-$router = new router();
+$router = new Router();
 
 $router->add('login', 'app/views/login.php');
 $router->add('register', 'app/views/register.php');

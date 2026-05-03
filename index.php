@@ -7,7 +7,7 @@ require_once 'autoload.php';
 //Si hay una acción por POST, se llama al controlador
 if (isset($_POST['action'])) {
 
-    $controller = new authController();
+    $controller = new AuthController();
     $controller->handleRequest();
 
 }

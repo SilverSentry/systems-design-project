@@ -1,7 +1,7 @@
 <?php
 //Archivo para el llamado de las rutas
 
-class paths {
+class Paths {
 
     //Raiz del proyecto
     private static $base = "/ordo_stetic/";

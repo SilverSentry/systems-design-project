@@ -2,7 +2,7 @@
 // Configuración principal
 
 //Cargamos la clase de rutas
-require_once __DIR__ . '/../core/paths.php';
+require_once __DIR__ . '/../core/Paths.php';
 
 //Cargamos el manejador de sesiones
 require_once __DIR__ . '/../core/Session.php';
@@ -13,6 +13,6 @@ ini_set('display_errors', 1);
 
 //Función para redirecciones seguras
 function redirect($page) {
-    header('Location: ' . paths::to($page));
+    header('Location: ' . Paths::to($page));
     exit();
 }

@@ -1,6 +1,6 @@
 <?php
 
-class router {
+class Router {
 
     private $routes = [];
 
@@ -27,16 +27,23 @@ class router {
 
             }else {
 
-                echo "Error: La vista no existe físicamente en $viewPath";
+                $this->render404(); //Si el archivo no existe físicamente
 
             }
 
         }else {
 
-            http_response_code(404);
-            echo "<h2>Error 404 - Página No Encontrada</h2>";
+            $this->render404(); //Si la ruta no está registrada
 
         }
+    }
+
+    private function render404() {
+
+        http_response_code(404);
+        echo "<h1>404 - Página no encontrada</h1>";
+        exit();
+
     }
 }
 

@@ -2,7 +2,7 @@
 //Archivo para la conexión a la base de datos
 
 //Clase para configuración de la base de datos
-Class connection {
+class Connection {
 
     private $host = "localhost";
     private $dbName = "ordo_stetic";

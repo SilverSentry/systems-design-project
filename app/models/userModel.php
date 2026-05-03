@@ -1,7 +1,7 @@
 <?php
 //Modelo para manejar los comportamientos registro y el login
 
-    class userModel{
+    class UserModel{
 
         private $conn;
         private $tableName = "users";
@@ -18,12 +18,12 @@
             $sql = "INSERT INTO " . $this->tableName . " (name, surname, email, password) VALUES (:name, :surname, :email, :password)";
             $stmt = $this->conn->prepare($sql);
 
-            $password_hash = password_hash($password, PASSWORD_BCRYPT);
+            $passwordHash = password_hash($password, PASSWORD_BCRYPT);
 
             $stmt->bindParam(":name", $name);
             $stmt->bindParam(":surname", $surname);
             $stmt->bindParam(":email", $email);
-            $stmt->bindParam(":password", $password_hash);
+            $stmt->bindParam(":password", $passwordHash);
 
             return $stmt->execute();
 

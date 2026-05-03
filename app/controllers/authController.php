@@ -1,15 +1,15 @@
 <?php
 //Controlador para manejar las peticiones del usuario
 
-class authController {
+class AuthController {
 
     private $userModel;
 
     public function __construct(){
 
-        $database = new connection();
+        $database = new Connection();
         $db = $database->getConnection();
-        $this->userModel = new userModel($db);
+        $this->userModel = new UserModel($db);
 
     }
 
@@ -56,7 +56,7 @@ class authController {
 
             echo json_encode([
                 'status' => 'error',
-                'message' => messages::ERR_EMPTY_FIELDS,
+                'message' => Messages::ERR_EMPTY_FIELDS,
                 'field' => 'all' //Identificador del input
             ]);
             exit();
@@ -66,7 +66,7 @@ class authController {
 
             echo json_encode([
                 'status' => 'error',
-                'message' => messages::ERR_NAME_INVALID,
+                'message' => Messages::ERR_NAME_INVALID,
                 'field' => 'name'
             ]);
             exit(); 
@@ -76,7 +76,7 @@ class authController {
 
             echo json_encode([
                 'status' => 'error',
-                'message' => messages::ERR_SURNAME_INVALID,
+                'message' => Messages::ERR_SURNAME_INVALID,
                 'field' => 'surname'
             ]);
             exit(); 
@@ -86,7 +86,7 @@ class authController {
 
             echo json_encode([
                 'status' => 'error',
-                'message' => messages::ERR_EMAIL_INVALID,
+                'message' => Messages::ERR_EMAIL_INVALID,
                 'field' => 'email'
             ]);
             exit(); 
@@ -96,7 +96,7 @@ class authController {
 
             echo json_encode([
                 'status' => 'error',
-                'message' => messages::ERR_PASS_INVALID,
+                'message' => Messages::ERR_PASS_INVALID,
                 'field' => 'password'
             ]);
             exit();
@@ -106,7 +106,7 @@ class authController {
 
             echo json_encode([
                 'status' => 'error',
-                'message' => messages::ERR_PASS_DOES_NOT_MATCH,
+                'message' => Messages::ERR_PASS_DOES_NOT_MATCH,
                 'field' => 'passwords'
             ]);
             exit();
@@ -117,7 +117,7 @@ class authController {
 
             echo json_encode([
                 'status' => 'error',
-                'message' => messages::ERR_ALREADY_EXISTS,
+                'message' => Messages::ERR_ALREADY_EXISTS,
                 'field' => 'email'
             ]);
             exit();
@@ -131,7 +131,7 @@ class authController {
 
                 echo json_encode([
                     'status' => 'success',
-                    'redirect' => paths::to('login?success=1')
+                    'redirect' => Paths::to('login?success=1')
                 ]);
                 exit();
 
@@ -140,7 +140,7 @@ class authController {
 
                 echo json_encode([
                     'status' => 'error',
-                    'message' => messages::UNEXPECTED_ERR
+                    'message' => Messages::UNEXPECTED_ERR
                 ]);
                 exit();
 
@@ -162,7 +162,7 @@ class authController {
 
            echo json_encode([
                 'status' => 'error',
-                'message' => messages::ERR_EMPTY_FIELDS,
+                'message' => Messages::ERR_EMPTY_FIELDS,
                 'field' => 'all'
             ]);
             exit();
@@ -172,7 +172,7 @@ class authController {
 
             echo json_encode([
                 'status' => 'error',
-                'message' => messages::ERR_EMAIL_INVALID,
+                'message' => Messages::ERR_EMAIL_INVALID,
                 'field' => 'email'
             ]);
             exit();
@@ -192,7 +192,7 @@ class authController {
 
             echo json_encode([
                 'status' => 'success',
-                'redirect' => paths::to('AdminDashboard')
+                'redirect' => Paths::to('AdminDashboard')
             ]);
             exit();
 
@@ -201,7 +201,7 @@ class authController {
             //Si el inicio de sesión falla, se muestra el mensaje de error
             echo json_encode([
                 'status' => 'error',
-                'message' => messages::ERR_INCORRECT_CREDENTIALS,
+                'message' => Messages::ERR_INCORRECT_CREDENTIALS,
                 'field' => 'all'
             ]);
             exit();
