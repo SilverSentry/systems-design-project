@@ -5,12 +5,8 @@ class AuthController {
 
     private $userModel;
 
-    public function __construct(){
-
-        $database = new Connection();
-        $db = $database->getConnection();
-        $this->userModel = new UserModel($db);
-
+    public function __construct() {
+        $this->userModel = new UserModel();
     }
 
     //Método para manejar las peticiones mediante POST
@@ -184,8 +180,8 @@ class AuthController {
         //Si todo es correcto, se intenta iniciar sesión
         if($user) {
 
-            SessionManager::regenerate(); //Previene session fixation
-            SessionManager::setUser([
+            Session::regenerate(); //Previene session fixation
+            Session::setUser([
                 'id' => $user['id_user'],
                 'name' => $user['name']
             ]);
@@ -212,8 +208,8 @@ class AuthController {
     //Método para cerrar la sesión
     public function logout(){
 
-        SessionManager::logout();
-        SessionManager::destroy();
+        Session::logout();
+        Session::destroy();
         redirect('login');
 
     }

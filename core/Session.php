@@ -1,7 +1,7 @@
 <?php
 //Manejo seguro de sesiones con métodos utilitarios
  
-class SessionManager {
+class Session {
 
     //Iniciar sesión de forma segura
     public static function start(): void {

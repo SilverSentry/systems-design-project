@@ -11,12 +11,12 @@
 </head>
 </head>
 
-<body class="d-flex align-items-center min-vh-100">
+<body class="d-flex align-items-center min-vh-100 body-lr">
 
     <div class="container mt-1">
         <div class="row justify-content-center">
             <div class="col-lg-11">
-                <div class="split-container-register">
+                <div class="split-container">
 
                     <div class="register-section">
                         <div class="text-center mt-1">

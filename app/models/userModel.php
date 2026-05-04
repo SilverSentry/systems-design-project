@@ -1,22 +1,18 @@
 <?php
-//Modelo para manejar los comportamientos registro y el login
 
     class UserModel{
 
         private $conn;
         private $tableName = "users";
 
-        public function __construct($db) {
-
-        $this->conn = $db;
-
-    }
-
         //Método para el registro
         public function register($name, $surname, $email, $password){
 
+            //Se obtiene la conexión a la base de datos
+            $db = Connection::getConnection();
+
             $sql = "INSERT INTO " . $this->tableName . " (name, surname, email, password) VALUES (:name, :surname, :email, :password)";
-            $stmt = $this->conn->prepare($sql);
+            $stmt = $db->prepare($sql);
 
             $passwordHash = password_hash($password, PASSWORD_BCRYPT);
 
@@ -32,8 +28,10 @@
         //Método para validar que no existan dos usuarios con el mismo correo
         public function emailExists($email){
 
+            $db = Connection::getConnection();
+
             $sql = "SELECT id_user FROM " . $this->tableName . " WHERE email = :email LIMIT 1";
-            $stmt = $this->conn->prepare($sql);
+            $stmt = $db->prepare($sql);
 
             $stmt->bindParam(":email", $email);
             $stmt->execute();
@@ -45,8 +43,10 @@
         //Método para el login
         public function login($email, $password){
 
+            $db = Connection::getConnection();
+
             $query = "SELECT id_user, name, password FROM " . $this->tableName . " WHERE email = :email";
-            $stmt = $this->conn->prepare($query);
+            $stmt = $db->prepare($query);
             $stmt->bindParam(":email", $email);
             $stmt->execute();
 

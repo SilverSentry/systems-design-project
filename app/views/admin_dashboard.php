@@ -1,12 +1,10 @@
 <?php
-
 //Si el usuario no ha iniciado sesión, se redirige al login
-if(!SessionManager::isLogged()){
+if (!Session::isLogged()) {
   redirect('login');
 }
 
-$user = SessionManager::getUser(); //Obtenemos los datos del usuario logueado
-
+$user = Session::getUser(); //Obtenemos los datos del usuario logueado
 ?>
 
 <!DOCTYPE html>
@@ -16,88 +14,140 @@ $user = SessionManager::getUser(); //Obtenemos los datos del usuario logueado
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="<?= Paths::asset('Bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
-  <link href="<?= Paths::asset('css/dashboard.css') ?>" rel="stylesheet">
+  <link href="<?= Paths::asset('css/style.css') ?>" rel="stylesheet">
   <link href="<?= Paths::asset('Bootstrap-icons/bootstrap-icons.css') ?>" rel="stylesheet">
   <title>Welcome</title>
+  <style>
+    .hero-section {
+      position: relative;
+      height: 30vh;
+      background: url("<?= Paths::asset('img/hero-bg2.png') ?>") no-repeat center center;
+      background-size: cover;
+      overflow: hidden;
+    }
+
+    .hero-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: inherit;
+      filter: blur(3px) brightness(0.8);
+      transform: scale(1.05);
+    }
+  </style>
 </head>
 
 <body>
 
   <div class="d-flex" id="wrapper">
 
-    <!-- SIDEBAR -->
-    <nav id="sidebar" class="bg-dark border-end border-secondary">
-      <div class="sidebar-header p-4 text-center">
-        <img src="assets/img/logo.png" class="img-fluid rounded-circle" width="80" alt="Logo">
-        <h5 class="mt-3 text-gold fw-bold">Studio Ordo</h5>
-      </div>
-
-      <ul class="list-unstyled components px-3">
-        <li class="active">
-          <a href="#" class="nav-link"><i class="bi bi-house-door me-2"></i> Inicio</a>
-        </li>
-        <li>
-          <a href="#" class="nav-link"><i class="bi bi-calendar-event me-2"></i> Citas</a>
-        </li>
-        <li>
-          <a href="#" class="nav-link"><i class="bi bi-people me-2"></i> Clientes</a>
-        </li>
-        <li>
-          <a href="#" class="nav-link"><i class="bi bi-box-seam me-2"></i> Inventario</a>
-        </li>
-        <hr class="text-secondary">
-        <form method="post" action="index.php">
-          <input type="hidden" name="action" value="logout">
-          <button type="submit" class="btn btn-danger"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
-        </form>
-      </ul>
-    </nav>
-
     <div id="page-content-wrapper" class="w-100">
 
-      <div class="container-fluid p-4 p-lg-5 mb-3" style="background: black">
-        <h2 class="fw-bold text-white text-center">Bienvenido, <?php echo ucfirst($user['name']); ?></h2>
-      </div>
+      <!-- Navbar Superior -->
+      <nav class="top-navbar navbar navbar-expand-lg navbar-light">
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav ms-auto align-items-center">
+            <li class="nav-item me-3">
+              <a class="nav-link position-relative" href="#">
+                <i class="bi bi-bell fs-5"></i>
+              </a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=4e73df&color=fff" class="rounded-circle me-2" width="32" height="32" alt="Avatar">
+                <span class="d-none d-md-inline">Administrador</span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end shadow">
+                <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Perfil</a></li>
+                <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Ajustes</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li>
+                  <form method="post" action="index.php">
+                    <input type="hidden" name="action" value="logout">
+                    <button type="submit" class="btn btn-danger"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
+                  </form>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </nav>
 
-      <section class="py-5">
-        <div class="container">
-          <div class="row row-cols-1 row-cols-md-3 g-4">
+      <!-- Hero Section -->
+      <header class="hero-section text-center d-flex align-items-center justify-content-center animate-fadeInUp">
+        <div class="container position-relative px-3">
+          <h1 class="fs-2 fs-md-1 display-5 fw-bold text-overlay text-white">Panel de Administración</h1>
+          <h4 class="fs-5 fs-md-4 text-white text-overlay">Bienvenido, <?= ucfirst($user['name']); ?></h4>
+        </div>
+      </header>
 
-            <div class="col">
-              <div class="card h-100 shadow-sm text-center text-black" id="card" style="width: 18rem;">
-                <div class="card-body">
-                  <h5 class="card-title">Special title treatment</h5>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      <div class="container-fluid p-4">
+
+        <!-- Tarjetas de Estadísticas -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-3">
+            <div class="card stat-card bg-primary text-white">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h6 class="text-uppercase mb-1 opacity-75">Clientes atendidos</h6>
+                    <h3 class="fw-bold mb-0">0</h3>
+                  </div>
+                  <i class="bi bi-people fs-1 opacity-50"></i>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="col">
-              <div class="card h-100 shadow-sm  text-black" id="card" style="width: 18rem;">
-                <div class="card-body">
-                  <h5 class="card-title">Special title treatment</h5>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <div class="col-md-3">
+            <div class="card stat-card bg-success text-white">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h6 class="text-uppercase mb-1 opacity-75">Ingresos</h6>
+                    <h3 class="fw-bold mb-0">$0</h3>
+                  </div>
+                  <i class="bi bi-currency-dollar fs-1 opacity-50"></i>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="col">
-              <div class="card h-100 shadow-sm  text-black" id="card" style="width: 18rem;">
-                <div class="card-body">
-                  <h5 class="card-title">Special title treatment</h5>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <div class="col-md-3">
+            <div class="card stat-card bg-warning text-dark">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h6 class="text-uppercase mb-1 opacity-75">Reservaciones</h6>
+                    <h3 class="fw-bold mb-0">0</h3>
+                  </div>
+                  <i class="bi bi-bag fs-1 opacity-50"></i>
                 </div>
               </div>
             </div>
+          </div>
 
+          <div class="col-md-3">
+            <div class="card stat-card bg-danger text-white">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h6 class="text-uppercase mb-1 opacity-75">Pendientes</h6>
+                    <h3 class="fw-bold mb-0">0</h3>
+                  </div>
+                  <i class="bi bi-check2-square fs-1 opacity-50"></i>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
+
+      </div>
 
     </div>
 
-  </div>
-  </div>
   </div>
 
 </body>

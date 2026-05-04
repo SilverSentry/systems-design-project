@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="<?= Paths::asset('Bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
     <link href="<?= Paths::asset('css/style.css') ?>" rel="stylesheet">
-    <link href="<?= Paths::asset('Bootstrap-icons/bootstrap-icons.min.css')?>" rel="stylesheet">
+    <link href="<?= Paths::asset('Bootstrap-icons/bootstrap-icons.min.css') ?>" rel="stylesheet">
 </head>
 
-<body class="d-flex align-items-center min-vh-100">
+<body class="d-flex align-items-center min-vh-100 body-lr">
 
     <div class="container mt-3">
 
@@ -18,7 +18,7 @@
 
             <div class="col-lg-10">
 
-                <div class="split-container-login">
+                <div class="split-container">
 
                     <div class="login-section">
                         <div class="text-center">
@@ -60,7 +60,7 @@
                     </div>
 
                     <div class="brand-section">
-                        <img src="<?= Paths::asset('img/logo.png')?>" alt="Logo" width="350" height="350" class="img-fluid rounded-circle login-logo" style="display: block; margin: 0 auto;">
+                        <img src="<?= Paths::asset('img/logo.png') ?>" alt="Logo" width="350" height="350" class="img-fluid rounded-circle login-logo" style="display: block; margin: 0 auto;">
                     </div>
 
                 </div>

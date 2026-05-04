@@ -116,6 +116,32 @@ document.addEventListener("DOMContentLoaded", function(){
         });
     }
 
+    /*
+    //Funcionalidad para mostrar/ocultar contraseña
+    const passwordInput = document.getElementById("password");
+    const toggleButton = document.getElementById("togglePassword");
+    const eyeIcon = document.getElementById("eyeIcon");
+
+    if(toggleButton && passwordInput) {
+
+        toggleButton.addEventListener("click", function() {
+
+            //Cambiamos el tipo de input
+            const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+            passwordInput.setAttribute("type", type);
+
+                //Se cambia el icono
+                if(eyeIcon) {
+                    eyeIcon.classList.toggle("bi-eye");
+                    eyeIcon.classList.toggle("bi-eye-slash");
+                }
+                
+                //Mantenemos el foco en el input para que el usuario siga escribiendo
+                passwordInput.focus();
+        });
+    }
+    */
+
         //Manejo de mensaje de registro exitoso
         if(urlParams.get('success') === '1'){
 

@@ -1,10 +1,12 @@
-body{
+.body-lr {
     font-family: 'Montserrat', sans-serif;
     background: linear-gradient(149deg, #c29c55 5%, #fee28f 35%, #c29c55 85%);
 }
 
+/* Estilos para el formulario de login y registro */
+
 /* botón dorado */
-.btn-golden{
+.btn-golden {
     border: none;
     background: linear-gradient(135deg, #c29c55 0%, #fff5c8 50%, #c29c55 100%);
     color: #121212;
@@ -29,7 +31,7 @@ body{
     z-index: -1;
 }
 
-.btn-golden:hover{
+.btn-golden:hover {
     background: linear-gradient(135deg, #c29c55 0%, #fff5c8 50%, #c29c55 100%);
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(200, 169, 110, 0.4), 0 0 20px rgba(255, 215, 0, 0.2);
@@ -39,7 +41,7 @@ body{
     left: 100%;
 }
 
-/* Form controls personalizados */
+/* Form controls personalizados */  
 .form-control:focus {
     border-color: #c8a96e;
     box-shadow: 0 0 0 0.25rem rgba(200, 169, 110, 0.25);
@@ -47,47 +49,24 @@ body{
 }
 
 /* contenedor principal split */
-.split-container-login{
+.split-container {
     display: flex;
     overflow: hidden;
     border-radius: 20px;
     background-color: #fff;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-    min-height: 300px;
-}
-
-.split-container-register{
-    display: flex;
-    overflow: hidden;
-    border-radius: 20px;
-    background-color: #fff;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
     min-height: 300px;
 }
 
 /* formulario */
-.login-section{
+.login-section {
     flex: 1;
     padding: 50px 50px 50px;
     background-color: #ffffff;
     color: #333;
 }
 
-.brand-section{
-    flex: 1;
-    background: linear-gradient(70deg, rgb(0, 0, 0) 0% );
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    padding: 50px;
-    text-align: center;
-}
-
-.register-section{
+.register-section {
     flex: 1;
     min-height: 40px;
     padding: 20px 50px 20px 50px;
@@ -95,9 +74,9 @@ body{
     color: #333;
 }
 
-.brand-section-register{
+.brand-section {
     flex: 1;
-    background: linear-gradient(1deg, rgb(160, 137, 73) 10%, rgb(102, 87, 47) 30%, rgb(0, 0, 0) 70%);;
+    background: linear-gradient(70deg, rgb(0, 0, 0) 0%);
     background-size: cover;
     background-position: center;
     display: flex;
@@ -109,35 +88,41 @@ body{
     text-align: center;
 }
 
-
-/* logo */
-.login-logo{
-
-    position: relative;
-    margin-bottom: 250px;
-
-}
-
-.welcome{
-
-    margin-bottom: 250px;
-
-}
-
 /* Responsividad */
-@media (max-width: 768px){
-    .brand-section { display: none; } /* Oculta la parte estética en móviles para ahorrar espacio */
-    .brand-section-register { display: none; }
-    .split-container { margin: 20px; }
+@media (max-width: 768px) {
+    .brand-section {
+        display: none;
+    }
+
+    /* Oculta la parte estética en móviles para ahorrar espacio */
+    .brand-section-register {
+        display: none;
+    }
+
+    .split-container {
+        margin: 20px;
+    }
 }
 
 /* Enlaces */
-.link{
+.link {
     color: #d4a373 !important;
     text-decoration: none;
     font-weight: 600;
 }
 
-.link:hover{
+.link:hover {
     text-decoration: underline;
+}
+
+/* Cards */
+.stat-card {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
 }
