@@ -1,6 +1,6 @@
 <?php
+//Archivo para el manejo de mensajes
 
-//Clase para el manejo de mensajes
 class Messages {
 
     //Mensajes generales

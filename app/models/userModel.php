@@ -1,8 +1,8 @@
 <?php
+//Archivo modelo para manejar la lógica de usuarios
 
     class UserModel{
 
-        private $conn;
         private $tableName = "users";
 
         //Método para el registro

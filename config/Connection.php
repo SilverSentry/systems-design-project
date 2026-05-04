@@ -12,6 +12,7 @@ class Connection {
     private $user = "root";
     private $password = "";
 
+    //Constructor privado para evitar instanciación directa
     private function __construct() {
 
         try {

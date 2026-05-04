@@ -1,5 +1,5 @@
 <?php
-// Configuración principal
+//Archivo de configuración
 
 //Cargamos la clase de rutas
 require_once __DIR__ . '/../core/Paths.php';

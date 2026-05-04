@@ -47,6 +47,12 @@ $user = Session::getUser(); //Obtenemos los datos del usuario logueado
       <nav class="top-navbar navbar navbar-expand-lg navbar-light">
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav ms-auto align-items-center">
+            <li>
+              <form method="post" action="index.php">
+                <input type="hidden" name="action" value="logout">
+                <button type="submit" class="btn btn-danger"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
+              </form>
+            </li>
             <li class="nav-item me-3">
               <a class="nav-link position-relative" href="#">
                 <i class="bi bi-bell fs-5"></i>
@@ -62,12 +68,6 @@ $user = Session::getUser(); //Obtenemos los datos del usuario logueado
                 <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Ajustes</a></li>
                 <li>
                   <hr class="dropdown-divider">
-                </li>
-                <li>
-                  <form method="post" action="index.php">
-                    <input type="hidden" name="action" value="logout">
-                    <button type="submit" class="btn btn-danger"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
-                  </form>
                 </li>
               </ul>
             </li>

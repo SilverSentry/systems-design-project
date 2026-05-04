@@ -1,5 +1,5 @@
 <?php
-//Controlador para manejar las peticiones del usuario
+//Controlador para manejar la autenticación de usuarios
 
 class AuthController {
 
@@ -9,36 +9,8 @@ class AuthController {
         $this->userModel = new UserModel();
     }
 
-    //Método para manejar las peticiones mediante POST
-    public function handleRequest(){
-
-        if($_SERVER["REQUEST_METHOD"] == "POST"){
-
-            if(isset($_POST['action'])) {
-
-                switch($_POST['action']) {
-
-                    case 'register':
-
-                        $this->register();
-                        break;
-
-                    case 'login':
-
-                        $this->login();
-                        break;
-
-                    case 'logout':
-
-                        $this->logout();
-                        break;
-                }
-            }
-        }
-    }
-
     //Método para el registro
-    private function register(){
+    public function register(){
 
         //Limpieza de datos
         $name = trim($_POST['name']);
@@ -147,7 +119,7 @@ class AuthController {
     }
 
     //Método para el login
-    private function login(){
+    public function login(){
 
         //Se sanitizan los datos
         $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);

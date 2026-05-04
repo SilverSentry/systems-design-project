@@ -1,5 +1,5 @@
 <?php
-//Archivo para el llamado de las rutas
+//Archivo Paths para definir rutas base
 
 class Paths {
 
@@ -13,6 +13,7 @@ class Paths {
 
     }
 
+    //Método para obtener la ruta de un asset
     public static function asset($path) {
 
         return self::$base . "assets/" . $path;
