@@ -1,5 +1,24 @@
 document.addEventListener("DOMContentLoaded", function(){
 
+    //Toggle para mostrar/ocultar contraseña
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+
+    //Se agrega el evento click al icono del ojo para mostrar/ocultar la contraseña
+    if(togglePassword && passwordInput) {
+
+        //Se agrega el evento click al icono del ojo para mostrar/ocultar la contraseña
+        togglePassword.addEventListener('click', function() {
+
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            const icon = this.querySelector('i');
+            icon.classList.toggle('bi-eye');
+            icon.classList.toggle('bi-eye-slash');
+
+        });
+    }
+
     //Constante para revisar la URL
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -68,7 +87,10 @@ document.addEventListener("DOMContentLoaded", function(){
 
                     }).fire({
                         icon: "error",
-                        title: data.message
+                        title: data.message,
+                        customClass: { //Clase para agregar estilos personalizados a la alerta
+                            popup: 'custom-swal-rect' //Nombre de la clase personalizada
+                        },
                     });
 
                     //Se limpia cualquier borde rojo previo (para no acumular errores)
@@ -110,7 +132,10 @@ document.addEventListener("DOMContentLoaded", function(){
 
                     }).fire({
                         icon: "error",
-                        title: "Error de conexión con el servidor" 
+                        title: "Error de conexión con el servidor",
+                        customClass: { //Clase para agregar estilos personalizados a la alerta
+                            popup: 'custom-swal-rect' //Nombre de la clase personalizada
+                        },
                     });
             });
         });

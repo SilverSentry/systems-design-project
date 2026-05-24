@@ -4,6 +4,31 @@ document.addEventListener("DOMContentLoaded", function(){
     const formRegister = document.getElementById("formRegister");
     const errorContainer = document.getElementById("errorContainer");
 
+    //Función para manejar el toggle de mostrar/ocultar contraseña
+    const bindPasswordToggle = (toggleId, inputId) => {
+
+        const toggleButton = document.getElementById(toggleId);
+        const input = document.getElementById(inputId);
+
+        //Si no se encuentran los elementos, se sale de la función para evitar errores
+        if (!toggleButton || !input) return;
+
+        //Se agrega el evento click al icono del ojo para mostrar/ocultar la contraseña
+        toggleButton.addEventListener("click", function() {
+
+            const type = input.getAttribute("type") === "password" ? "text" : "password";
+            input.setAttribute("type", type);
+            const icon = this.querySelector("i");
+            icon.classList.toggle("bi-eye");
+            icon.classList.toggle("bi-eye-slash");
+
+        });
+    };
+
+    //Se vinculan los toggles de mostrar/ocultar contraseña para ambos campos
+    bindPasswordToggle("togglePassword", "password");
+    bindPasswordToggle("togglePasswordConfirm", "passwordConfirm");
+
     //Se seleccionan todos los inputs
     const inputs = formRegister.querySelectorAll('input');
 
@@ -65,7 +90,10 @@ document.addEventListener("DOMContentLoaded", function(){
 
                     }).fire({
                         icon: "error",
-                        title: data.message
+                        title: data.message,
+                        customClass: { //Clase para agregar estilos personalizados a la alerta
+                            popup: 'custom-swal-rect' //Nombre de la clase personalizada
+                        },
                     });
 
                     //Se limpia cualquier borde rojo previo (para no acumular errores)
@@ -102,9 +130,19 @@ document.addEventListener("DOMContentLoaded", function(){
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = "<i class='bi bi-person-plus'></i> Registrar";
                 console.error("Error en la petición:", error);
-                errorContainer.textContent = "Error de conexión con el servidor";
-                errorContainer.classList.remove("invisible");
-                errorContainer.classList.add("visible");
+                Swal.mixin({
+                        toast: true,
+                        position: "top",                      
+                        showConfirmButton: false,
+                        timer: 2000
+
+                    }).fire({
+                        icon: "error",
+                        title: "Error de conexión con el servidor",
+                        customClass: { //Clase para agregar estilos personalizados a la alerta
+                            popup: 'custom-swal-rect' //Nombre de la clase personalizada
+                        },
+                    });
             });
 
         });

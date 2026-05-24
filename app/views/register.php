@@ -6,8 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="<?= Paths::asset('Bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
-    <link href="<?= Paths::asset('css/style.css') ?>" rel="stylesheet">
-    <link href="<?= Paths::asset('Bootstrap-icons/bootstrap-icons.min.css')?>" rel="stylesheet">
+    <link href="<?= Paths::asset('css/styles.css') ?>" rel="stylesheet">
+    <link href="<?= Paths::asset('Bootstrap-icons/bootstrap-icons.min.css') ?>" rel="stylesheet">
 </head>
 </head>
 
@@ -63,13 +63,25 @@
                                     <div class="col-md">
                                         <div class="mb-3">
                                             <label for="password" class="form-label"><i class="bi bi-lock"></i> Contraseña</label>
-                                            <input type="password" name="password" class="form-control" id="password" placeholder="********">
+                                            <div class="input-group">
+                                                <input type="password" name="password" class="form-control" id="password" placeholder="••••••••">
+                                                <!-- Botón para mostrar/ocultar la contraseña -->
+                                                <button class="btn btn-outline-secondary password-toggle" type="button" id="togglePassword" aria-label="Mostrar contraseña">
+                                                    <i class="bi bi-eye-slash"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md">
                                         <div class="mb-3">
-                                            <label for="password" class="form-label"><i class="bi bi-lock-fill"></i> Confirmar contraseña</label>
-                                            <input type="password" name="passwordConfirm" class="form-control" id="passwordConfirm" placeholder="********">
+                                            <label for="passwordConfirm" class="form-label"><i class="bi bi-lock-fill"></i> Confirmar contraseña</label>
+                                            <div class="input-group">
+                                                <input type="password" name="passwordConfirm" class="form-control" id="passwordConfirm" placeholder="••••••••">
+                                                <!-- Botón para mostrar/ocultar la contraseña de confirmación -->
+                                                <button class="btn btn-outline-secondary password-toggle" type="button" id="togglePasswordConfirm" aria-label="Mostrar confirmar contraseña">
+                                                    <i class="bi bi-eye-slash"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -80,8 +92,8 @@
                                     <button type="submit" class="btn btn-golden" id="submitBtn"><i class="bi bi-person-plus"></i> Registrar</button>
                                 </div>
 
-                                <div class="text-center mb-0 pt-2">
-                                    <span class="form-text">¿Ya estás registrado?</span></br>
+                                <div class="text-center mb-0 pt-3">
+                                    <span class="form-text">¿Ya estás registrado?</span>
                                     <a href="<?= Paths::to('login') ?>" class="link">Inicia sesión</a>
                                 </div>
 

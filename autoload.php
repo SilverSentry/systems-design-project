@@ -7,7 +7,8 @@
         $directories = [
         'app/controllers/',
         'app/models/',
-        'config/'
+        'config/',
+        'core/'
     ];
 
         //Se recorre en los directorios para ver si el archivo existe mediante un foreach

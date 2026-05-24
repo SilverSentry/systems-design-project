@@ -6,7 +6,7 @@ class AuthController {
     private $userModel;
 
     public function __construct() {
-        $this->userModel = new UserModel();
+        $this->userModel = new User();
     }
 
     //Método para el registro
@@ -80,7 +80,7 @@ class AuthController {
             exit();
 
         //Se verifica que el usuario no exista en la base de datos
-        //Se usa un método que viene de userModel que verifica que el correo no exista en la BD
+        //Se usa un método que viene de UserModel que verifica que el correo no exista en la BD
         } elseif($this->userModel->emailExists($email)){
 
             echo json_encode([
@@ -154,8 +154,8 @@ class AuthController {
 
             Session::regenerate(); //Previene session fixation
             Session::setUser([
-                'id' => $user['id_user'],
-                'name' => $user['name']
+                'id' => $user['id_usuario'],
+                'name' => $user['nombre']
             ]);
 
             echo json_encode([
