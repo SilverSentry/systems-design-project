@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>Inicio de Sesión</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="<?= Paths::asset('Bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
-    <link href="<?= Paths::asset('css/styles.css') ?>" rel="stylesheet">
-    <link href="<?= Paths::asset('Bootstrap-icons/bootstrap-icons.min.css') ?>" rel="stylesheet">
-    <link rel="icon" type="image/png" href="<?= Paths::asset('img/logo.png'); ?>">
-</head>
-
-<body class="d-flex align-items-center min-vh-100 body-lr">
+﻿<?php
+// Vista de login que utiliza el layout compartido para el head y footer.
+$title = 'Inicio de Sesión';
+$bodyClass = 'd-flex align-items-center min-vh-100 body-lr';
+$extraScripts = ['js/login.js'];
+require __DIR__ . '/layouts/head.php';
+?>
 
     <div class="container mt-3">
 
@@ -78,8 +71,4 @@
 
     </div>
 
-    <script src="<?= Paths::asset('SweetAlert2/sweetalert2.all.min.js') ?>"></script>
-    <script src="<?= Paths::asset('js/login.js') ?>"></script>
-</body>
-
-</html>
+<?php require __DIR__ . '/layouts/footer.php'; ?>

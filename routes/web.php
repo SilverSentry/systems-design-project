@@ -10,6 +10,7 @@ $router = new Router();
 $router->addView('login', 'app/views/login.php');
 $router->addView('register', 'app/views/register.php');
 $router->addView('AdminDashboard', 'app/views/admin_dashboard.php');
+$router->addView('empleados', 'app/views/empleados/index.php');
 
 //Registro de rutas para controladores
 //Parámetros: ruta, controlador, método

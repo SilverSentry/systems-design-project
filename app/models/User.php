@@ -54,6 +54,13 @@
 
         }
 
+        //Método para obtener todos los usuarios
+        public function getAll() {
+
+            return $this->findAll();
+
+        }
+
     }
 
 ?>

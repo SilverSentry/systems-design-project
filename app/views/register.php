@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>Registro de Usuario</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="<?= Paths::asset('Bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
-    <link href="<?= Paths::asset('css/styles.css') ?>" rel="stylesheet">
-    <link href="<?= Paths::asset('Bootstrap-icons/bootstrap-icons.min.css') ?>" rel="stylesheet">
-</head>
-</head>
-
-<body class="d-flex align-items-center min-vh-100 body-lr">
+﻿<?php
+// Vista de registro que utiliza el layout compartido para el head y footer.
+$title = 'Registro de Usuario';
+$bodyClass = 'd-flex align-items-center min-vh-100 body-lr';
+$extraScripts = ['js/register.js'];
+require __DIR__ . '/layouts/head.php';
+?>
 
     <div class="container mt-1">
         <div class="row justify-content-center">
@@ -23,8 +16,6 @@
                             <!-- <img src="<php echo URL_BASE; ?>assets/img/logo.png" alt="Logo" width="140" height="150"  class="img-fluid rounded-circle mt-3" style="display: block; margin: 0 auto;"> -->
                             <h1 class="fw-bold text-center text-black pt-1 mb-4">Registro</h1>
                         </div>
-
-
 
                         <div class="card-body p-2">
 
@@ -110,8 +101,4 @@
         </div>
     </div>
 
-    <script src="<?= Paths::asset('SweetAlert2/sweetalert2.all.min.js') ?>"></script>
-    <script src="<?= Paths::asset('js/register.js') ?>"></script>
-</body>
-
-</html>
+<?php require __DIR__ . '/layouts/footer.php'; ?>
