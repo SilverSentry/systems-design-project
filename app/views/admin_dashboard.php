@@ -6,7 +6,7 @@ if (!Session::isLogged()) {
 
 $user = Session::getUser(); //Obtenemos los datos del usuario logueado.
 $title = 'Panel de Administración';
-$bodyClass = '';
+$bodyClass = 'layout-footer';
 $extraScripts = ['js/sidebar.js'];
 require __DIR__ . '/layouts/head.php'; //Carga el head común
 ?>
@@ -32,8 +32,6 @@ require __DIR__ . '/layouts/head.php'; //Carga el head común
 
 <!-- Esto es la capa que oscurece el fondo -->
 <div id="sidebar-overlay" class="overlay"></div>
-
-<div class="d-flex" id="wrapper">
 
     <?php require __DIR__ . '/layouts/sidebar.php'; ?>
 
@@ -123,8 +121,6 @@ require __DIR__ . '/layouts/head.php'; //Carga el head común
         </div>
 
     </div>
-
-</div>
 
 <!-- Overlay para móvil -->
 <div class="overlay" id="overlay"></div>

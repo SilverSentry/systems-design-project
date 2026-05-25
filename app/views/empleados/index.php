@@ -12,7 +12,7 @@ $users = $userModel->getAll();
 //Título
 $title = 'Panel de Empleados';
 //Aquí se colocan clases específicas para esta vista si es necesario
-$bodyClass = '';
+$bodyClass = 'layout-footer';
 //Aquí se colocan scripts específicos para esta vista si es necesario
 $extraScripts = ['DataTables/jquery-3.7.0.min.js', 'DataTables/jquery.dataTables.min.js', 'DataTables/dataTables.bootstrap5.min.js', 'js/sidebar.js', 'js/empleados.js'];
 

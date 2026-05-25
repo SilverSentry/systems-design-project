@@ -9,7 +9,7 @@
     <?php endforeach; ?>
 <?php endif; ?>
 
-<footer class="py-4 mt-5">
+<footer class="footer py-4 mt-5">
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <div class="col-12 col-md-auto text-center text-md-start mb-2 mb-md-0">

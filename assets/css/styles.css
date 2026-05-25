@@ -1,360 +1,373 @@
 html,
 body {
-    margin: 0;
-    padding: 0;
-    min-height: 100%;
-    overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
 }
 
 body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-attachment: fixed;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-attachment: fixed;
 }
 
 /* Variables de color y estilos globales */
 :root {
-    --color-negro: #0a0a0a;
-    --color-dorado: #c9a961;
-    --color-dorado-claro: #d4b978;
-    --color-dorado-oscuro: #b8944f;
-    --color-gris-claro: #f8f9fa;
-    --color-fondo: linear-gradient(135deg, #f7f3e9 0%, #ffffff 100%) !important;
-    --color-texto: #333333;
-    --sidebar-width: 250px;
+  --color-negro: #0a0a0a;
+  --color-dorado: #c9a961;
+  --color-dorado-claro: #d4b978;
+  --color-dorado-oscuro: #b8944f;
+  --color-gris-claro: #f8f9fa;
+  --color-fondo: linear-gradient(135deg, #f7f3e9 0%, #ffffff 100%) !important;
+  --color-texto: #333333;
+  --sidebar-width: 250px;
 }
 
 /* Estilo para el contenedor principal en el login y registro */
 .body-lr {
-    position: relative;
-    z-index: 0;
-    min-height: 100vh;
-    background: var(--color-fondo);
-    overflow: hidden;
+  position: relative;
+  z-index: 0;
+  min-height: 100vh;
+  background: var(--color-fondo);
+  overflow: hidden;
 }
 
 .body-lr::before,
 .body-lr::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
 }
 
 .body-lr::before {
-    background-image: url('../img/hero-bg.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    filter: blur(2px);
-    transform: scale(1.02);
-    z-index: -2;
+  background-image: url('../img/hero-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(2px);
+  transform: scale(1.02);
+  z-index: -2;
 }
 
 .body-lr::after {
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-    box-shadow: inset 0 0 0 1500px rgba(10, 10, 10, 0.1), 0 25px 80px rgba(0, 0, 0, 0.35);
-    z-index: -1;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  box-shadow: inset 0 0 0 1500px rgba(10, 10, 10, 0.1), 0 25px 80px rgba(0, 0, 0, 0.35);
+  z-index: -1;
 }
 
 /* botón dorado */
 .btn-golden {
-    border: none;
-    background: linear-gradient(135deg, #c29c55 0%, #fff5c8 50%, #c29c55 100%);
-    color: #121212;
-    font-weight: 600;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
+  border: none;
+  background: linear-gradient(135deg, #c29c55 0%, #fff5c8 50%, #c29c55 100%);
+  color: #121212;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
 }
 
 .btn-golden::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    transform: skewX(-25deg);
-    transition: left 0.5s ease;
-    z-index: -1;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: skewX(-25deg);
+  transition: left 0.5s ease;
+  z-index: -1;
 }
 
 .btn-golden:hover {
-    background: linear-gradient(135deg, #c29c55 0%, #fff5c8 50%, #c29c55 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(200, 169, 110, 0.4), 0 0 20px rgba(255, 215, 0, 0.2);
+  background: linear-gradient(135deg, #c29c55 0%, #fff5c8 50%, #c29c55 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(200, 169, 110, 0.4), 0 0 20px rgba(255, 215, 0, 0.2);
 }
 
 .btn-golden:hover::after {
-    left: 100%;
+  left: 100%;
 }
 
 #page-content-wrapper {
-    position: relative;
-    padding-top: 100px;
+  position: relative;
+  padding-top: 100px;
+  flex: 1 1 auto;
 }
 
 /* Navbar */
 .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1040;
-    background: rgba(255, 255, 255, 0.562);
-    backdrop-filter: blur(16px) !important;
-    padding: 20px 30px;
-    border-bottom: 2px solid #e6c486 !important;
-    box-shadow: 0 4px 6px rgba(255, 87, 51, 0.1) !important;
-    margin-bottom: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1040;
+  background: rgba(255, 255, 255, 0.562);
+  backdrop-filter: blur(16px) !important;
+  padding: 20px 30px;
+  border-bottom: 2px solid #e6c486 !important;
+  box-shadow: 0 4px 6px rgba(255, 87, 51, 0.1) !important;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* Footer */
-footer {
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1040;
-    background: var(--color-fondo);
-    padding: 10px 30px;
-    border-top: 2px solid #e6c486 !important;
-    box-shadow: 0 -4px 6px rgba(255, 87, 51, 0.1) !important;
-    display: flex;
-    justify-content: center;
+.footer {
+  width: 100%;
+  background: var(--color-fondo);
+  padding: 10px 30px;
+  border-top: 2px solid #e6c486 !important;
+  box-shadow: 0 -4px 6px rgba(255, 87, 51, 0.1) !important;
+  display: flex;
+  justify-content: center;
+}
+
+/* Para asegurar que el footer siempre esté al final, incluso con poco contenido */
+.layout-footer {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 100vh !important;
+  margin: 0;
 }
 
 /* Paginación personalizada */
 .page-item.active .page-link {
-    border-color: #c8a96e;
-    background-color: #c8a96e !important;
-    outline: 0;
+  border-color: #c8a96e;
+  background-color: #c8a96e !important;
+  outline: 0;
 }
 
 .page-link:focus {
-    border-color: #c8a96e;
-    box-shadow: 0 0 0 0.25rem rgba(200, 169, 110, 0.25);
-    outline: 0;
+  border-color: #c8a96e;
+  box-shadow: 0 0 0 0.25rem rgba(200, 169, 110, 0.25);
+  outline: 0;
 }
 
 /* Form controls personalizados */
 .form-control:focus {
-    border-color: #c8a96e;
-    box-shadow: 0 0 0 0.25rem rgba(200, 169, 110, 0.25);
-    outline: 0;
+  border-color: #c8a96e;
+  box-shadow: 0 0 0 0.25rem rgba(200, 169, 110, 0.25);
+  outline: 0;
 }
 
 /* selects personalizados */
 .form-select:focus {
-    border-color: #c8a96e;
-    box-shadow: 0 0 0 0.25rem rgba(200, 169, 110, 0.25);
-    outline: 0;
+  border-color: #c8a96e;
+  box-shadow: 0 0 0 0.25rem rgba(200, 169, 110, 0.25);
+  outline: 0;
 }
 
 /* contenedor principal split */
 .split-container {
-    display: flex;
-    overflow: hidden;
-    border-radius: 30px;
-    background-color: #fff;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-    min-height: 300px;
-    border: none;
-    background-clip: padding-box;
+  display: flex;
+  overflow: hidden;
+  border-radius: 30px;
+  background-color: #fff;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  min-height: 300px;
+  border: none;
+  background-clip: padding-box;
 }
 
 /* formulario */
 .login-section {
-    flex: 1;
-    padding: 50px;
-    background-color: #ffffff;
-    color: #333;
+  flex: 1;
+  padding: 50px;
+  background-color: #ffffff;
+  color: #333;
 }
 
 .register-section {
-    flex: 1;
-    padding: 20px 50px 20px 50px;
-    background-color: #ffffff;
-    color: #333;
+  flex: 1;
+  padding: 20px 50px 20px 50px;
+  background-color: #ffffff;
+  color: #333;
 }
 
 .brand-section {
-    flex: 1;
-    background-color: black;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #ffffff;
-    padding: 50px;
-    text-align: center;
+  flex: 1;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  padding: 50px;
+  text-align: center;
 }
 
-/* Estilo para las alertas en el login y registro */ 
+/* Estilo para las alertas en el login y registro */
 /* Esta regla solo afectará a las alertas que tengan esa propiedad en JS */
 .custom-swal-rect {
-    border-radius: 20px !important;
+  border-radius: 20px !important;
 }
 
 /* Responsividad */
 @media (max-width: 768px) {
-    .brand-section {
-        display: none;
-    }
+  .brand-section {
+    display: none;
+  }
 
-    /* Oculta la parte estética en móviles para ahorrar espacio */
-    .brand-section-register {
-        display: none;
-    }
+  /* Oculta la parte estética en móviles para ahorrar espacio */
+  .brand-section-register {
+    display: none;
+  }
 
-    .split-container {
-        margin: 20px;
-    }
+  .split-container {
+    margin: 20px;
+  }
 }
 
 /* Enlaces */
 .link {
-    color: #d4a373 !important;
-    text-decoration: none;
-    font-weight: 600;
+  color: #d4a373 !important;
+  text-decoration: none;
+  font-weight: 600;
 }
 
 .link:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 /* Cards */
 .stat-card {
-    /* Efecto de desenfoque */
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
-    
-    /* Borde sutil y sombra */
-    border: 1px solid rgba(255, 255, 255, 0.4) !important;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15) !important;
+  /* Efecto de desenfoque */
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
 
-    border-radius: 1rem;
-    transition: transform 0.2s;
+  /* Borde sutil y sombra */
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15) !important;
+
+  border-radius: 1rem;
+  transition: transform 0.2s;
 }
 
 /* Efecto hover para las cards */
 .stat-card:hover {
-    transform: translateY(-4px);
+  transform: translateY(-4px);
 }
 
 /* Iconos dentro de las cards */
 .stat-icon {
-    width: 70px;
-    height: 70px;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  width: 70px;
+  height: 70px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
 }
 
 .stat-icon.gold {
-    background: linear-gradient(135deg, var(--color-dorado) 0%, var(--color-dorado-oscuro) 100%);
-    color: white;
+  background: linear-gradient(135deg, var(--color-dorado) 0%, var(--color-dorado-oscuro) 100%);
+  color: white;
 }
 
 /* Estilos para el toggle de contraseña */
 .password-toggle,
 #togglePassword {
-    border-color: #ced4da;
-    background-color: #fff;
-    color: #495057;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+  border-color: #ced4da;
+  background-color: #fff;
+  color: #495057;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 .password-toggle:hover,
 #togglePassword:hover,
 #togglePasswordConfirm:hover {
-    background-color: #e9ecef;
-    color: #212529;
-    border-color: #ced4da;
+  background-color: #e9ecef;
+  color: #212529;
+  border-color: #ced4da;
 }
 
 .password-toggle:focus,
 #togglePassword:focus,
 #togglePasswordConfirm:focus {
-    box-shadow: none;
+  box-shadow: none;
 }
 
 /* Sidebar */
 #sidebar {
-    min-width: var(--sidebar-width);
-    max-width: var(--sidebar-width);
-    min-height: 100vh;
-    background: linear-gradient(180deg, var(--color-negro) 0%, #1a1a1a 100%);
-    color: #fff;
-    transition: margin 0.3s ease;
-    border-right: 2px solid #fee28f;    
+  min-width: var(--sidebar-width);
+  max-width: var(--sidebar-width);
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--color-negro) 0%, #1a1a1a 100%);
+  color: #fff;
+  transition: margin 0.3s ease;
+  border-right: 2px solid #fee28f;
 }
 
 #sidebar .sidebar-heading {
-    padding: 1.25rem 1.5rem;
-    font-size: 1.25rem;
-    font-weight: 700;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.25rem 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 #sidebar .list-group-item {
-    border: none;
-    padding: 1rem 1.5rem;
-    background: transparent;
-    color: rgba(255, 255, 255, 0.75);
-    transition: all 0.2s;
+  border: none;
+  padding: 1rem 1.5rem;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.75);
+  transition: all 0.2s;
 }
 
 #sidebar .list-group-item:hover,
 #sidebar .list-group-item.active {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    border-left: 4px solid var(--primary-color);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-left: 4px solid var(--primary-color);
 }
 
 /* Se usa fixed para que flote encima de todo */
 #sidebar {
-    position: fixed;
-    top: 0;
-    left: -280px; /* Escondido a la izquierda */
-    width: 280px;
-    height: 100vh;
-    z-index: 1050; /* Por encima de la navbar (BS suele usar 1030) */
-    transition: all 0.3s ease;
-    background-color: #1a1a1a; /* Tu color oscuro */
+  position: fixed;
+  top: 0;
+  left: -280px;
+  /* Escondido a la izquierda */
+  width: 280px;
+  height: 100vh;
+  z-index: 1050;
+  /* Por encima de la navbar (BS suele usar 1030) */
+  transition: all 0.3s ease;
+  background-color: #1a1a1a;
+  /* Tu color oscuro */
 }
 
 /* Efecto cuando el sidebar tiene la clase 'active' o 'toggled' */
 #sidebar.active {
-    left: 0;
+  left: 0;
 }
 
 /* Estilos del Overlay */
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.7); /* Color negro con transparencia */
-    z-index: 1040; /* Justo debajo del sidebar */
-    display: none; /* Escondido por defecto */
-    transition: all 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  /* Color negro con transparencia */
+  z-index: 1040;
+  /* Justo debajo del sidebar */
+  display: none;
+  /* Escondido por defecto */
+  transition: all 0.3s ease;
 }
 
 /* Mostrar overlay cuando el sidebar esté activo */
 .overlay.show {
-    display: block;
+  display: block;
 }
