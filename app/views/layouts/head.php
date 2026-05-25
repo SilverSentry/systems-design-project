@@ -16,4 +16,4 @@
     <link href="<?= Paths::asset('css/styles.css') ?>" rel="stylesheet">
 </head>
 
-<body class="<?= $bodyClass ?? '' ?>" style="background-color: var(--color-gris-claro);">
+<body class="<?= $bodyClass ?? '' ?>" style="background: var(--color-fondo);">

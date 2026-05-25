@@ -8,15 +8,17 @@ body {
 
 body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: #0a0a0a;
+    background-attachment: fixed;
 }
 
+/* Variables de color y estilos globales */
 :root {
     --color-negro: #0a0a0a;
     --color-dorado: #c9a961;
     --color-dorado-claro: #d4b978;
     --color-dorado-oscuro: #b8944f;
     --color-gris-claro: #f8f9fa;
+    --color-fondo: linear-gradient(135deg, #f7f3e9 0%, #ffffff 100%) !important;
     --color-texto: #333333;
     --sidebar-width: 250px;
 }
@@ -26,7 +28,7 @@ body {
     position: relative;
     z-index: 0;
     min-height: 100vh;
-    background: #0a0a0a;
+    background: var(--color-fondo);
     overflow: hidden;
 }
 
@@ -55,8 +57,6 @@ body {
     box-shadow: inset 0 0 0 1500px rgba(10, 10, 10, 0.1), 0 25px 80px rgba(0, 0, 0, 0.35);
     z-index: -1;
 }
-
-/* Estilos para el formulario de login y registro */
 
 /* botón dorado */
 .btn-golden {
@@ -94,8 +94,65 @@ body {
     left: 100%;
 }
 
+#page-content-wrapper {
+    position: relative;
+    padding-top: 100px;
+}
+
+/* Navbar */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1040;
+    background: rgba(255, 255, 255, 0.562);
+    backdrop-filter: blur(16px) !important;
+    padding: 20px 30px;
+    border-bottom: 2px solid #e6c486 !important;
+    box-shadow: 0 4px 6px rgba(255, 87, 51, 0.1) !important;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Footer */
+footer {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1040;
+    background: var(--color-fondo);
+    padding: 10px 30px;
+    border-top: 2px solid #e6c486 !important;
+    box-shadow: 0 -4px 6px rgba(255, 87, 51, 0.1) !important;
+    display: flex;
+    justify-content: center;
+}
+
+/* Paginación personalizada */
+.page-item.active .page-link {
+    border-color: #c8a96e;
+    background-color: #c8a96e !important;
+    outline: 0;
+}
+
+.page-link:focus {
+    border-color: #c8a96e;
+    box-shadow: 0 0 0 0.25rem rgba(200, 169, 110, 0.25);
+    outline: 0;
+}
+
 /* Form controls personalizados */
 .form-control:focus {
+    border-color: #c8a96e;
+    box-shadow: 0 0 0 0.25rem rgba(200, 169, 110, 0.25);
+    outline: 0;
+}
+
+/* selects personalizados */
+.form-select:focus {
     border-color: #c8a96e;
     box-shadow: 0 0 0 0.25rem rgba(200, 169, 110, 0.25);
     outline: 0;
@@ -173,25 +230,17 @@ body {
     text-decoration: underline;
 }
 
-/* Estilo del dashboard */
-
-/* Header */
-.header {
-    background: white;
-    padding: 20px 30px;
-    border-radius: 15px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    margin-bottom: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 /* Cards */
 .stat-card {
-    border: none;
-    border-radius: 0.5rem;
-    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+    /* Efecto de desenfoque */
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    
+    /* Borde sutil y sombra */
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15) !important;
+
+    border-radius: 1rem;
     transition: transform 0.2s;
 }
 
@@ -202,14 +251,15 @@ body {
 
 /* Iconos dentro de las cards */
 .stat-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 12px;
+    width: 70px;
+    height: 70px;
+    border-radius: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.8rem;
     margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
 }
 
 .stat-icon.gold {

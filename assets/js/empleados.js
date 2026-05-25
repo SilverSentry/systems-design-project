@@ -1,5 +1,5 @@
 $(document).ready( function () {
-        $('#example').DataTable({
+        $('#tabla-empleados').DataTable({
             language: {
                 url: '/ordo_stetic/assets/DataTables/es-ES.json'
             }

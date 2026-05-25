@@ -92,7 +92,7 @@ class AuthController {
 
         } else{
 
-            $user = $this->userModel->register($name, $surname, $email, $password);
+            $user = $this->userModel->register($name, $surname, $email, $password, 2, 1);
 
             //Si todo es correcto, se registra el usuario
             if($user){
@@ -154,7 +154,7 @@ class AuthController {
 
             Session::regenerate(); //Previene session fixation
             Session::setUser([
-                'id' => $user['id_usuario'],
+                'id' => $user['id'],
                 'name' => $user['nombre']
             ]);
 

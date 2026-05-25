@@ -2,7 +2,6 @@
 // Vista de registro que utiliza el layout compartido para el head y footer.
 $title = 'Registro de Usuario';
 $bodyClass = 'd-flex align-items-center min-vh-100 body-lr';
-$extraScripts = ['js/register.js'];
 require __DIR__ . '/layouts/head.php';
 ?>
 
@@ -101,4 +100,7 @@ require __DIR__ . '/layouts/head.php';
         </div>
     </div>
 
-<?php require __DIR__ . '/layouts/footer.php'; ?>
+<script src="<?= Paths::asset('SweetAlert2/sweetalert2.all.min.js') ?>"></script>
+<script src="<?= Paths::asset('js/register.js') ?>"></script>
+</body>
+</html>

@@ -86,7 +86,7 @@ require __DIR__ . '/layouts/head.php'; //Carga el head común
                 </div>
 
                 <div class="col-md-3">
-                    <div class="card stat-card text-dark">
+                    <div class="card stat-card text-black">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
