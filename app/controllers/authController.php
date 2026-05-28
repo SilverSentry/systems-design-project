@@ -160,7 +160,7 @@ class AuthController {
 
             echo json_encode([
                 'status' => 'success',
-                'redirect' => Paths::to('AdminDashboard')
+                'redirect' => Paths::to('admin_dashboard')
             ]);
             exit();
 

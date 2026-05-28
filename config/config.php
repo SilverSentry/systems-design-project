@@ -16,3 +16,6 @@ function redirect($page) {
     header('Location: ' . Paths::to($page));
     exit();
 }
+
+// BioPortal API key (prefer using environment variable in production)
+define('BIOPORTAL_API_KEY', getenv('BIOPORTAL_API_KEY') ?: '9fd728ca-7576-481d-bf5f-9130e2e8aef1');

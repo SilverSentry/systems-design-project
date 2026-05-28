@@ -6,15 +6,21 @@ class Router {
     //Arreglos para almacenar rutas y controladores
     private $views = [];
     private $controllers = [];
+    private $getControllers = [];
 
-    //Registramos una ruta y el archivo de vista que debe cargar
+    //Registra una ruta y el archivo de vista que debe cargar
     public function addView($route, $file) {
         $this->views[$route] = $file;
     }
 
-    //Registramos una ruta, el controlador y el método para POST
+    //Registra una ruta, el controlador y el método para POST
     public function addController($route, $controller, $method) {
         $this->controllers[$route] = ['controller' => $controller, 'method' => $method];
+    }
+
+    //Registra controladores accesibles por GET (API endpoints, etc.)
+    public function addGetController($route, $controller, $method) {
+        $this->getControllers[$route] = ['controller' => $controller, 'method' => $method];
     }
 
     //Comparamos la URL actual con lo que tenemos registrada y ejecutamos la acción correspondiente
@@ -32,8 +38,11 @@ class Router {
     //Manejo de las peticiones GET
     private function handleGet($currentRoute) {
 
+        //Limpiamos barras vacías al inicio y al final (ej: "/employees/" se vuelve "employees")
+        $cleanRoute = trim($currentRoute, '/');
+
         //Si la ruta está vacía, vamos al login por defecto
-        $path = $currentRoute ?: 'login';
+        $path =  $cleanRoute ?: 'login';
 
         //Verificamos si la ruta existe en las vistas registradas
         if(array_key_exists($path, $this->views)) {
@@ -48,6 +57,20 @@ class Router {
             }
 
         } else {
+
+            //Si la ruta no está registrada como vista, comprobar si es un controlador GET (API)
+            if(array_key_exists($path, $this->getControllers)) {
+
+                $config = $this->getControllers[$path];
+                $controllerName = $config['controller'];
+                $method = $config['method'];
+
+                $controller = new $controllerName();
+                $controller->$method();
+                return;
+                
+            }
+
             $this->render404(); //Si la ruta no está registrada
         }
 

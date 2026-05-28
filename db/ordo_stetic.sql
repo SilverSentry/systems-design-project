@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-05-2026 a las 18:37:09
+-- Tiempo de generación: 28-05-2026 a las 01:01:58
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,6 +20,21 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `ordo_stetic`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `antecedentes_clientes`
+--
+
+CREATE TABLE `antecedentes_clientes` (
+  `id` int(11) NOT NULL,
+  `id_cliente` int(11) NOT NULL,
+  `id_tipo_antecedente` int(11) NOT NULL,
+  `concept_id` bigint(20) NOT NULL,
+  `term_name` varchar(255) NOT NULL,
+  `nota` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -132,6 +147,17 @@ CREATE TABLE `superadmin` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tipos_antecedentes`
+--
+
+CREATE TABLE `tipos_antecedentes` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuarios`
 --
 
@@ -156,11 +182,20 @@ INSERT INTO `usuarios` (`id`, `nombre`, `apellido`, `email`, `password`, `fecha_
 (6, 'Yaneth', 'Rios', 'yaneska@gmail.com', '$2y$10$Bazz4NCy3b6ti700zsStvepQ3eI1zxOTgc4A.ec4N1C95hNL76wrC', '2026-05-25 15:51:03', 2, 1),
 (7, 'carly', 'acosta', 'carly@gmail.com', '$2y$10$HhfPg4.eOeu5a2riUth2q.HXjiigCRU.KzA9uya1V1cHGSwpnGvqq', '2026-05-25 15:51:03', 2, 1),
 (17, 'jesus', 'pacheco', 'pacheco@gmail.com', '$2y$10$RUqn.xAvC0Yh16NJEJHtx.4fh87EGIssFIOQAIGckDyUT4Pn.i6P6', '2026-05-25 15:51:03', 2, 1),
-(18, 'gregory', 'arrieta', 'gregory@gmail.com', '$2y$10$bVZE9MOat5vxw98J.U8mPeeZOHgEz.GH8BViJL.xSP5X6dHZaoPN2', '2026-05-25 15:51:03', 2, 1);
+(18, 'gregory', 'arrieta', 'gregory@gmail.com', '$2y$10$bVZE9MOat5vxw98J.U8mPeeZOHgEz.GH8BViJL.xSP5X6dHZaoPN2', '2026-05-25 15:51:03', 2, 1),
+(20, 'ekide', 'ekide', 'ekide@gmail.com', '$2y$10$OPXZqnhfP1mn9POdq8IQg.xT83EXY7sGNAOrE9pCFBzRI9H9WqtF.', '2026-05-25 16:38:11', 2, 1);
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `antecedentes_clientes`
+--
+ALTER TABLE `antecedentes_clientes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_cliente` (`id_cliente`),
+  ADD KEY `id_tipo_antecedente` (`id_tipo_antecedente`);
 
 --
 -- Indices de la tabla `clientes`
@@ -204,6 +239,12 @@ ALTER TABLE `superadmin`
   ADD KEY `id_estado` (`id_estado`);
 
 --
+-- Indices de la tabla `tipos_antecedentes`
+--
+ALTER TABLE `tipos_antecedentes`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -214,6 +255,12 @@ ALTER TABLE `usuarios`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `antecedentes_clientes`
+--
+ALTER TABLE `antecedentes_clientes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
@@ -252,14 +299,27 @@ ALTER TABLE `superadmin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `tipos_antecedentes`
+--
+ALTER TABLE `tipos_antecedentes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `antecedentes_clientes`
+--
+ALTER TABLE `antecedentes_clientes`
+  ADD CONSTRAINT `antecedentes_clientes_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `antecedentes_clientes_ibfk_2` FOREIGN KEY (`id_tipo_antecedente`) REFERENCES `tipos_antecedentes` (`id`);
 
 --
 -- Filtros para la tabla `clientes`

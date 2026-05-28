@@ -2,7 +2,7 @@
 // Vista de registro que utiliza el layout compartido para el head y footer.
 $title = 'Registro de Usuario';
 $bodyClass = 'd-flex align-items-center min-vh-100 body-lr';
-require __DIR__ . '/layouts/head.php';
+require __DIR__ . '/../layouts/head.php';
 ?>
 
     <div class="container mt-1">

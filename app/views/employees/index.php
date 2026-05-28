@@ -14,9 +14,9 @@ $title = 'Panel de Empleados';
 //Aquí se colocan clases específicas para esta vista si es necesario
 $bodyClass = 'layout-footer';
 //Aquí se colocan scripts específicos para esta vista si es necesario
-$extraScripts = ['DataTables/jquery-3.7.0.min.js', 'DataTables/jquery.dataTables.min.js', 'DataTables/dataTables.bootstrap5.min.js', 'js/sidebar.js', 'js/empleados.js'];
+$extraScripts = ['DataTables/jquery-3.7.0.min.js', 'DataTables/jquery.dataTables.min.js', 'DataTables/dataTables.bootstrap5.min.js', 'js/sidebar.js', 'js/employees.js'];
 
-//La carpeta de layouts está en app/views/layouts, por lo que subimos un nivel desde app/views/empleados
+//La carpeta de layouts está en app/views/layouts, por lo que subimos un nivel desde app/views/employees
 require __DIR__ . '/../layouts/head.php';
 ?>
 
