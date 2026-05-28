@@ -1,4 +1,7 @@
 ﻿<?php
+
+use App\Core\Paths;
+
 // Vista de registro que utiliza el layout compartido para el head y footer.
 $title = 'Registro de Usuario';
 $bodyClass = 'd-flex align-items-center min-vh-100 body-lr';
@@ -79,7 +82,7 @@ require __DIR__ . '/../layouts/head.php';
                                 <figcaption class="blockquote-footer text-dark-emphasis">La contraseña debe tener, al menos, una letra mayúscula, un número y mínimo 8 dígitos.</figcaption>
 
                                 <div class="d-grid gap-2">
-                                    <button type="submit" class="btn btn-golden" id="submitBtn"><i class="bi bi-person-plus"></i> Registrar</button>
+                                    <button type="submit" class="btn btn-golden-lr btn-golden" id="submitBtn"><i class="bi bi-person-plus"></i> Registrar</button>
                                 </div>
 
                                 <div class="text-center mb-0 pt-3">

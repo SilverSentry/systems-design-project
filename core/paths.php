@@ -1,4 +1,7 @@
 <?php
+
+namespace App\Core;
+
 //Archivo Paths para definir rutas base
 
 class Paths {

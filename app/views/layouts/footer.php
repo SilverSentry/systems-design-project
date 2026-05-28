@@ -1,4 +1,7 @@
 <?php
+
+use App\Core\Paths;
+
 // Layout compartido para cierre de <body> y <html>
 // También carga scripts comunes para todas las vistas.
 ?>

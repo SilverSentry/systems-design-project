@@ -1,7 +1,11 @@
 <?php
-//Archivo principal para manejar las solicitudes y enrutar a controladores o vistas
 
-require_once 'core/Router.php';
+use App\Core\Router;
+use App\Controllers\ApiController;
+use App\Controllers\AuthController;
+use App\Controllers\ClientController;
+
+//Archivo principal para manejar las solicitudes y enrutar a controladores o vistas
 
 $router = new Router();
 
@@ -15,14 +19,14 @@ $router->addView('clients', 'app/views/clients/index.php');
 $router->addView('clients/create', 'app/views/clients/create.php');
 
 //API: búsqueda SNOMED proxyeada por el backend
-$router->addGetController('api/search', 'ApiController', 'search');
+$router->addGetController('api/search', ApiController::class, 'search');
 
 //Registro de rutas para controladores
 //Parámetros: ruta (value del input), controlador, método
-$router->addController('login', 'AuthController', 'login');
-$router->addController('register', 'AuthController', 'register');
-$router->addController('logout', 'AuthController', 'logout');
-$router->addController('clients/register', 'ClientController', 'register');
+$router->addController('login', AuthController::class, 'login');
+$router->addController('register', AuthController::class, 'register');
+$router->addController('logout', AuthController::class, 'logout');
+$router->addController('clients/register', ClientController::class, 'register');
 
 //Ejecutamos el router con la ruta actual
 $router->run(isset($_GET['p']) ? $_GET['p'] : 'login');

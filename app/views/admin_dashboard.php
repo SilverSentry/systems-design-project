@@ -1,4 +1,8 @@
 <?php
+
+use App\Core\Session;
+use App\Core\Paths;
+
 //Vista del panel administrativo que utiliza el layout compartido.
 if (!Session::isLogged()) {
   redirect('login');

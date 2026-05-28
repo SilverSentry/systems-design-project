@@ -1,4 +1,8 @@
 <?php
+
+use App\Core\Session;
+use App\Core\Paths;
+
 if (!Session::isLogged()) {
     redirect('login');
 }
@@ -66,6 +70,13 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
                                 <input type="text" name="phone" class="form-control" id="phone" placeholder="ej: 0412345678">
                             </div>
                         </div>
+
+                        <div class="col-md">
+                            <div class="mb-3">
+                                <label for="dni" class="form-label"><i class="bi bi-person-vcard"></i></i> Cédula de identidad</label>
+                                <input type="text" name="dni" class="form-control" id="dni" placeholder="ej: 12345678">
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row g-2">
@@ -98,7 +109,7 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
                     <div class="row g-3 align-items-end mb-3">
                         <div class="col-md-3">
                             <label class="form-label">Tipo</label>
-                            <select class="form-select" name="tipo_id" id="tipoAntecedente">
+                            <select class="form-control" name="tipo_id" id="tipoAntecedente">
                                 <option value="1">Alergia</option>
                                 <option value="2">Patología</option>
                                 <option value="3">Sustancia (Biopolímeros)</option>
@@ -112,22 +123,22 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
                         </div>
 
                         <div class="col-md-3">
-                            <button type="button" class="btn btn-secondary w-100" id="addAntecedenteBtn">Anexar a la Lista</button>
+                            <button type="button" class="btn btn-secondary w-100" id="addAntecedenteBtn">Anexar</button>
                         </div>
                         
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label d-block">Antecedentes Clínicos Detectados:</label>
+                        <label class="form-label d-block">Antecedentes clínicos detectados:</label>
                         <div id="listaAntecedentesAcumulados" class="p-3 border rounded bg-light" style="min-height: 50px;">
-                            <span class="text-muted" id="vacioPlaceholder">Ningún antecedente seleccionado todavía.</span>
+                            <span class="text-muted" id="vacioPlaceholder">Ningún antecedente seleccionado.</span>
                         </div>
                     </div>
 
                     <div id="hiddenInputsContainer"></div>
 
-                    <div class="text-end">
-                        <button type="submit" class="btn btn-primary btn-lg">Registrar Cliente y Ficha</button>
+                    <div class="align-items-center d-flex">
+                        <button type="submit" class="btn btn-golden btn-golden-all btn-lg" id="submitBtn">Registrar cliente</button>
                     </div>
                 </div>
 

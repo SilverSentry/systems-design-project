@@ -1,4 +1,12 @@
 <?php
+
+namespace App\Controllers;
+
+use App\Models\User;
+use App\Core\Paths;
+use App\Core\Session;
+use App\Config\Messages;
+
 //Controlador para manejar la autenticación de usuarios
 
 class AuthController {

@@ -1,4 +1,9 @@
 <?php
+
+namespace App\Core;
+
+use App\Config\Connection;
+
 //Archivo modelo base
 
 abstract class Model {

@@ -1,4 +1,7 @@
 <?php
+
+use App\Core\Paths;
+
 // Parcil de sidebar para el panel administrativo.
 // Se incluye solo en las vistas que requieren el menú lateral.
 ?>

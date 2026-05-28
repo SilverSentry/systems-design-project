@@ -1,11 +1,11 @@
 <?php
+
+namespace {
+
+use App\Core\Paths;
+use App\Core\Session;
+
 //Archivo de configuración
-
-//Cargamos la clase de rutas
-require_once __DIR__ . '/../core/Paths.php';
-
-//Cargamos el manejador de sesiones
-require_once __DIR__ . '/../core/Session.php';
 
 //Configuración de errores
 error_reporting(E_ALL);
@@ -17,5 +17,15 @@ function redirect($page) {
     exit();
 }
 
-// BioPortal API key (prefer using environment variable in production)
-define('BIOPORTAL_API_KEY', getenv('BIOPORTAL_API_KEY') ?: '9fd728ca-7576-481d-bf5f-9130e2e8aef1');
+/**
+ * Configuración de BioPortal con Variables de Entorno
+ * * Graias a phpdotenv, primero se lee lee desde la superglobal $_ENV
+ * Si por alguna razón se usan variables del sistema operativo, cae en getenv()
+ * Si no se encuentra ninguna, queda vacía para evitar fallos de sintaxis
+ */
+$apiKey = $_ENV['BIOPORTAL_API_KEY'] ?? getenv('BIOPORTAL_API_KEY') ?? '';
+
+define('BIOPORTAL_API_KEY', $apiKey);
+
+}
+

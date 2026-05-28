@@ -1,4 +1,7 @@
 ﻿<?php
+
+use App\Core\Paths;
+
 // Vista de login que utiliza el layout compartido para el head y footer.
 $title = 'Inicio de Sesión';
 $bodyClass = 'd-flex align-items-center min-vh-100 body-lr';
@@ -45,7 +48,7 @@ require __DIR__ . '/../layouts/head.php';
                                 </div>
 
                                 <div class="d-grid gap-2">
-                                    <button type="submit" class="btn-golden btn" id="submitBtn"><i class="bi bi-box-arrow-in-right"></i> Ingresar</button>
+                                    <button type="submit" class="btn-golden btn-golden-lr btn" id="submitBtn"><i class="bi bi-box-arrow-in-right"></i> Ingresar</button>
                                 </div>
 
                                 <div class="text-center mb-0 pt-3">

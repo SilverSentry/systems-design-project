@@ -1,4 +1,7 @@
 <?php
+
+namespace App\Core;
+
 //Archivo Router para manejar rutas y controladores
 
 class Router {

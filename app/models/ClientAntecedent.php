@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Models;
+
+use App\Core\Model;
+
 class ClientAntecedent extends Model {
 
     //Definimos la tabla

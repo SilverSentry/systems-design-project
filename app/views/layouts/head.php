@@ -1,4 +1,7 @@
 <?php
+
+use App\Core\Paths;
+
 //Layout compartido para la etiqueta <head> y apertura de <body>
 //Se definen variables opcionales: $title y $bodyClass.
 ?>

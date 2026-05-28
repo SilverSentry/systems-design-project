@@ -1,4 +1,9 @@
 <?php
+
+use App\Core\Session;
+use App\Core\Paths;
+use App\Models\User;
+
 if (!Session::isLogged()) {
   redirect('login');
 }

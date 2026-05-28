@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Controllers;
+
 class ApiController {
 
     //Método para manejar la búsqueda en SNOMED CT a través de BioPortal
@@ -13,8 +15,8 @@ class ApiController {
 
         $query = urlencode($_GET['q']);
 
-        //Usar API key desde configuración
-        $apiKey = defined('BIOPORTAL_API_KEY') ? BIOPORTAL_API_KEY : '';
+        //Usar API key
+        $apiKey = $_ENV['BIOPORTAL_API_KEY'] ?? '';
 
         //URL oficial de BioPortal optimizada para SNOMED CT en español
         $url = "https://data.bioontology.org/search?q={$query}&ontologies=SNOMEDCT&display_links=false&display_context=false&links_not_html=true&pagesize=5";
