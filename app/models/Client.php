@@ -26,6 +26,11 @@ class Client extends Model {
         return $this->db->lastInsertId();
     }
 
+    //Método para obtener todos los clientes
+    public function read() {
+        return $this->findAll();
+    }
+
 }
 
 ?>

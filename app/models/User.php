@@ -51,9 +51,7 @@ use PDO;
 
                     //Se verifica si la contraseña coincide con el hash
                     if(password_verify($password, $row['password'])){
-
                         return $row;
-
                     }
 
                 }
@@ -64,9 +62,7 @@ use PDO;
 
         //Método para obtener todos los usuarios
         public function getAll() {
-
             return $this->findAll();
-
         }
 
     }

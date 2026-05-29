@@ -69,7 +69,7 @@ class ClientController {
                     'field' => 'phone'
                 ]);
                 exit();
-            }elseif(!preg_match("/^\d{10}$/", $dni)){
+            }elseif(!preg_match("/^\d{7,8}$/", $dni)){
 
                 echo json_encode([
                     'status' => 'error',

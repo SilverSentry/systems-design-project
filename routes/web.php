@@ -17,6 +17,7 @@ $router->addView('admin_dashboard', 'app/views/admin_dashboard.php');
 $router->addView('employees', 'app/views/employees/index.php');
 $router->addView('clients', 'app/views/clients/index.php');
 $router->addView('clients/create', 'app/views/clients/create.php');
+$router->addView('clients', 'app/views/clients/index.php');
 
 //API: búsqueda SNOMED proxyeada por el backend
 $router->addGetController('api/search', ApiController::class, 'search');
