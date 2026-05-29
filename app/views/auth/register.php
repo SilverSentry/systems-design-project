@@ -2,9 +2,6 @@
 
 use App\Core\Paths;
 
-// Vista de registro que utiliza el layout compartido para el head y footer.
-$title = 'Registro de Usuario';
-$bodyClass = 'd-flex align-items-center min-vh-100 body-lr';
 require __DIR__ . '/../layouts/head.php';
 ?>
 
@@ -24,7 +21,7 @@ require __DIR__ . '/../layouts/head.php';
                             <!--<div class="alert alert-danger text-center mx-auto invisible mb-2" role="alert" id="errorContainer" style="min-height: 58px;">
                             </div>-->
 
-                            <form method="post" action="index.php" id="formRegister">
+                            <form method="post" action="<?= Paths::to('register') ?>" id="formRegister">
 
                                 <input type="hidden" name="action" value="register">
 

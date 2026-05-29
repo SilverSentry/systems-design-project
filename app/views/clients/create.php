@@ -1,16 +1,8 @@
 <?php
+/** @var array $user */
 
-use App\Core\Session;
 use App\Core\Paths;
 
-if (!Session::isLogged()) {
-    redirect('login');
-}
-
-$user = Session::getUser();
-$title = 'Crear cliente';
-$bodyClass = 'layout-footer';
-$extraScripts = ['js/sidebar.js', 'js/client-create.js'];
 require __DIR__ . '/../layouts/head.php'; //Carga el head común
 ?>
 

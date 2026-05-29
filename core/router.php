@@ -1,8 +1,7 @@
 <?php
+//Archivo Router para manejar rutas y controladores
 
 namespace App\Core;
-
-//Archivo Router para manejar rutas y controladores
 
 class Router {
 
@@ -30,8 +29,7 @@ class Router {
     public function run($currentRoute) {
 
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->handlePost();
-
+            $this->handlePost($currentRoute);
         } else {
             $this->handleGet($currentRoute);
         }
@@ -80,21 +78,39 @@ class Router {
     }
 
     //Manejo de las peticiones POST
-    private function handlePost() {
+    private function handlePost($currentRoute) {
 
-        //Verificamos que se haya enviado una acción y que esté registrada en los controladores
-        if(isset($_POST['action']) && array_key_exists($_POST['action'], $this->controllers)) {
+        //Limpiamos la ruta
+        $cleanRoute = trim($currentRoute, '/');
+        $path = $cleanRoute ?: 'login';
 
-            $config = $this->controllers[$_POST['action']];
+        //Ahora comprobamos si la URL (ej: 'clients/edit') existe en tus controladores POST
+        if(array_key_exists($path, $this->controllers)) {
+
+            $config = $this->controllers[$path];
             $controllerName = $config['controller'];
             $method = $config['method'];
 
-            //Instanciar el controlador y llamar el método
             $controller = new $controllerName();
             $controller->$method();
 
         } else {
-            $this->render404(); //Si la acción no está registrada o no se envió
+
+            //Verificamos que se haya enviado una acción y que esté registrada en los controladores
+            if(isset($_POST['action']) && array_key_exists($_POST['action'], $this->controllers)) {
+
+                $config = $this->controllers[$_POST['action']];
+                $controllerName = $config['controller'];
+                $method = $config['method'];
+
+                //Instanciar el controlador y llamar el método
+                $controller = new $controllerName();
+                $controller->$method();
+
+            } else {
+                $this->render404(); //Si la acción no está registrada o no se envió
+            }
+
         }
     }
 

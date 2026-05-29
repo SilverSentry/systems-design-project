@@ -1,12 +1,11 @@
 <?php
+//Archivo para la conexión a la base de datos
+//Se utiliza el patrón Singleton para asegurar que solo exista una instancia de la conexión a la base de datos
 
 namespace App\Config;
 
 use PDO;
 use PDOException;
-
-//Archivo para la conexión a la base de datos
-//Se utiliza el patrón Singleton para asegurar que solo exista una instancia de la conexión a la base de datos
 
 class Connection {
 

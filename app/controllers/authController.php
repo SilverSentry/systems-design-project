@@ -1,4 +1,5 @@
 <?php
+//Controlador para manejar la autenticación de usuarios
 
 namespace App\Controllers;
 
@@ -7,14 +8,38 @@ use App\Core\Paths;
 use App\Core\Session;
 use App\Config\Messages;
 
-//Controlador para manejar la autenticación de usuarios
-
 class AuthController {
 
     private $userModel;
 
     public function __construct() {
         $this->userModel = new User();
+    }
+
+    //Método para mostrar el formulario de login
+    public function showLogin() {
+
+        if(Session::isLogged()) {
+            redirect('admin_dashboard');
+        }
+
+        $title = 'Inicio de Sesión';
+        $bodyClass = 'd-flex align-items-center min-vh-100 body-lr';
+        require_once __DIR__ . '/../views/auth/login.php';
+
+    }
+
+    //Método para mostrar el formulario de registro
+    public function showRegister() {
+
+        if(Session::isLogged()) {
+            redirect('admin_dashboard');
+        }
+
+        $title = 'Registro de Usuario';
+        $bodyClass = 'd-flex align-items-center min-vh-100 body-lr';
+        require_once __DIR__ . '/../views/auth/register.php';
+
     }
 
     //Método para el registro

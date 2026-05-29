@@ -1,10 +1,9 @@
 <?php
+//Archivo modelo base
 
 namespace App\Core;
 
 use App\Config\Connection;
-
-//Archivo modelo base
 
 abstract class Model {
 
@@ -21,7 +20,7 @@ abstract class Model {
 
         $stmt = $this->db->prepare("SELECT * FROM {$this->tableName}");
         $stmt->execute();
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: [];
 
     }
 
@@ -30,7 +29,7 @@ abstract class Model {
 
         $stmt = $this->db->prepare("SELECT * FROM {$this->tableName} WHERE id = ?");
         $stmt->execute([$id]);
-        return $stmt->fetch();
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
 
     }
 

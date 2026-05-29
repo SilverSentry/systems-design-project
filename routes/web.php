@@ -1,33 +1,29 @@
 <?php
+//Archivo principal para manejar las solicitudes y enrutar a controladores o vistas
 
 use App\Core\Router;
-use App\Controllers\ApiController;
-use App\Controllers\AuthController;
-use App\Controllers\ClientController;
-
-//Archivo principal para manejar las solicitudes y enrutar a controladores o vistas
 
 $router = new Router();
 
-//Registro de rutas para vistas
-//Parámetros: ruta, archivo de vista
-$router->addView('login', 'app/views/auth/login.php');
-$router->addView('register', 'app/views/auth/register.php');
-$router->addView('admin_dashboard', 'app/views/admin_dashboard.php');
-$router->addView('employees', 'app/views/employees/index.php');
-$router->addView('clients', 'app/views/clients/index.php');
-$router->addView('clients/create', 'app/views/clients/create.php');
-$router->addView('clients', 'app/views/clients/index.php');
+//Registro de rutas para controladores que manejan GET (páginas, vistas, etc.)
+//Parámetros: ruta, controlador, método
+$router->addGetController('login', \App\Controllers\AuthController::class, 'showLogin');
+$router->addGetController('register', \App\Controllers\AuthController::class, 'showRegister');
+$router->addGetController('admin_dashboard', \App\Controllers\AdminController::class, 'index');
+$router->addGetController('employees', \App\Controllers\EmployeeController::class, 'index');
+$router->addGetController('clients/create', \App\Controllers\ClientController::class, 'create');
+$router->addGetController('clients', \App\Controllers\ClientController::class, 'index');
 
 //API: búsqueda SNOMED proxyeada por el backend
-$router->addGetController('api/search', ApiController::class, 'search');
+$router->addGetController('api/search', \App\Controllers\ApiController::class, 'search');
 
-//Registro de rutas para controladores
-//Parámetros: ruta (value del input), controlador, método
-$router->addController('login', AuthController::class, 'login');
-$router->addController('register', AuthController::class, 'register');
-$router->addController('logout', AuthController::class, 'logout');
-$router->addController('clients/register', ClientController::class, 'register');
+//Registro de rutas para controladores que manejan POST (acciones, formularios, etc.)
+//Parámetros: ruta, controlador, método
+$router->addController('login', \App\Controllers\AuthController::class, 'login');
+$router->addController('register', \App\Controllers\AuthController::class, 'register');
+$router->addController('logout', \App\Controllers\AuthController::class, 'logout');
+$router->addController('clients/register', \App\Controllers\ClientController::class, 'register');
+$router->addController('clients/edit', \App\Controllers\ClientController::class, 'edit');
 
 //Ejecutamos el router con la ruta actual
 $router->run(isset($_GET['p']) ? $_GET['p'] : 'login');

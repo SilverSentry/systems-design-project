@@ -1,11 +1,10 @@
 <?php
+//Archivo modelo para usuarios
 
 namespace App\Models;
 
 use App\Core\Model;
 use PDO;
-
-//Archivo modelo para manejar la lógica de usuarios
 
     class User extends Model {
 

@@ -1,8 +1,7 @@
 <?php
+//Manejo seguro de sesiones con métodos utilitarios
 
 namespace App\Core;
-
-//Manejo seguro de sesiones con métodos utilitarios
  
 class Session {
 

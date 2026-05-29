@@ -1,9 +1,9 @@
 <?php
+//Layout compartido para cierre de <body> y <html>
+//También carga scripts comunes para todas las vistas
 
 use App\Core\Paths;
 
-// Layout compartido para cierre de <body> y <html>
-// También carga scripts comunes para todas las vistas.
 ?>
 <script src="<?= Paths::asset('SweetAlert2/sweetalert2.all.min.js') ?>"></script>
 <?php if (!empty($extraScripts) && is_array($extraScripts)): ?>

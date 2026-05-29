@@ -7,15 +7,94 @@ use App\Models\ClientAntecedent;
 use App\Config\Connection;
 use App\Core\Paths;
 use App\Config\Messages;
+use App\Core\Session;
+use DateTime;
 
 class ClientController {
+
+    public $clientModel;
+    public $clientAntecedentModel;
+
+    public function __construct() {
+        $this->clientModel = new Client();
+        $this->clientAntecedentModel = new ClientAntecedent();
+    }
+
+    //Método para mostrar la vista de clientes
+    public function index() {
+
+        //1. Validamos la sesión
+        if(!Session::isLogged()) {
+            \redirect('login');
+        }
+
+        $user = Session::getUser();
+        $rawClients = $this->clientModel->read(); //Trae los datos asociativos de la DB
+
+        //2. Rutas para acciones
+        $urlCreate = Paths::to('clients/create');
+        $urlEdit = Paths::to('clients/edit');
+
+        //3. Creamos un array limpio para las vistas
+        $clients = [];
+
+        //4. Recorremos cada cliente para agregarle la edad calculada y cualquier otro dato que necesitemos para mostrar en la vista, evitando mezclar lógica de presentación con la consulta original
+        foreach ($rawClients as $client) {
+
+        $dateValue = $client['fecha_nacimiento'] ?? null;
+
+        //Varible con valor por defecto para mostrar en caso de que la fecha esté vacía, evitando que el cálculo falle
+        $ageText = 'S/D';
+
+         //Cálculo de la edad basado en la fecha de nacimiento
+        if($dateValue && $dateValue !== '0000-00-00' && $dateValue !== '') {
+
+            $birthdate = new DateTime($dateValue);
+            $today = new DateTime();                
+            $diff = $today->diff($birthdate);                
+            $ageText = $diff->y . ' años';
+
+        }
+
+        //Inyectamos la edad calculada
+        $client['edad'] = $ageText;
+
+        //Guardamos el cliente completo (que ya incluye su $client['id'])
+        $clients[] = $client;
+    }
+
+    //4. Configuramos metadatos de la vista
+    $title = 'Clientes';
+    $bodyClass = 'layout-footer';
+    $extraScripts = [
+            'DataTables/jquery-3.7.0.min.js', 
+            'DataTables/jquery.dataTables.min.js', 
+            'DataTables/dataTables.bootstrap5.min.js', 
+            'js/sidebar.js', 
+            'js/clients.js'
+    ];
+
+    require_once __DIR__ . '/../views/clients/index.php';
+
+    }
+
+    public function create() {
+
+        if(!Session::isLogged()) {
+            redirect('login');
+        }
+
+        $user = Session::getUser();
+        $title = 'Crear cliente';
+        $bodyClass = 'layout-footer';
+        $extraScripts = ['js/sidebar.js', 'js/client-create.js'];
+
+        require_once __DIR__ . '/../views/clients/create.php';
+    }
 
     public function register() {
 
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-            $clientModel = new Client();
-            $clientAntecedentModel = new ClientAntecedent();
 
             $name = trim($_POST['name']);
             $surname = trim($_POST['surname']);
@@ -105,7 +184,7 @@ class ClientController {
                 $db->beginTransaction();
 
                 //1. Registrar el cliente
-                $clientId = $clientModel->create(
+                $clientId = $this->clientModel->create(
                     $name,
                     $surname,
                     $phone,
@@ -118,7 +197,7 @@ class ClientController {
                 if(!empty($_POST['antecedentes']) && is_array($_POST['antecedentes'])) {
                     foreach ($_POST['antecedentes'] as $antecedente) {
                         
-                        $clientAntecedentModel->create(
+                        $this->clientAntecedentModel->create(
                             $clientId,
                             intval($antecedente['tipo_id']),
                             $antecedente['concept_id'], //CUI / Notation de BioPortal

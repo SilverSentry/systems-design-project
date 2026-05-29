@@ -1,17 +1,8 @@
 <?php
+/** @var array $user */
 
-use App\Core\Session;
 use App\Core\Paths;
 
-//Vista del panel administrativo que utiliza el layout compartido.
-if (!Session::isLogged()) {
-  redirect('login');
-}
-
-$user = Session::getUser(); //Obtenemos los datos del usuario logueado.
-$title = 'Panel de Administración';
-$bodyClass = 'layout-footer';
-$extraScripts = ['js/sidebar.js'];
 require __DIR__ . '/layouts/head.php'; //Carga el head común
 ?>
 

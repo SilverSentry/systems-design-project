@@ -1,9 +1,9 @@
 <?php
+//Layout compartido para la etiqueta <head> y apertura de <body>
+//Se definen variables opcionales: $title y $bodyClass
 
 use App\Core\Paths;
 
-//Layout compartido para la etiqueta <head> y apertura de <body>
-//Se definen variables opcionales: $title y $bodyClass.
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -11,7 +11,7 @@ use App\Core\Paths;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? 'Ordo Stetic' ?></title>
+    <title><?= $title ?? 'Studio Ordo Stetic' ?></title>
     <link href="<?= Paths::asset('Bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
     <link href="<?= Paths::asset('Bootstrap-icons/bootstrap-icons.min.css') ?>" rel="stylesheet">
     <link href="<?= Paths::asset('DataTables/dataTables.bootstrap5.min.css') ?>" rel="stylesheet">

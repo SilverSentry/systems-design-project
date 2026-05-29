@@ -2,9 +2,6 @@
 
 use App\Core\Paths;
 
-// Vista de login que utiliza el layout compartido para el head y footer.
-$title = 'Inicio de Sesión';
-$bodyClass = 'd-flex align-items-center min-vh-100 body-lr';
 require __DIR__ . '/../layouts/head.php';
 ?>
 
@@ -27,7 +24,7 @@ require __DIR__ . '/../layouts/head.php';
                             <!--<div class="alert alert-danger text-center mx-auto invisible mb-2" role="alert" id="errorContainer" style="min-height: 58px;">
                             </div>-->
 
-                            <form method="POST" action="index.php" id="formLogin">
+                            <form method="POST" action="<?= Paths::to('login') ?>" id="formLogin">
 
                                 <input type="hidden" name="action" value="login">
 

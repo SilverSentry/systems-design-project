@@ -1,11 +1,9 @@
 <?php
+//Archivo de configuración
 
 namespace {
 
 use App\Core\Paths;
-use App\Core\Session;
-
-//Archivo de configuración
 
 //Configuración de errores
 error_reporting(E_ALL);

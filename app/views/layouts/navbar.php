@@ -1,6 +1,6 @@
 <?php
-// Parcial de navbar superior para el panel administrativo.
-// Se incluye junto al sidebar en vistas de administración.
+//Layout de navbar superior para el panel administrativo
+//Se incluye junto al sidebar en vistas de administración
 ?>
 <div class="header">
   <div>
