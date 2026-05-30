@@ -6,6 +6,7 @@ namespace App\Controllers;
 use App\Models\User;
 use App\Core\Paths;
 use App\Core\Session;
+use App\Core\ValidationHelper;
 use App\Config\Messages;
 
 class AuthController {
@@ -45,6 +46,45 @@ class AuthController {
     //Método para el registro
     public function register(){
 
+        //1. Primero recuperamos el arreglo con los datos limpios y validados
+        //Ejecutamos la validación. Si algo falla, este método corta la ejecución internamente
+        $data = $this->validateRegisterRequest();
+
+        //2. Pasamos los datos al modelo leyéndolos directamente desde el arreglo $data
+        $user = $this->userModel->register(
+            $data['name'], 
+            $data['surname'], 
+            $data['email'], 
+            $data['password'], 
+            2, 
+            1
+        );
+
+        //Si todo es correcto, se registra el usuario
+        if($user){
+
+            echo json_encode([
+                'status' => 'success',
+                'redirect' => Paths::to('login?success=1')
+            ]);
+            exit();
+
+        //Si ha ocurrido un error, se muestra un mensaje genérico
+        } else{
+
+            echo json_encode([
+                'status' => 'error',
+                'message' => Messages::UNEXPECTED_ERR
+            ]);
+            exit();
+
+        }
+
+    }
+
+    //Método para validar los datos
+    private function validateRegisterRequest() { 
+
         //Limpieza de datos
         $name = trim($_POST['name']);
         $surname = trim($_POST['surname']);
@@ -52,104 +92,57 @@ class AuthController {
         $password = $_POST['password'];
         $passwordConfirm = $_POST['passwordConfirm'];
 
-        //Se verifica que los campos no estén vacíos
-        if(empty($name) || empty($surname) || empty($email) || empty($password) || empty($passwordConfirm)) {
-
-            echo json_encode([
-                'status' => 'error',
+        //Arreglo de reglas de validación. Cada regla tiene una condición, un mensaje de error y el campo al que corresponde
+        $rules = [
+            [
+                'condition' => empty($name) || empty($surname) || empty($email) || empty($password) || empty($passwordConfirm),
                 'message' => Messages::ERR_EMPTY_FIELDS,
-                'field' => 'all' //Identificador del input
-            ]);
-            exit();
-
-        //Validación para el nombre, que sean solo letras
-        } elseif(!preg_match("/^[a-zA-z]+$/", $name)){
-
-            echo json_encode([
-                'status' => 'error',
+                'field' => 'all'
+            ],
+            [
+                'condition' => !preg_match("/^[a-zA-Z]+$/", $name),
                 'message' => Messages::ERR_NAME_INVALID,
                 'field' => 'name'
-            ]);
-            exit(); 
-
-        //Validación para el apellido, que sea solo letras
-        } elseif(!preg_match("/^[a-zA-z]+$/", $surname)){
-
-            echo json_encode([
-                'status' => 'error',
+            ],
+            [
+                'condition' => !preg_match("/^[a-zA-Z]+$/", $surname),
                 'message' => Messages::ERR_SURNAME_INVALID,
                 'field' => 'surname'
-            ]);
-            exit(); 
-
-        //Validación para el correo electrónico
-        } elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-
-            echo json_encode([
-                'status' => 'error',
+            ],
+            [
+                'condition' => !filter_var($email, FILTER_VALIDATE_EMAIL),
                 'message' => Messages::ERR_EMAIL_INVALID,
                 'field' => 'email'
-            ]);
-            exit(); 
-
-        //Validación para la contraseña para que cumpla los requisitos
-        } elseif(!preg_match("/(?=.*[A-Z])(?=.*\d).{8,}$/",$password)){
-
-            echo json_encode([
-                'status' => 'error',
+            ],
+            [
+                'condition' => !preg_match("/(?=.*[A-Z])(?=.*\d).{8,}$/", $password),
                 'message' => Messages::ERR_PASS_INVALID,
                 'field' => 'password'
-            ]);
-            exit();
-
-        //Validación para que las contraseñas coincidan
-        } elseif($password != $passwordConfirm){
-
-            echo json_encode([
-                'status' => 'error',
+            ],
+            [
+                'condition' => $password != $passwordConfirm,
                 'message' => Messages::ERR_PASS_DOES_NOT_MATCH,
                 'field' => 'passwords'
-            ]);
-            exit();
-
-        //Se verifica que el usuario no exista en la base de datos
-        //Se usa un método que viene de UserModel que verifica que el correo no exista en la BD
-        } elseif($this->userModel->emailExists($email)){
-
-            echo json_encode([
-                'status' => 'error',
+            ],
+            [
+                'condition' => $this->userModel->emailExists($email),
                 'message' => Messages::ERR_ALREADY_EXISTS,
                 'field' => 'email'
-            ]);
-            exit();
+            ]
+        ];
 
-        } else{
+        //Delegamos la ejecución de reglas al helper central
+        ValidationHelper::validate($rules);
 
-            $user = $this->userModel->register($name, $surname, $email, $password, 2, 1);
+        //Retornamos los datos al método principal si todo es correcto
+        return [
+            'name'     => $name,
+            'surname'  => $surname,
+            'email'    => $email,
+            'password' => $password
+        ];
 
-            //Si todo es correcto, se registra el usuario
-            if($user){
-
-                echo json_encode([
-                    'status' => 'success',
-                    'redirect' => Paths::to('login?success=1')
-                ]);
-                exit();
-
-            //Si ha ocurrido un error, se muestra un mensaje genérico
-            } else{
-
-                echo json_encode([
-                    'status' => 'error',
-                    'message' => Messages::UNEXPECTED_ERR
-                ]);
-                exit();
-
-            }
-
-        }
-
-    }
+     }
 
     //Método para el login
     public function login(){
@@ -158,27 +151,20 @@ class AuthController {
         $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
         $password = trim($_POST['password']);
 
-        //Antes de iniciar sesión, se verifica que los campos no estén vacíos
-        if(empty($email) || empty($password)){
-
-           echo json_encode([
-                'status' => 'error',
+        $rules = [
+            [
+                'condition' => empty($email) || empty($password),
                 'message' => Messages::ERR_EMPTY_FIELDS,
                 'field' => 'all'
-            ]);
-            exit();
-
-        //Se valida que el correo ingresado no tenga un formato incorrecto
-        } elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-
-            echo json_encode([
-                'status' => 'error',
+            ],
+            [
+                'condition' => !filter_var($email, FILTER_VALIDATE_EMAIL),
                 'message' => Messages::ERR_EMAIL_INVALID,
                 'field' => 'email'
-            ]);
-            exit();
-            
-        }
+            ]
+        ];
+
+        ValidationHelper::validate($rules);
 
         $user = $this->userModel->login($email, $password);
 

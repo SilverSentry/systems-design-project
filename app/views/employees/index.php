@@ -12,7 +12,6 @@ require __DIR__ . '/../layouts/head.php';
 
   .card-header {
     border-bottom: 2px solid #e6c486 !important;
-    box-shadow: 0 4px 6px rgba(255, 87, 51, 0.1) !important;
   }
 </style>
 
