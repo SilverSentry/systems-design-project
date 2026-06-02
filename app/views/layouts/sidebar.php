@@ -18,8 +18,7 @@ use App\Core\Paths;
       <a href="<?= Paths::to('employees') ?>" class="list-group-item list-group-item-action"><i class="bi bi-people me-2"></i>Empleados</a>
       <a href="<?= Paths::to('clients') ?>" class="list-group-item list-group-item-action"><i class="bi bi-person me-2"></i>Clientes</a>
       <form method="post" action="<?= Paths::to('logout') ?>">
-        <input type="hidden" name="action" value="logout">
-        <button type="submit" class="btn btn-danger"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
+        <button type="submit" class="list-group-item list-group-item-action"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
       </form>
     </div>
   </nav>

@@ -115,6 +115,12 @@ document.addEventListener("DOMContentLoaded", function() {
     //Evento para el buscador de antecedentes
     searchInput.addEventListener("input", function() {
         clearTimeout(timeout);
+        
+        //Si el usuario escribe o borra, reseteamos la selección previa
+        //Esto para obligarlo a hacer clic en una opción de la lista desplegable nueva
+        selectedId = null;
+        selectedTerm = null;
+
         const query = searchInput.value.trim().toLowerCase();
 
         if (query.length < 3) {
@@ -125,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function() {
         timeout = setTimeout(() => {
 
             //URL relativa con parámetro `p` para que funcione en subcarpetas
-            //Ejemplo resultante: /ordo_stetic/?p=api/search&q=diabetes
+            //Ejemplo resultante: /StudioOrdoStetic/?p=api/search&q=diabetes
             const url = `?p=api/search&q=${encodeURIComponent(query)}`;
 
             fetch(url)

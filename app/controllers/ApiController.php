@@ -13,7 +13,9 @@ class ApiController {
             exit();
         }
 
-        $query = urlencode($_GET['q']);
+        //Se sanitizan y codifican los caracteres especiales para evitar problemas de formato en la URL
+        $queryStr = trim($_GET['q']);
+        $query = urlencode($queryStr);
 
         //Usar API key
         $apiKey = $_ENV['BIOPORTAL_API_KEY'] ?? '';
@@ -34,13 +36,17 @@ class ApiController {
         
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_errno($ch);
         curl_close($ch);
 
         //Configurar la cabecera para que el navegador entienda que es un JSON
         header('Content-Type: application/json');
 
-        if($httpCode !== 200) {
-            echo json_encode(["error" => "Error al conectar con BioPortal"]);
+        // --- SISTEMA DE RESPALDO (FALLBACK OFFLINE) ---
+        //Si cURL da error (código 0, sin internet) o la API devuelve un error del servidor (no 200)
+        if($curlError || $httpCode !== 200) {
+            $localItems = $this->searchLocalCatalog($queryStr);
+            echo json_encode(['items' => $localItems]);
             exit();
         }
 
@@ -74,17 +80,14 @@ class ApiController {
 
                 $term = $item['prefLabel'] ?? $item['label'] ?? $item['displayLabel'] ?? $item['pref_label'] ?? null;
 
-                //El término puede estar en los metadatos como 'label', así que hacemos un intento de extracción adicional
                 if(!$term && isset($item['metadata']['label'])) $term = $item['metadata']['label'];
                 $conceptId = $item['ui'] ?? null;
 
-                //El conceptId puede estar en el @id como parte de la URL, así que se hacem un intento de extracción adicional
                 if(!$conceptId && isset($item['@id'])) {
                     $parts = explode('/', rtrim($item['@id'], '/'));
                     $conceptId = end($parts);
                 }
 
-                //Solo incluimos en los resultados aquellos que tengan un término y un conceptId válidos
                 if($term) {
                     $items[] = ['term' => $term, 'concept' => ['conceptId' => $conceptId]];
                 }
@@ -94,6 +97,72 @@ class ApiController {
         //Devolvemos los resultados en formato JSON
         echo json_encode(['items' => $items]);
         exit();
+    }
+
+    /**
+     * Busca coincidencias en un catálogo JSON local (Uso Offline)
+     */
+    private function searchLocalCatalog(string $searchString): array {
+
+        //Alternativa segura usando la raíz del proyecto
+        $jsonPath = dirname(__DIR__, 2) . '/core/snomed_catalog.json';
+
+        //2. Verificación defensiva por seguridad si el archivo no existe
+        if (!file_exists($jsonPath)) {
+            return [];
+        }
+
+        //3. Leemos el contenido del archivo y lo transformamos a un array asociativo de PHP
+        $jsonContent = file_get_contents($jsonPath);
+        $catalog = json_decode($jsonContent, true) ?: [];
+
+        $results = [];
+
+        //Convertimos la búsqueda a minúsculas e ignoramos diferencias de caracteres
+        $searchString = mb_strtolower($searchString, 'UTF-8');
+
+        //4. Iteramos sobre el catálogo extraído del JSON
+        foreach ($catalog as $row) {
+            $termLower = mb_strtolower($row['term'], 'UTF-8');
+            
+            //Si coincide la búsqueda parcial
+            if (strpos($termLower, $searchString) !== false) {
+
+                //Mantenemos la estructura exacta requerida por el frontend
+                $results[] = [
+                    'term' => $row['term'],
+                    'concept' => [
+                        'conceptId' => $row['conceptId']
+                    ]
+                ];
+            }
+        }
+
+        //Limitamos a un máximo de 10 resultados para el Select2 o dropdown del frontend
+        return array_slice($results, 0, 10);
+    }
+
+    /**
+     * Registra información de depuración de la respuesta de BioPortal en un archivo local
+     * Este método está disponible para activar logs de diagnóstico cuando sea necesario
+     */
+    private function logBioPortalDebug(string $message, array $context = []): void {
+
+        $rootPath = dirname(__DIR__, 2);
+        $logDir = $rootPath . '/storage/logs';
+        $logFile = $logDir . '/bioportal_debug.log';
+
+        if (!is_dir($logDir)) {
+            @mkdir($logDir, 0777, true);
+        }
+
+        $date = new \DateTime('now', new \DateTimeZone('America/Caracas'));
+        $entry = '[' . $date->format('Y-m-d H:i:s') . '] ' . $message . PHP_EOL;
+        if (!empty($context)) {
+            $entry .= print_r($context, true) . PHP_EOL;
+        }
+
+        @file_put_contents($logFile, $entry, FILE_APPEND | LOCK_EX);
     }
 }
 

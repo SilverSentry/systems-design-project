@@ -16,6 +16,10 @@ class Messages {
     public const ERR_PASS_INVALID = 'La contraseña no cumple con los requisitos';
     public const ERR_PASS_DOES_NOT_MATCH = 'Las contraseñas no coinciden';
     public const ERR_ALREADY_EXISTS = 'Ya existe un usuario con el correo ingresado';
+    public const SUCCESS_REGISTER = 'Ya puedes iniciar sesión';
+
+    //Mensajes para la autenticación
+    const ERR_AUTH_SESSION = 'Debes iniciar sesión para acceder a esta sección';
 
     //Mensajes para el login
     public const ERR_INCORRECT_CREDENTIALS = 'Crendeciales incorrectas';

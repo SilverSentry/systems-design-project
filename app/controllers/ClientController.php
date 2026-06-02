@@ -68,11 +68,11 @@ class ClientController {
     $title = 'Clientes';
     $bodyClass = 'layout-footer';
     $extraScripts = [
-            'DataTables/jquery-3.7.0.min.js', 
-            'DataTables/jquery.dataTables.min.js', 
-            'DataTables/dataTables.bootstrap5.min.js', 
-            'js/sidebar.js', 
-            'js/clients.js'
+        'DataTables/jquery-3.7.0.min.js', 
+        'DataTables/jquery.dataTables.min.js', 
+        'DataTables/dataTables.bootstrap5.min.js', 
+        'js/sidebar.js', 
+        'js/clients.js'
     ];
 
     require_once __DIR__ . '/../views/clients/index.php';

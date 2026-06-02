@@ -9,7 +9,7 @@ require __DIR__ . '/../layouts/head.php';
 
 <style>
     h1 {
-        color: #e6c486;
+        color: #e6c486 !important;
     }
 
     .card-header {
@@ -31,7 +31,7 @@ require __DIR__ . '/../layouts/head.php';
     <div class="col-12 col-md-10 mx-auto mt-4">
         <div class="card shadow border-0">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h1 class="card-tittle mb-0 fw-bold">Clientes</h1>
+                <h1 class="card-title mb-0 fw-bold">Clientes</h1>
                 <button class="btn btn-golden btn-golden-all btn-lg" id="addClientBtn" onclick="window.location.href='<?= $urlCreate; ?>'"><i class="bi bi-plus-lg"></i> Agregar cliente</button>
             </div>
             <div class="card-body p-4">

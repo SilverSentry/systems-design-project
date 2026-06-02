@@ -20,7 +20,7 @@ body {
   --color-dorado-claro: #d4b978;
   --color-dorado-oscuro: #b8944f;
   --color-gris-claro: #f8f9fa;
-  --color-fondo: linear-gradient(135deg, #f7f3e9 0%, #ffffff 100%) !important;
+  --color-fondo: linear-gradient(135deg, #d9b97e93 0%, #ffffff 100%) !important;
   --color-texto: #333333;
   --sidebar-width: 250px;
 }
@@ -138,6 +138,22 @@ body {
   flex: 1 1 auto;
 }
 
+.title-style {
+  /* 1. Definimos el degradado de fondo (puedes usar los colores de tu marca) */
+    background: linear-gradient(135deg, #d4b978 0%, #a88944 100%);
+    
+    /* 2. Recortamos el fondo para que solo se aplique al texto */
+    background-clip: text;
+    -webkit-background-clip: text; /* Soporte para Chrome y Safari */
+    
+    /* 3. Volvemos el texto transparente para que deje ver el fondo recortado */
+    color: transparent;
+    -webkit-text-fill-color: transparent; /* Soporte adicional */
+
+    /* Opcional: Un font-weight alto hace que el gradiente luzca mucho mejor */
+    font-weight: bold;
+}
+
 /* Navbar */
 .header {
   position: fixed;
@@ -145,11 +161,10 @@ body {
   left: 0;
   right: 0;
   z-index: 1040;
-  background: rgba(255, 255, 255, 0.562);
-  backdrop-filter: blur(16px) !important;
+  background: rgba(255, 255, 255, 0.63);
+  backdrop-filter: blur(20px) !important;
   padding: 20px 30px;
-  border-bottom: 2px solid #e6c486 !important;
-  box-shadow: 0 4px 6px rgba(255, 87, 51, 0.1) !important;
+  border-bottom: 2px solid #e6c48698 !important;
   margin-bottom: 0;
   display: flex;
   justify-content: space-between;
@@ -159,10 +174,10 @@ body {
 /* Footer */
 .footer {
   width: 100%;
-  background: var(--color-fondo);
+  background: rgba(255, 255, 255, 0.219);
   padding: 10px 30px;
-  border-top: 2px solid #e6c486 !important;
-  box-shadow: 0 -4px 6px rgba(255, 87, 51, 0.1) !important;
+  border-top: 2px solid #e6c48698 !important;
+  backdrop-filter: blur(50px) !important;
   display: flex;
   justify-content: center;
 }
@@ -265,7 +280,7 @@ body {
 
 /* Enlaces */
 .link {
-  color: #d4a373 !important;
+  color: #BF9969 !important;
   text-decoration: none;
   font-weight: 600;
 }

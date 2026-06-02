@@ -3,6 +3,8 @@
 
 namespace App\Core;
 
+use App\Config\Config;
+
 class Router {
 
     //Arreglos para almacenar rutas y controladores
@@ -36,6 +38,21 @@ class Router {
 
     }
 
+    //Rutas públicas que no requieren sesión
+    private function isPublicRoute(string $path): bool {
+        $public = [
+            'login',
+            'register'
+        ];
+
+        //Permitir APIs públicas
+        if(strpos($path, 'api/') === 0) {
+            return true;
+        }
+
+        return in_array($path, $public, true);
+    }
+
     //Manejo de las peticiones GET
     private function handleGet($currentRoute) {
 
@@ -44,6 +61,12 @@ class Router {
 
         //Si la ruta está vacía, vamos al login por defecto
         $path =  $cleanRoute ?: 'login';
+
+        //Si la ruta no es pública y el usuario no está logueado, redirigimos al login
+        if(!Session::isLogged() && !$this->isPublicRoute($path)) {
+            redirect('login?auth_error=1');
+            exit();
+        }
 
         //Verificamos si la ruta existe en las vistas registradas
         if(array_key_exists($path, $this->views)) {
@@ -83,6 +106,12 @@ class Router {
         //Limpiamos la ruta
         $cleanRoute = trim($currentRoute, '/');
         $path = $cleanRoute ?: 'login';
+
+        //Para POST: permitir acciones públicas (login, register) sin sesión
+        if(!Session::isLogged() && !$this->isPublicRoute($path)) {
+            redirect('login');
+            exit();
+        }
 
         //Ahora comprobamos si la URL (ej: 'clients/edit') existe en tus controladores POST
         if(array_key_exists($path, $this->controllers)) {

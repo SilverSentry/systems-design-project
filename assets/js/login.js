@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     //Se obtiene las id del formulario
     const formLogin = document.getElementById("formLogin");
+
     //Contenedor para mostrar errores generales (no relacionados con un campo específico)
     const errorContainer = document.getElementById("errorContainer");
 
@@ -142,25 +143,62 @@ document.addEventListener("DOMContentLoaded", function(){
         });
     }
 
-        //Manejo de mensaje de registro exitoso
-        if(urlParams.get('success') === '1'){
+    //Manejo de mensaje de registro exitoso
+    if(urlParams.get('success') === '1'){
+
+        Swal.fire({
+
+            title: '¡Registro Exitoso!',
+            text: 'Ya puedes iniciar sesión',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#28a745',
+            timer: 7000, //Se cierra solo en 7 segundos si el usuario no hace nada
+            timerProgressBar: true,
+            customClass: {
+                popup: 'custom-swal-rect'
+            },
+
+        }).then(() => {
+
+                //Limpiamos la URL
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.pathname);
+                }
+
+            });
+
+    }
+
+    //Manejo de mensaje de error por acceso sin sesión (cuando se redirige al login)
+    //Buscamos el elemento contenedor que guardó el estado de PHP
+    const authStatus = document.getElementById('auth-status');
+
+    if (authStatus) {
+        //Leemos el atributo data-error y verificamos si es estrictamente 'true'
+        const hasAuthError = authStatus.getAttribute('data-error') === 'true';
+
+        if (hasAuthError) {
 
             Swal.fire({
+                icon: 'warning',
+                title: 'Acceso denegado',
+                text: 'Debes iniciar sesión para poder acceder a esta sección.',
+                confirmButtonColor: '#eb1010',
+                confirmButtonText: 'Entendido',
+                customClass: {
+                    popup: 'custom-swal-rect'
+                },
 
-                title: '¡Registro Exitoso!',
-                text: 'Ya puedes iniciar sesión',
-                icon: 'success',
-                confirmButtonText: 'Aceptar',
-                confirmButtonColor: '#198754',
-                timer: 5000, //Se cierra solo en 5 segundos si el usuario no hace nada
-                timerProgressBar: true
+            }).then(() => {
 
-            })
+                //Limpiamos la URL quitando el '?auth_error=1'
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.pathname);
+                }
 
-            //Se limpia la URL sin recargar la página
-            const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-            window.history.replaceState({path: cleanUrl}, '', cleanUrl);
-
-        } 
+            });
+        }
+    }
 
 });

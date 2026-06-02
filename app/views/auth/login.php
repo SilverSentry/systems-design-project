@@ -1,4 +1,5 @@
 ﻿<?php
+/** @var bool $authError */
 
 use App\Core\Paths;
 
@@ -69,6 +70,9 @@ require __DIR__ . '/../layouts/head.php';
         </div>
 
     </div>
+
+    <!-- Esto es para pasar el estado de error al JS sin usar variables de PHP directamente en el script -->
+    <div id="auth-status" data-error="<?= $authError ? 'true' : 'false'; ?>"></div>
 
 <script src="<?= Paths::asset('SweetAlert2/sweetalert2.all.min.js') ?>"></script>
 <script src="<?= Paths::asset('js/login.js') ?>"></script>

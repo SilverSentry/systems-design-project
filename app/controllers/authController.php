@@ -20,6 +20,10 @@ class AuthController {
     //Método para mostrar el formulario de login
     public function showLogin() {
 
+        //Capturamos si viene un error de autenticación desde la URL (?auth_error=1)
+        //Lo convertimos a un booleano estricto (true o false)
+        $authError = isset($_GET['auth_error']) && $_GET['auth_error'] === '1';
+
         if(Session::isLogged()) {
             redirect('admin_dashboard');
         }

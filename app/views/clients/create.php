@@ -8,7 +8,7 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
 
 <style>
     h1 {
-        color: #e6c486;
+        color: #e6c486 !important;
     }
 
     .card-header {
@@ -28,10 +28,10 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
     <form id="createClientForm" method="POST" action="<?= Paths::to('clients/register') ?>">
         <input type="hidden" name="action" value="clients/register">
 
-        <div class="col-12 col-md-10 mx-auto mt-4">
+        <div class="col-12 col-md-7 mx-auto mt-4">
             <div class="card shadow border-0">
                 <div class="card-header py-3">
-                    <h1 class="card-tittle mb-0 fw-bold">Agregar cliente</h1>
+                    <h1 class="card-title mb-0 fw-bold">Agregar cliente</h1>
                 </div>
                 <div class="card-body p-4">
                     <h5 class="mb-3">Datos Personales</h5>
@@ -129,7 +129,7 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
 
                     <div id="hiddenInputsContainer"></div>
 
-                    <div class="align-items-center d-flex">
+                    <div class="d-flex justify-content-center align-items-center">
                         <button type="submit" class="btn btn-golden btn-golden-all btn-lg" id="submitBtn">Registrar cliente</button>
                     </div>
                 </div>
