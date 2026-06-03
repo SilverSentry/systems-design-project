@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 resultsList.classList.add('d-none');
             });
 
-        }, 300);
+        }, 500);
 
     });
 
