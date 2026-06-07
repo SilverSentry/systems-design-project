@@ -19,4 +19,4 @@ use App\Core\Paths;
     <link href="<?= Paths::asset('css/styles.css') ?>" rel="stylesheet">
 </head>
 
-<body class="<?= $bodyClass ?? '' ?>" style="background: var(--color-fondo);">
+<body class="<?= $bodyClass ?? '' ?>">

@@ -75,6 +75,7 @@ require __DIR__ . '/../layouts/head.php';
     <div id="auth-status" data-error="<?= $authError ? 'true' : 'false'; ?>"></div>
 
 <script src="<?= Paths::asset('SweetAlert2/sweetalert2.all.min.js') ?>"></script>
+<script src="<?= Paths::asset('js/app.js') ?>"></script>
 <script src="<?= Paths::asset('js/login.js') ?>"></script>
 </body>
 </html>

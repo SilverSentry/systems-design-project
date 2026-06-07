@@ -80,20 +80,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = "<i class='bi bi-box-arrow-in-right'></i> Ingresar";
 
-                    //Mostrar el mensaje
-                    Swal.mixin({
-                        toast: true,
-                        position: "top",                      
-                        showConfirmButton: false,
-                        timer: 2000
-
-                    }).fire({
-                        icon: "error",
-                        title: data.message,
-                        customClass: { //Clase para agregar estilos personalizados a la alerta
-                            popup: 'custom-swal-rect' //Nombre de la clase personalizada
-                        },
-                    });
+                    //Usamos el Toast genérico de app.js
+                    showToast("error", data.message);
 
                     //Se limpia cualquier borde rojo previo (para no acumular errores)
                     const allInputs = e.target.querySelectorAll('.form-control');
@@ -126,48 +114,15 @@ document.addEventListener("DOMContentLoaded", function(){
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = "<i class='bi bi-box-arrow-in-right'></i> Ingresar";
                 console.error("Error en la petición: ", error);
-                Swal.mixin({
-                        toast: true,
-                        position: "top",                      
-                        showConfirmButton: false,
-                        timer: 2000
-
-                    }).fire({
-                        icon: "error",
-                        title: "Error de conexión con el servidor",
-                        customClass: { //Clase para agregar estilos personalizados a la alerta
-                            popup: 'custom-swal-rect' //Nombre de la clase personalizada
-                        },
-                    });
+                showToast("error", "Error de conexión con el servidor");
             });
         });
     }
 
     //Manejo de mensaje de registro exitoso
     if(urlParams.get('success') === '1'){
-
-        Swal.fire({
-
-            title: '¡Registro Exitoso!',
-            text: 'Ya puedes iniciar sesión',
-            icon: 'success',
-            confirmButtonText: 'Aceptar',
-            confirmButtonColor: '#28a745',
-            timer: 7000, //Se cierra solo en 7 segundos si el usuario no hace nada
-            timerProgressBar: true,
-            customClass: {
-                popup: 'custom-swal-rect'
-            },
-
-        }).then(() => {
-
-                //Limpiamos la URL
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.pathname);
-                }
-
-            });
-
+        showAlert('success', '¡Registro Exitoso!', 'Ya puedes iniciar sesión', '#28a745')
+        .then(() => cleanUrlParams());
     }
 
     //Manejo de mensaje de error por acceso sin sesión (cuando se redirige al login)
@@ -179,25 +134,8 @@ document.addEventListener("DOMContentLoaded", function(){
         const hasAuthError = authStatus.getAttribute('data-error') === 'true';
 
         if (hasAuthError) {
-
-            Swal.fire({
-                icon: 'warning',
-                title: 'Acceso denegado',
-                text: 'Debes iniciar sesión para poder acceder a esta sección.',
-                confirmButtonColor: '#eb1010',
-                confirmButtonText: 'Entendido',
-                customClass: {
-                    popup: 'custom-swal-rect'
-                },
-
-            }).then(() => {
-
-                //Limpiamos la URL quitando el '?auth_error=1'
-                if (window.history.replaceState) {
-                    window.history.replaceState(null, null, window.location.pathname);
-                }
-
-            });
+            showAlert('warning', 'Acceso denegado', 'Debes iniciar sesión para poder acceder a esta sección.', '#eb1010')
+            .then(() => cleanUrlParams());
         }
     }
 

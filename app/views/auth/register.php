@@ -101,6 +101,7 @@ require __DIR__ . '/../layouts/head.php';
     </div>
 
 <script src="<?= Paths::asset('SweetAlert2/sweetalert2.all.min.js') ?>"></script>
+<script src="<?= Paths::asset('js/app.js') ?>"></script>
 <script src="<?= Paths::asset('js/register.js') ?>"></script>
 </body>
 </html>
