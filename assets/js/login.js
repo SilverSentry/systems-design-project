@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function(){
     const errorContainer = document.getElementById("errorContainer");
 
     //Constante para seleccionar todos los input
-    const inputs = formLogin.querySelectorAll('input');
+    const inputs = formLogin ? formLogin.querySelectorAll('input') : [];
 
         inputs.forEach(input => {
             input.addEventListener("input", function() {
@@ -117,12 +117,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 showToast("error", "Error de conexión con el servidor");
             });
         });
-    }
-
-    //Manejo de mensaje de registro exitoso
-    if(urlParams.get('success') === '1'){
-        showAlert('success', '¡Registro Exitoso!', 'Ya puedes iniciar sesión', '#28a745')
-        .then(() => cleanUrlParams());
     }
 
     //Manejo de mensaje de error por acceso sin sesión (cuando se redirige al login)

@@ -8,5 +8,7 @@ function toggleSidebar() {
   overlay.classList.toggle("show");
 }
 
-menuToggle.addEventListener("click", toggleSidebar);
-overlay.addEventListener("click", toggleSidebar);
+if (menuToggle && sidebar && overlay) {
+  menuToggle.addEventListener("click", toggleSidebar);
+  overlay.addEventListener("click", toggleSidebar);
+}

@@ -10,7 +10,7 @@
   </div>
   <div class="user-profile">
     <div class="text-end">
-      <div class="fw-bold">Administrador</div>
+      <div class="fw-bold"></div>
     </div>
   </div>
 </div>

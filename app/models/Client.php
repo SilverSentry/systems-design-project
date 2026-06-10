@@ -1,16 +1,18 @@
 <?php
-//Archivo modelo para el cliente
+//Modelo para manejar los datos relacionados con los clientes, tanto para el registro como para otras operaciones relacionadas con los clientes
 
 namespace App\Models;
 
 use App\Core\Model;
 
-class Client extends Model {
+class Client extends Model
+{
 
     protected $tableName = "clientes";
 
     //Método para registrar un nuevo cliente
-    public function create($name, $surname, $phone, $dni, $birthdate, $gender, $roleId = 3) {
+    public function create($name, $surname, $phone, $dni, $birthdate, $gender, $roleId = 3)
+    {
 
         $sql = "INSERT INTO " . $this->tableName . " (nombre, apellido, telefono, dni, fecha_nacimiento, genero, id_rol) VALUES (:name, :surname, :phone, :dni, :birthdate, :gender, :roleId)";
         $stmt = $this->query($sql, [
@@ -27,10 +29,13 @@ class Client extends Model {
     }
 
     //Método para obtener todos los clientes
-    public function read() {
-        return $this->findAll();
+    public function read()
+    {
+
+        $sql = "SELECT c.*, r.nombre AS rol_nombre FROM " . $this->tableName . " c LEFT JOIN roles r ON c.id_rol = r.rol";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: [];
     }
-
 }
-
-?>

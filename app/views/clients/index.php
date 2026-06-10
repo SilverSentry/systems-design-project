@@ -9,7 +9,7 @@ require __DIR__ . '/../layouts/head.php';
 
 <style>
     h1 {
-        color: #e6c486 !important;
+        color: #000000c7 !important;
     }
 
     .card-header {
@@ -54,13 +54,13 @@ require __DIR__ . '/../layouts/head.php';
                             <?php foreach ($clients as $client):?>
                                 <tr>
                                     <td><?= htmlspecialchars($client['id']) ?></td>
-                                    <td><?= htmlspecialchars($client['nombre']) ?></td>
-                                    <td><?= htmlspecialchars($client['apellido']) ?></td>
+                                    <td><?= htmlspecialchars(ucfirst($client['nombre'])) ?></td>
+                                    <td><?= htmlspecialchars(ucfirst($client['apellido'])) ?></td>
                                     <td><?= htmlspecialchars($client['telefono']) ?></td>
                                     <td><?= htmlspecialchars($client['dni']) ?></td>
                                     <td><?= htmlspecialchars($client['edad']) ?></td>
-                                    <td><?= htmlspecialchars($client['genero']) ?></td>
-                                    <td>Cliente</td>
+                                    <td><?= htmlspecialchars(ucfirst($client['genero'])) ?></td>
+                                    <td><?= htmlspecialchars(ucfirst($client['rol_nombre'] ?? $client['id_rol'] ?? 'Desconocido')) ?></td>
                                     <td>
                                         <!-- Aquí puede ir un botón real de edición/eliminación cuando se agregue esa funcionalidad -->
                                         <button type="button" class="btn btn-sm btn-outline-secondary" disabled>Editar</button>

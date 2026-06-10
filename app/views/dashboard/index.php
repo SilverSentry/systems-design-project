@@ -1,9 +1,11 @@
 <?php
+//Dashboard de los empleados
+
 /** @var array $user */
 
 use App\Core\Paths;
 
-require __DIR__ . '/layouts/head.php'; //Carga el head común
+require __DIR__ . '/../layouts/head.php'; //Carga el head común
 ?>
 
 <style>
@@ -28,16 +30,16 @@ require __DIR__ . '/layouts/head.php'; //Carga el head común
 <!-- Esto es la capa que oscurece el fondo -->
 <div id="sidebar-overlay" class="overlay"></div>
 
-    <?php require __DIR__ . '/layouts/sidebar.php'; ?>
+    <?php require __DIR__ . '/../layouts/sidebar.php'; ?>
 
     <div id="page-content-wrapper" class="w-100">
 
-        <?php require __DIR__ . '/layouts/navbar.php'; ?>
+        <?php require __DIR__ . '/../layouts/navbar.php'; ?>
 
         <!-- Hero Section -->
         <header class="hero-section text-center d-flex align-items-center justify-content-center animate-fadeInUp">
             <div class="container position-relative px-3">
-                <h1 class="fs-2 fs-md-1 display-5 fw-bold text-overlay text-white">Panel de Administración</h1>
+                <h1 class="fs-2 fs-md-1 display-5 fw-bold text-overlay text-white">Panel de Empleados</h1>
                 <h4 class="fs-5 fs-md-4 text-white text-overlay">Bienvenido, <?= ucfirst($user['name']); ?></h4>
             </div>
         </header>
@@ -120,4 +122,4 @@ require __DIR__ . '/layouts/head.php'; //Carga el head común
 <!-- Overlay para móvil -->
 <div class="overlay" id="overlay"></div>
 
-<?php require __DIR__ . '/layouts/footer.php'; ?>
+<?php require __DIR__ . '/../layouts/footer.php'; ?>

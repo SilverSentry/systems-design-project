@@ -7,7 +7,7 @@ require __DIR__ . '/../layouts/head.php';
 
 <style>
   h1 {
-    color: #e6c486;
+    color: #000000c7 !important;
   }
 
   .card-header {
@@ -48,11 +48,11 @@ require __DIR__ . '/../layouts/head.php';
               <?php foreach ($users as $employee): ?>
                 <tr>
                   <td><?= htmlspecialchars($employee['id']) ?></td>
-                  <td><?= htmlspecialchars($employee['nombre']) ?></td>
-                  <td><?= htmlspecialchars($employee['apellido']) ?></td>
+                  <td><?= htmlspecialchars(ucfirst($employee['nombre'])) ?></td>
+                  <td><?= htmlspecialchars(ucfirst($employee['apellido'])) ?></td>
                   <td><?= htmlspecialchars($employee['email']) ?></td>
-                  <td>ekide</td>
-                  <td>Activo</td>
+                  <td><?= htmlspecialchars(ucfirst($employee['rol_nombre'] ?? $employee['id_rol'] ?? 'Desconocido')) ?></td>
+                  <td><?= htmlspecialchars(ucfirst($employee['estado_nombre'] ?? $employee['id_estado'] ?? 'Desconocido')) ?></td>
                   <td>
                     <!-- Aquí puede ir un botón real de edición/eliminación cuando se agregue esa funcionalidad -->
                     <button type="button" class="btn btn-sm btn-outline-secondary" disabled>Editar</button>

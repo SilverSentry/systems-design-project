@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded", function(){
     const formRegister = document.getElementById("formRegister");
     const errorContainer = document.getElementById("errorContainer");
 
+    //Constante para revisar la URL
+    const urlParams = new URLSearchParams(window.location.search);
+
     //Función para manejar el toggle de mostrar/ocultar contraseña
     const bindPasswordToggle = (toggleId, inputId) => {
 
@@ -30,7 +33,8 @@ document.addEventListener("DOMContentLoaded", function(){
     bindPasswordToggle("togglePasswordConfirm", "passwordConfirm");
 
     //Se seleccionan todos los inputs
-    const inputs = formRegister.querySelectorAll('input');
+    const inputs = formRegister ? formRegister.querySelectorAll('input') : [];
+    const formControls = formRegister ? formRegister.querySelectorAll('.form-control') : [];
 
         inputs.forEach(input => {
             input.addEventListener("input", function() {
@@ -70,10 +74,18 @@ document.addEventListener("DOMContentLoaded", function(){
             .then(data => {
 
                 //Si todo está bien, se redirige
-                if(data.status === 'success'){
+                if (data.status === 'success'){
 
+                    cleanAllInputs('.form-control', 'is-invalid');
                     submitBtn.innerText = "¡Éxito! Redirigiendo...";
+
+                    //Mostrar alerta de registro exitoso
+                    showAlertWithTimer('success', '¡Registro Exitoso!', 'Ya puedes iniciar sesión', 7000)
+                    .then(() => {
+
+                    //Redirección
                     window.location.href = data.redirect;
+                    });
 
                 //En caso contrario, se muestra los respectivos mensajes de error
                 } else{
@@ -81,29 +93,16 @@ document.addEventListener("DOMContentLoaded", function(){
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = "<i class='bi bi-person-plus'></i> Registrar";
 
-                    //Mostrar un mensaje
-                    Swal.mixin({
-                        toast: true,
-                        position: "top",                      
-                        showConfirmButton: false,
-                        timer: 2000,
-
-                    }).fire({
-                        icon: "error",
-                        title: data.message,
-                        customClass: { //Clase para agregar estilos personalizados a la alerta
-                            popup: 'custom-swal-rect' //Nombre de la clase personalizada
-                        },
-                    });
+                    //Mostrar un mensaje de error usando la función de app.js
+                    showToast('error', data.message);
 
                     //Se limpia cualquier borde rojo previo (para no acumular errores)
-                    const allInputs = e.target.querySelectorAll('.form-control');
-                    allInputs.forEach(i => i.classList.remove("is-invalid"));
+                    cleanAllInputs('.form-control', 'is-invalid');
 
                     //Caso para los campos vacíos
                     if(data.field === 'all') {
 
-                        allInputs.forEach(input => { input.classList.add("is-invalid"); });
+                        formControls.forEach(input => { input.classList.add("is-invalid"); });
 
                         //Se marca ambos campos de contraseña
                         } else if(data.field === 'passwords'){
@@ -130,19 +129,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = "<i class='bi bi-person-plus'></i> Registrar";
                 console.error("Error en la petición:", error);
-                Swal.mixin({
-                        toast: true,
-                        position: "top",                      
-                        showConfirmButton: false,
-                        timer: 2000
-
-                    }).fire({
-                        icon: "error",
-                        title: "Error de conexión con el servidor",
-                        customClass: { //Clase para agregar estilos personalizados a la alerta
-                            popup: 'custom-swal-rect' //Nombre de la clase personalizada
-                        },
-                    });
+                showToast('error', "Error de conexión con el servidor");
             });
 
         });

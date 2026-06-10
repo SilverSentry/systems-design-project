@@ -1,14 +1,17 @@
 <?php
+//Controlador para manejar las solicitudes API
 
 namespace App\Controllers;
 
-class ApiController {
+class ApiController
+{
 
     /**
      * Maneja la búsqueda de términos médicos de forma local
-     * consumiendo el catálogo JSON interno del sistema
+     * Consume el catálogo JSON interno del sistema
      */
-    public function search() {
+    public function search()
+    {
         header('Content-Type: application/json');
 
         //Bloqueamos para que solo responda si viene el parámetro 'q' con al menos 3 caracteres
@@ -30,7 +33,8 @@ class ApiController {
     /**
      * Busca coincidencias en el catálogo JSON local
      */
-    private function searchLocalCatalog(string $searchString): array {
+    private function searchLocalCatalog(string $searchString): array
+    {
 
         //Alternativa segura usando la raíz del proyecto
         $jsonPath = dirname(__DIR__, 2) . '/core/snomed_catalog.json';
@@ -52,15 +56,13 @@ class ApiController {
         //Iteramos sobre el catálogo extraído del JSON
         foreach ($catalog as $row) {
             $termLower = mb_strtolower($row['term'], 'UTF-8');
-            
+
             //Si coincide la búsqueda parcial
-            if(strpos($termLower, $searchString) !== false) {
+            if (strpos($termLower, $searchString) !== false) {
 
                 $results[] = [
                     'term' => $row['term'],
-                    'concept' => [
-                        'conceptId' => $row['conceptId']
-                    ]
+                    'conceptId' => $row['conceptId']
                 ];
             }
         }
@@ -69,5 +71,3 @@ class ApiController {
         return array_slice($results, 0, 10);
     }
 }
-
-?>

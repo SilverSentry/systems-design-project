@@ -8,7 +8,7 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
 
 <style>
     h1 {
-        color: #e6c486 !important;
+        color: #000000c7 !important;
     }
 
     .card-header {
@@ -109,7 +109,7 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
                         </div>
 
                         <div class="col-md-6 position-relative">
-                            <label class="form-label">Buscar en SNOMED CT</label>
+                            <label class="form-label">Buscar</label>
                             <input type="text" class="form-control" name="term_name" id="searchSnomed" placeholder="Ej: Lidocaina, Diabetes, Silicona..." autocomplete="off">
                             <ul class="list-group position-absolute w-100 mt-1 shadow d-none" id="snomedResults" style="z-index: 1000; max-height: 180px; overflow-y: auto;"></ul>
                         </div>
@@ -130,7 +130,7 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
                     <div id="hiddenInputsContainer"></div>
 
                     <div class="d-flex justify-content-center align-items-center">
-                        <button type="submit" class="btn btn-golden btn-golden-all btn-lg" id="submitBtn">Registrar cliente</button>
+                        <button type="submit" class="btn btn-golden btn-golden-all btn-lg" id="submitBtn"><i class="bi bi-person-plus"></i> Registrar cliente</button>
                     </div>
                 </div>
 

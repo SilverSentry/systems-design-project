@@ -1,5 +1,5 @@
 <?php
-//Controlador para manejar la autenticación de usuarios
+//Controlador para manejar la lógica de autenticación
 
 namespace App\Controllers;
 
@@ -9,46 +9,49 @@ use App\Core\Session;
 use App\Core\ValidationHelper;
 use App\Config\Messages;
 
-class AuthController {
+class AuthController
+{
 
     private $userModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->userModel = new User();
     }
 
     //Método para mostrar el formulario de login
-    public function showLogin() {
+    public function showLogin()
+    {
 
         //Capturamos si viene un error de autenticación desde la URL (?auth_error=1)
         //Lo convertimos a un booleano estricto (true o false)
         $authError = isset($_GET['auth_error']) && $_GET['auth_error'] === '1';
 
-        if(Session::isLogged()) {
-            redirect('admin_dashboard');
+        if (Session::isLogged()) {
+            redirect($this->getDashboardRoute());
         }
 
         $title = 'Inicio de Sesión';
         $bodyClass = 'd-flex align-items-center min-vh-100 body-lr';
         require_once __DIR__ . '/../views/auth/login.php';
-
     }
 
     //Método para mostrar el formulario de registro
-    public function showRegister() {
+    public function showRegister()
+    {
 
-        if(Session::isLogged()) {
-            redirect('admin_dashboard');
+        if (Session::isLogged()) {
+            redirect($this->getDashboardRoute());
         }
 
         $title = 'Registro de Usuario';
         $bodyClass = 'd-flex align-items-center min-vh-100 body-lr';
         require_once __DIR__ . '/../views/auth/register.php';
-
     }
 
     //Método para el registro
-    public function register(){
+    public function register()
+    {
 
         //1. Primero recuperamos el arreglo con los datos limpios y validados
         //Ejecutamos la validación. Si algo falla, este método corta la ejecución internamente
@@ -56,38 +59,37 @@ class AuthController {
 
         //2. Pasamos los datos al modelo leyéndolos directamente desde el arreglo $data
         $user = $this->userModel->register(
-            $data['name'], 
-            $data['surname'], 
-            $data['email'], 
-            $data['password'], 
-            2, 
+            $data['name'],
+            $data['surname'],
+            $data['email'],
+            $data['password'],
+            2,
             1
         );
 
         //Si todo es correcto, se registra el usuario
-        if($user){
+        if ($user) {
 
             echo json_encode([
                 'status' => 'success',
-                'redirect' => Paths::to('login?success=1')
+                'redirect' => Paths::to('login')
             ]);
             exit();
 
-        //Si ha ocurrido un error, se muestra un mensaje genérico
-        } else{
+            //Si ha ocurrido un error, se muestra un mensaje genérico
+        } else {
 
             echo json_encode([
                 'status' => 'error',
                 'message' => Messages::UNEXPECTED_ERR
             ]);
             exit();
-
         }
-
     }
 
     //Método para validar los datos
-    private function validateRegisterRequest() { 
+    private function validateRegisterRequest()
+    {
 
         //Limpieza de datos
         $name = trim($_POST['name']);
@@ -145,11 +147,20 @@ class AuthController {
             'email'    => $email,
             'password' => $password
         ];
+    }
 
-     }
+    //Método para determinar a qué dashboard redirigir según el rol del usuario
+    private function getDashboardRoute(): string
+    {
+        $user = Session::getUser();
+        $roleId = $user['roleId'] ?? $user['id_rol'] ?? 2;
+
+        return in_array($roleId, [1, 4], true) ? 'admin_dashboard' : 'dashboard';
+    }
 
     //Método para el login
-    public function login(){
+    public function login()
+    {
 
         //Se sanitizan los datos
         $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
@@ -173,21 +184,21 @@ class AuthController {
         $user = $this->userModel->login($email, $password);
 
         //Si todo es correcto, se intenta iniciar sesión
-        if($user) {
+        if ($user) {
 
             Session::regenerate(); //Previene session fixation
             Session::setUser([
                 'id' => $user['id'],
-                'name' => $user['nombre']
+                'name' => $user['nombre'],
+                'roleId' => $user['id_rol'] ?? null
             ]);
 
             echo json_encode([
                 'status' => 'success',
-                'redirect' => Paths::to('admin_dashboard')
+                'redirect' => Paths::to($this->getDashboardRoute())
             ]);
             exit();
-
-        } else{
+        } else {
 
             //Si el inicio de sesión falla, se muestra el mensaje de error
             echo json_encode([
@@ -196,19 +207,15 @@ class AuthController {
                 'field' => 'all'
             ]);
             exit();
-    }
-
+        }
     }
 
     //Método para cerrar la sesión
-    public function logout(){
+    public function logout()
+    {
 
         Session::logout();
         Session::destroy();
         redirect('login');
-
     }
-
 }
-
-?>

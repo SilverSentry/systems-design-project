@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const createClientForm = document.getElementById("createClientForm");
 
     //Constante para seleccionar todos los input
-    const inputs = createClientForm.querySelectorAll('input');
+    const inputs = createClientForm ? createClientForm.querySelectorAll('input') : [];
 
         inputs.forEach(input => {
             input.addEventListener("input", function() {
@@ -40,25 +40,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const submitBtn = document.getElementById("submitBtn");
         submitBtn.disabled = true;
-        submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Validando...`;
+        submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...`;
 
         const formData = new FormData(e.target);
         const urlAction = e.target.getAttribute('action');
 
-        //Configuramos la alerta base con un Mixin reutilizable
-        const Toast = Swal.mixin({
-            toast: true,
-            position: "bottom",      
-            showConfirmButton: false,
-            timer: 2000,
-            customClass: {
-                popup: 'custom-swal-rect'
-            }
-        });
+        const allInputs = e.target.querySelectorAll('.form-control');
 
         //1. Limpiar todos los bordes rojos previos al inicio de la validación
-        const allInputs = e.target.querySelectorAll('.form-control');
-        allInputs.forEach(input => input.classList.remove("is-invalid"));
+        cleanAllInputs('.form-control', 'is-invalid');
 
         try {
             const response = await fetch(urlAction, {
@@ -71,20 +61,28 @@ document.addEventListener("DOMContentLoaded", function() {
 
             const data = await response.json();
 
+            //Si el registro es exitoso, mostramos un mensaje
             if (data.status === 'success') {
-                submitBtn.innerText = "¡Acceso concedido!";
-                window.location.href = data.redirect;
+
+                cleanAllInputs('.form-control', 'is-invalid');
+                submitBtn.innerText = "¡Cliente registrado!";
+                
+                showAlert('success', '¡Cliente registrado!','¿Desea realizar una reservación?', '#2aeb10')
+                .then(() => {
+
+                    //Redirección
+                    window.location.href = data.redirect;
+                });
+
+            //En caso de error, se muestra los mensajes de error correspondientes
             } else {
 
                 //Restablecer botón en caso de error de validación
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = "<i class='bi bi-box-arrow-in-right'></i> Registrar cliente";
+                submitBtn.innerHTML = "<i class='bi bi-person-plus'></i> Registrar cliente";
 
                 //Mostrar mensaje de error enviado desde PHP
-                Toast.fire({
-                    icon: "error",
-                    title: data.message
-                });
+                showToast('error', data.message);
 
                 //2. Pintar bordes rojos según la respuesta
                 if (data.field === 'dni') {
@@ -101,56 +99,48 @@ document.addEventListener("DOMContentLoaded", function() {
 
             //Manejo de caídas de conexión o errores sintácticos de PHP (HTML en lugar de JSON)
             submitBtn.disabled = false;
-            submitBtn.innerHTML = "<i class='bi bi-box-arrow-in-right'></i> Registrar cliente";
+            submitBtn.innerHTML = "<i class='bi bi-person-plus'></i> Registrar cliente";
             console.error("Error capturado: ", error);
 
-            Toast.fire({
-                icon: "error",
-                title: "Error de procesamiento en el servidor"
-            });
+            showToast('error', "Error de procesamiento en el servidor");
         }
     });
 }
 
-    //Evento para el buscador de antecedentes
+    //Evento para el buscador de antecedentes usando el backend
     searchInput.addEventListener("input", function() {
         clearTimeout(timeout);
-        
-        //Si el usuario escribe o borra, reseteamos la selección previa
-        //Esto para obligarlo a hacer clic en una opción de la lista desplegable nueva
+
         selectedId = null;
         selectedTerm = null;
 
-        const query = searchInput.value.trim().toLowerCase();
+        const query = searchInput.value.trim();
 
         if (query.length < 3) {
             resultsList.classList.add("d-none");
+            resultsList.innerHTML = '';
             return;
         }
 
-        timeout = setTimeout(() => {
+        timeout = setTimeout(async () => {
+            try {
+                const response = await fetch(`/StudioOrdoStetic/api/search?q=${encodeURIComponent(query)}`);
 
-            //URL relativa con parámetro `p` para que funcione en subcarpetas
-            //Ejemplo resultante: /StudioOrdoStetic/?p=api/search&q=diabetes
-            const url = `?p=api/search&q=${encodeURIComponent(query)}`;
+                if (!response.ok) {
+                    throw new Error('No se pudo consultar el catálogo');
+                }
 
-            fetch(url)
-
-            .then(res => {
-                if (!res.ok) throw new Error('Respuesta de la API no OK');
-                return res.json();
-            })
-
-            .then(data => {
+                const data = await response.json();
+                const matchedItems = Array.isArray(data.items) ? data.items : [];
 
                 resultsList.innerHTML = '';
 
-                if (data.items && data.items.length > 0) {
+                if (matchedItems.length > 0) {
                     resultsList.classList.remove('d-none');
 
-                    data.items.forEach(item => {
-                        const term = item.term || item.prefLabel || '';
-                        const conceptId = (item.concept && item.concept.conceptId) ? item.concept.conceptId : (item.ui || 'S/N');
+                    matchedItems.forEach(item => {
+                        const term = item.term;
+                        const conceptId = item.conceptId || 'S/N';
 
                         const li = document.createElement('li');
                         li.className = 'list-group-item list-group-item-action';
@@ -165,28 +155,23 @@ document.addEventListener("DOMContentLoaded", function() {
                         });
 
                         resultsList.appendChild(li);
-
                     });
-
                 } else {
                     resultsList.classList.add('d-none');
                 }
-            })
-
-            .catch(err => {
-                console.error(`Error fetching ${url}:`, err);
+            } catch (error) {
+                console.error('Error consultando el catálogo:', error);
                 resultsList.classList.add('d-none');
-            });
-
-        }, 500);
-
+                resultsList.innerHTML = '';
+            }
+        }, 250);
     });
 
     //Botón "Anexar"
     addBtn.addEventListener("click", function() {
         if (!selectedId || !selectedTerm) {
             if (searchInput) searchInput.classList.add("is-invalid");
-            showToastError("Por favor, selecciona un término válido del buscador.");
+            showToast('error', "Por favor, selecciona un término válido del buscador.");
             return;
         }
 

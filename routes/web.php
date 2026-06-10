@@ -9,7 +9,8 @@ $router = new Router();
 //Parámetros: ruta, controlador, método
 $router->addGetController('login', \App\Controllers\AuthController::class, 'showLogin');
 $router->addGetController('register', \App\Controllers\AuthController::class, 'showRegister');
-$router->addGetController('admin_dashboard', \App\Controllers\AdminController::class, 'index');
+$router->addGetController('admin_dashboard', \App\Controllers\DashboardController::class, 'index');
+$router->addGetController('dashboard', \App\Controllers\DashboardController::class, 'index');
 $router->addGetController('employees', \App\Controllers\EmployeeController::class, 'index');
 $router->addGetController('clients/create', \App\Controllers\ClientController::class, 'create');
 $router->addGetController('clients', \App\Controllers\ClientController::class, 'index');

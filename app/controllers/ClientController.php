@@ -11,21 +11,24 @@ use App\Core\Session;
 use DateTime;
 use App\Core\ValidationHelper;
 
-class ClientController {
+class ClientController
+{
 
     public $clientModel;
     public $clientAntecedentModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->clientModel = new Client();
         $this->clientAntecedentModel = new ClientAntecedent();
     }
 
     //Método para mostrar la vista de clientes
-    public function index() {
+    public function index()
+    {
 
         //1. Validamos la sesión
-        if(!Session::isLogged()) {
+        if (!Session::isLogged()) {
             \redirect('login');
         }
 
@@ -42,46 +45,45 @@ class ClientController {
         //4. Recorremos cada cliente para agregarle la edad calculada y cualquier otro dato que necesitemos para mostrar en la vista, evitando mezclar lógica de presentación con la consulta original
         foreach ($rawClients as $client) {
 
-        $dateValue = $client['fecha_nacimiento'] ?? null;
+            $dateValue = $client['fecha_nacimiento'] ?? null;
 
-        //Varible con valor por defecto para mostrar en caso de que la fecha esté vacía, evitando que el cálculo falle
-        $ageText = 'S/D';
+            //Varible con valor por defecto para mostrar en caso de que la fecha esté vacía, evitando que el cálculo falle
+            $ageText = 'S/D';
 
-         //Cálculo de la edad basado en la fecha de nacimiento
-        if($dateValue && $dateValue !== '0000-00-00' && $dateValue !== '') {
+            //Cálculo de la edad basado en la fecha de nacimiento
+            if ($dateValue && $dateValue !== '0000-00-00' && $dateValue !== '') {
 
-            $birthdate = new DateTime($dateValue);
-            $today = new DateTime();                
-            $diff = $today->diff($birthdate);                
-            $ageText = $diff->y . ' años';
+                $birthdate = new DateTime($dateValue);
+                $today = new DateTime();
+                $diff = $today->diff($birthdate);
+                $ageText = $diff->y . ' años';
+            }
 
+            //Inyectamos la edad calculada
+            $client['edad'] = $ageText;
+
+            //Guardamos el cliente completo (que ya incluye su $client['id'])
+            $clients[] = $client;
         }
 
-        //Inyectamos la edad calculada
-        $client['edad'] = $ageText;
+        //4. Configuramos metadatos de la vista
+        $title = 'Clientes';
+        $bodyClass = 'layout-footer';
+        $extraScripts = [
+            'DataTables/jquery-3.7.0.min.js',
+            'DataTables/jquery.dataTables.min.js',
+            'DataTables/dataTables.bootstrap5.min.js',
+            'js/sidebar.js',
+            'js/clients.js'
+        ];
 
-        //Guardamos el cliente completo (que ya incluye su $client['id'])
-        $clients[] = $client;
+        require_once __DIR__ . '/../views/clients/index.php';
     }
 
-    //4. Configuramos metadatos de la vista
-    $title = 'Clientes';
-    $bodyClass = 'layout-footer';
-    $extraScripts = [
-        'DataTables/jquery-3.7.0.min.js', 
-        'DataTables/jquery.dataTables.min.js', 
-        'DataTables/dataTables.bootstrap5.min.js', 
-        'js/sidebar.js', 
-        'js/clients.js'
-    ];
+    public function create()
+    {
 
-    require_once __DIR__ . '/../views/clients/index.php';
-
-    }
-
-    public function create() {
-
-        if(!Session::isLogged()) {
+        if (!Session::isLogged()) {
             redirect('login');
         }
 
@@ -93,64 +95,65 @@ class ClientController {
         require_once __DIR__ . '/../views/clients/create.php';
     }
 
-    public function register() {
+    public function register()
+    {
 
-            //Validamos y limpiamos los datos
-            $data = $this->validateClientRequest();
+        //Validamos y limpiamos los datos
+        $data = $this->validateClientRequest();
 
-            //Obtenemos la conexión para manejar la transacción entre ambos modelos
-            $db = Connection::getInstance()->getConnection();
+        //Obtenemos la conexión para manejar la transacción entre ambos modelos
+        $db = Connection::getInstance()->getConnection();
 
-            try {
+        try {
 
-                $db->beginTransaction();
+            $db->beginTransaction();
 
-                //1. Registrar el cliente
-                $clientId = $this->clientModel->create(
-                    $data['name'],
-                    $data['surname'],
-                    $data['phone'],
-                    $data['dni'],
-                    $data['birthdate'],
-                    $data['gender']
-                );
+            //1. Registrar el cliente
+            $clientId = $this->clientModel->create(
+                $data['name'],
+                $data['surname'],
+                $data['phone'],
+                $data['dni'],
+                $data['birthdate'],
+                $data['gender']
+            );
 
-                //2. Registrar los antecedentes de BioPortal (si existen)
-                if(!empty($_POST['antecedentes']) && is_array($_POST['antecedentes'])) {
-                    foreach ($_POST['antecedentes'] as $antecedente) {
-                        $this->clientAntecedentModel->create(
-                            $clientId,
-                            intval($antecedente['tipo_id']),
-                            $antecedente['concept_id'], //CUI / Notation de BioPortal
-                            htmlspecialchars($antecedente['term_name']),
-                            'Declarado en el registro inicial de BioPortal.'
-                        );
-                    }
+            //2. Registrar los antecedentes de BioPortal (si existen)
+            if (!empty($_POST['antecedentes']) && is_array($_POST['antecedentes'])) {
+                foreach ($_POST['antecedentes'] as $antecedente) {
+                    $this->clientAntecedentModel->create(
+                        $clientId,
+                        intval($antecedente['tipo_id']),
+                        $antecedente['concept_id'], //CUI / Notation de BioPortal
+                        htmlspecialchars($antecedente['term_name']),
+                        'Declarado en el registro inicial de BioPortal.'
+                    );
                 }
-
-                //Si todo salió bien en ambos modelos, confirmamos los cambios
-                $db->commit();
-
-                echo json_encode([
-                    'status' => 'success',
-                    'redirect' => Paths::to('clients/create?success')
-                ]);
-                exit();
-
-            } catch (\Exception $e) {
-                $db->rollBack();
-
-                echo json_encode([
-                    'status' => 'error',
-                    'message' => 'Error crítico en la base de datos al procesar el registro',
-                    'debug' => $e->getMessage()
-                ]);
-                exit();
             }
+
+            //Si todo salió bien en ambos modelos, confirmamos los cambios
+            $db->commit();
+
+            echo json_encode([
+                'status' => 'success',
+                'redirect' => Paths::to('clients/create')
+            ]);
+            exit();
+        } catch (\Exception $e) {
+            $db->rollBack();
+
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Error crítico en la base de datos al procesar el registro',
+                'debug' => $e->getMessage()
+            ]);
+            exit();
+        }
     }
-    
+
     //Validador privado para las solicitudes de cliente
-    private function validateClientRequest() {
+    private function validateClientRequest()
+    {
 
         $name = trim($_POST['name'] ?? '');
         $surname = trim($_POST['surname'] ?? '');
@@ -208,10 +211,5 @@ class ClientController {
             'birthdate' => $birthdate,
             'gender' => $gender
         ];
-
     }
-
 }
-
-
-?>

@@ -3,9 +3,8 @@
 
 namespace App\Core;
 
-use App\Config\Config;
-
-class Router {
+class Router
+{
 
     //Arreglos para almacenar rutas y controladores
     private $views = [];
@@ -13,40 +12,44 @@ class Router {
     private $getControllers = [];
 
     //Registra una ruta y el archivo de vista que debe cargar
-    public function addView($route, $file) {
+    public function addView($route, $file)
+    {
         $this->views[$route] = $file;
     }
 
     //Registra una ruta, el controlador y el método para POST
-    public function addController($route, $controller, $method) {
+    public function addController($route, $controller, $method)
+    {
         $this->controllers[$route] = ['controller' => $controller, 'method' => $method];
     }
 
     //Registra controladores accesibles por GET (API endpoints, etc.)
-    public function addGetController($route, $controller, $method) {
+    public function addGetController($route, $controller, $method)
+    {
         $this->getControllers[$route] = ['controller' => $controller, 'method' => $method];
     }
 
     //Comparamos la URL actual con lo que tenemos registrada y ejecutamos la acción correspondiente
-    public function run($currentRoute) {
+    public function run($currentRoute)
+    {
 
-        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->handlePost($currentRoute);
         } else {
             $this->handleGet($currentRoute);
         }
-
     }
 
     //Rutas públicas que no requieren sesión
-    private function isPublicRoute(string $path): bool {
+    private function isPublicRoute(string $path): bool
+    {
         $public = [
             'login',
             'register'
         ];
 
         //Permitir APIs públicas
-        if(strpos($path, 'api/') === 0) {
+        if (strpos($path, 'api/') === 0) {
             return true;
         }
 
@@ -54,7 +57,8 @@ class Router {
     }
 
     //Manejo de las peticiones GET
-    private function handleGet($currentRoute) {
+    private function handleGet($currentRoute)
+    {
 
         //Limpiamos barras vacías al inicio y al final (ej: "/employees/" se vuelve "employees")
         $cleanRoute = trim($currentRoute, '/');
@@ -62,59 +66,56 @@ class Router {
         //Si la ruta está vacía, vamos al login por defecto
         $path =  $cleanRoute ?: 'login';
 
+        //Si la ruta no está registrada como vista ni como controlador GET, mostramos 404
+        if (!array_key_exists($path, $this->views) && !array_key_exists($path, $this->getControllers)) {
+            $this->render404();
+        }
+
         //Si la ruta no es pública y el usuario no está logueado, redirigimos al login
-        if(!Session::isLogged() && !$this->isPublicRoute($path)) {
+        if (!Session::isLogged() && !$this->isPublicRoute($path)) {
             redirect('login?auth_error=1');
             exit();
         }
 
         //Verificamos si la ruta existe en las vistas registradas
-        if(array_key_exists($path, $this->views)) {
+        if (array_key_exists($path, $this->views)) {
             $viewPath = $this->views[$path];
 
             //Verificamos que el archivo de vista exista físicamente antes de incluirlo
-            if(file_exists($viewPath)) {
+            if (file_exists($viewPath)) {
                 include $viewPath;
-
             } else {
                 $this->render404(); //Si el archivo no existe físicamente
             }
-
         } else {
 
             //Si la ruta no está registrada como vista, comprobar si es un controlador GET (API)
-            if(array_key_exists($path, $this->getControllers)) {
+            $config = $this->getControllers[$path];
+            $controllerName = $config['controller'];
+            $method = $config['method'];
 
-                $config = $this->getControllers[$path];
-                $controllerName = $config['controller'];
-                $method = $config['method'];
-
-                $controller = new $controllerName();
-                $controller->$method();
-                return;
-                
-            }
-
-            $this->render404(); //Si la ruta no está registrada
+            $controller = new $controllerName();
+            $controller->$method();
+            return;
         }
-
     }
 
     //Manejo de las peticiones POST
-    private function handlePost($currentRoute) {
+    private function handlePost($currentRoute)
+    {
 
         //Limpiamos la ruta
         $cleanRoute = trim($currentRoute, '/');
         $path = $cleanRoute ?: 'login';
 
         //Para POST: permitir acciones públicas (login, register) sin sesión
-        if(!Session::isLogged() && !$this->isPublicRoute($path)) {
+        if (!Session::isLogged() && !$this->isPublicRoute($path)) {
             redirect('login');
             exit();
         }
 
         //Ahora comprobamos si la URL (ej: 'clients/edit') existe en tus controladores POST
-        if(array_key_exists($path, $this->controllers)) {
+        if (array_key_exists($path, $this->controllers)) {
 
             $config = $this->controllers[$path];
             $controllerName = $config['controller'];
@@ -122,11 +123,10 @@ class Router {
 
             $controller = new $controllerName();
             $controller->$method();
-
         } else {
 
             //Verificamos que se haya enviado una acción y que esté registrada en los controladores
-            if(isset($_POST['action']) && array_key_exists($_POST['action'], $this->controllers)) {
+            if (isset($_POST['action']) && array_key_exists($_POST['action'], $this->controllers)) {
 
                 $config = $this->controllers[$_POST['action']];
                 $controllerName = $config['controller'];
@@ -135,21 +135,24 @@ class Router {
                 //Instanciar el controlador y llamar el método
                 $controller = new $controllerName();
                 $controller->$method();
-
             } else {
                 $this->render404(); //Si la acción no está registrada o no se envió
             }
-
         }
     }
 
     //Método para mostrar un error 404
-    private function render404() {
+    private function render404()
+    {
         http_response_code(404);
-        echo "<h1>404 - Página no encontrada</h1>";
+
+        $viewPath = __DIR__ . '/../app/views/404.php';
+        if (file_exists($viewPath)) {
+            include $viewPath;
+        } else {
+            echo "<h1>404 - Página no encontrada</h1>";
+        }
+
         exit();
     }
-
 }
-
-?>
