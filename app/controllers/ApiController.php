@@ -37,7 +37,7 @@ class ApiController
     {
 
         //Alternativa segura usando la raíz del proyecto
-        $jsonPath = dirname(__DIR__, 2) . '/core/snomed_catalog.json';
+        $jsonPath = dirname(__DIR__, 2) . '/storage/snomed_catalog.json';
 
         //Verificación defensiva por seguridad si el archivo no existe
         if (!file_exists($jsonPath)) {

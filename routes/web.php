@@ -28,5 +28,3 @@ $router->addController('clients/edit', \App\Controllers\ClientController::class,
 
 //Ejecutamos el router con la ruta actual
 $router->run(isset($_GET['p']) ? $_GET['p'] : 'login');
-
-?>

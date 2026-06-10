@@ -5,17 +5,20 @@ namespace App\Controllers;
 use App\Models\User;
 use App\Core\Session;
 
-class EmployeeController {
+class EmployeeController
+{
 
     private $userModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->userModel = new User();
     }
 
-    public function index() {
+    public function index()
+    {
 
-        if(!Session::isLogged()) {
+        if (!Session::isLogged()) {
             redirect('login');
         }
 
@@ -33,7 +36,4 @@ class EmployeeController {
 
         require_once __DIR__ . '/../views/employees/index.php';
     }
-
 }
-
-?>

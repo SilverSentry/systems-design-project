@@ -7,7 +7,8 @@ namespace App\Config;
 use PDO;
 use PDOException;
 
-class Connection {
+class Connection
+{
 
     private static $instance = null;
     private $pdo;
@@ -18,7 +19,8 @@ class Connection {
     private $password = "";
 
     //Constructor privado para evitar instanciación directa
-    private function __construct() {
+    private function __construct()
+    {
 
         try {
 
@@ -28,33 +30,28 @@ class Connection {
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 PDO::ATTR_EMULATE_PREPARES => false,
             ]);
-
         } catch (PDOException $exception) {
 
             die("Error de conexión: " . $exception->getMessage());
-
         }
-
     }
 
     //Método mágico que controla la existencia de la conexión
-    public static function getInstance() {
-        if(self::$instance === null) {
+    public static function getInstance()
+    {
+        if (self::$instance === null) {
             self::$instance = new self();
         }
 
         return self::$instance;
-
     }
 
     //Método para obtener la conexión PDO
-    public static function getConnection() {
+    public static function getConnection()
+    {
         return self::getInstance()->pdo;
     }
 
     //Método para evitar la clonación de la instancia
-    private function __clone() { }
-
+    private function __clone() {}
 }
-
-?>

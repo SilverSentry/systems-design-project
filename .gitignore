@@ -4,6 +4,9 @@
 
 .DS_Store
 
-storage/logs/*.log
+storage/*
+
+# Excepto los archivos ocultos que mantienen vivas las carpetas (.gitkeep)
+!storage/.gitkeep
 
 repomix-output.xml

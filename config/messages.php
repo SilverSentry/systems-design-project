@@ -3,7 +3,8 @@
 
 namespace App\Config;
 
-class Messages {
+class Messages
+{
 
     //Mensajes generales
     public const ERR_EMPTY_FIELDS = 'Todos los campos son obligatorios';
@@ -19,7 +20,7 @@ class Messages {
     public const SUCCESS_REGISTER = 'Ya puedes iniciar sesión';
 
     //Mensajes para la autenticación
-    const ERR_AUTH_SESSION = 'Debes iniciar sesión para acceder a esta sección';
+    public const ERR_AUTH_SESSION = 'Debes iniciar sesión para acceder a esta sección';
 
     //Mensajes para el login
     public const ERR_INCORRECT_CREDENTIALS = 'Crendeciales incorrectas';
@@ -32,7 +33,5 @@ class Messages {
     public const ERR_CLIENT_ALREADY_EXISTS = 'Ya existe un cliente con la cédula de identidad ingresada';
     public const ERR_CLIENT_CREATION_FAILED = 'No se pudo crear el cliente, intente nuevamente';
     public const SUCCESS_CLIENT_CREATED = 'Cliente creado exitosamente';
-
+    
 }
-
-?>
