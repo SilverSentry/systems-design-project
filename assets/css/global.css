@@ -1,0 +1,41 @@
+/* Estilos base y variables globales */
+
+html,
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-attachment: fixed;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  background-color: #ffffff;
+  background-image:
+    radial-gradient(at 0% 0%, rgba(212, 175, 55, 0.22) 0px, transparent 45%),
+    radial-gradient(at 100% 100%, rgba(243, 211, 211, 0.6) 0px, transparent 50%),
+    radial-gradient(at 80% 30%, rgba(250, 241, 214, 0.5) 0px, transparent 40%),
+    radial-gradient(at 40% 70%, rgba(240, 242, 245, 0.7) 0px, transparent 50%);
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+:root {
+  --btn-primary: linear-gradient(135deg, #f3d060 0%, #f3d060 100%);
+  --color-negro: #0a0a0a;
+  --color-dorado: #c9a961;
+  --color-dorado-claro: #d4b978;
+  --color-dorado-oscuro: #b8944f;
+  --color-gris-claro: #f8f9fa;
+  --color-texto: #333333;
+  --sidebar-width: 250px;
+}
+
+.link {
+  color: #BF9969 !important;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

@@ -7,6 +7,8 @@ use App\Core\Paths;
 ?>
 <script src="<?= Paths::asset('SweetAlert2/sweetalert2.all.min.js') ?>"></script>
 <script src="<?= Paths::asset('js/app.js') ?>"></script>
+
+<!-- Carga de scripts adicionales específicos para cada vista -->
 <?php if (!empty($extraScripts) && is_array($extraScripts)): ?>
     <?php foreach ($extraScripts as $script): ?>
         <script src="<?= Paths::asset($script) ?>"></script>

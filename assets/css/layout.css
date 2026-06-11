@@ -1,0 +1,65 @@
+/* Estructura de layout general */
+
+#page-content-wrapper {
+  position: relative;
+  padding-top: 100px;
+  flex: 1 1 auto;
+}
+
+.title-style {
+  background: linear-gradient(135deg, #d4b978 0%, #a88944 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1040;
+  background: rgba(255, 255, 255, 0.63);
+  backdrop-filter: blur(20px) !important;
+  padding: 20px 30px;
+  border-bottom: 2px solid #e6c48698 !important;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.63);
+  padding: 10px 30px;
+  border-top: 2px solid #e6c48698 !important;
+  backdrop-filter: blur(20px) !important;
+  display: flex;
+  justify-content: center;
+}
+
+.layout-footer {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 100vh !important;
+  margin: 0;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1040;
+  display: none;
+  transition: all 0.3s ease;
+}
+
+.overlay.show {
+  display: block;
+}

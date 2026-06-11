@@ -16,7 +16,18 @@ use App\Core\Paths;
     <link href="<?= Paths::asset('Bootstrap-icons/bootstrap-icons.min.css') ?>" rel="stylesheet">
     <link href="<?= Paths::asset('DataTables/dataTables.bootstrap5.min.css') ?>" rel="stylesheet">
     <link rel="icon" type="image/png" href="<?= Paths::asset('img/logo.png'); ?>">
-    <link href="<?= Paths::asset('css/styles.css') ?>" rel="stylesheet">
+    <link href="<?= Paths::asset('css/global.css') ?>" rel="stylesheet">
+    <link href="<?= Paths::asset('css/layout.css') ?>" rel="stylesheet">
+    <link href="<?= Paths::asset('css/components.css') ?>" rel="stylesheet">
+    <link href="<?= Paths::asset('css/animations.css') ?>" rel="stylesheet">
+
+    <!-- Carga de estilos adicionales específicos para cada vista -->
+    <?php if (!empty($extraStyles) && is_array($extraStyles)): ?>
+        <?php foreach ($extraStyles as $style): ?>
+            <link href="<?= Paths::asset($style) ?>" rel="stylesheet">
+        <?php endforeach; ?>
+    <?php endif; ?>
+    
 </head>
 
 <body class="<?= $bodyClass ?? '' ?>">

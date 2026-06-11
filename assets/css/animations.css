@@ -1,0 +1,65 @@
+/* Archivo CSS para las animaciones del sistema */
+
+.animate-fadeInUp {
+  opacity: 0;
+  transform: translateY(28px);
+  animation: fadeInUp 0.85s ease-out both;
+}
+
+.animate-fadeIn {
+  opacity: 0;
+  animation: fadeIn 0.85s ease-out both;
+}
+
+.animate-scaleIn {
+  opacity: 0;
+  transform: scale(0.98);
+  animation: scaleIn 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-delay-1 {
+  animation-delay: 0.08s;
+}
+
+.animate-delay-2 {
+  animation-delay: 0.18s;
+}
+
+.animate-delay-3 {
+  animation-delay: 0.28s;
+}
+
+.animate-delay-4 {
+  animation-delay: 0.38s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}

@@ -43,7 +43,7 @@ class DashboardController
 
         $title = $isAdmin ? 'Panel de Administración' : 'Panel de Empleados';
         $bodyClass = 'layout-footer';
-        $extraScripts = ['js/sidebar.js'];
+        $extraScripts = ['js/sidebar.js', 'Chart.js/chart.js', 'js/dashboard.js'];
 
         if ($isAdmin) {
             require_once __DIR__ . '/../views/dashboard/admin.php';

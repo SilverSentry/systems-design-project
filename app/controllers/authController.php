@@ -32,6 +32,7 @@ class AuthController
         }
 
         $title = 'Inicio de Sesión';
+        $extraStyles = ['css/auth.css'];
         $bodyClass = 'd-flex align-items-center min-vh-100 body-lr';
         require_once __DIR__ . '/../views/auth/login.php';
     }
@@ -45,6 +46,7 @@ class AuthController
         }
 
         $title = 'Registro de Usuario';
+        $extraStyles = ['css/auth.css'];
         $bodyClass = 'd-flex align-items-center min-vh-100 body-lr';
         require_once __DIR__ . '/../views/auth/register.php';
     }

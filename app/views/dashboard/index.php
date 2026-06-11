@@ -44,12 +44,12 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
             </div>
         </header>
 
-        <div class="container-fluid p-4">
+        <div class="container-fluid p-4 dashboard-content animate-fadeIn animate-delay-1">
 
             <!-- Tarjetas de Estadísticas -->
             <div class="row g-3 mb-4 justify-content-center">
                 <div class="col-md-3">
-                    <div class="card stat-card text-black">
+                    <div class="card stat-card text-black animate-fadeInUp animate-delay-2">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
@@ -65,7 +65,7 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
                 </div>
 
                 <div class="col-md-3">
-                    <div class="card stat-card text-black">
+                    <div class="card stat-card text-black animate-fadeInUp animate-delay-3">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
@@ -81,7 +81,7 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
                 </div>
 
                 <div class="col-md-3">
-                    <div class="card stat-card text-black">
+                    <div class="card stat-card text-black animate-fadeInUp animate-delay-4">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
