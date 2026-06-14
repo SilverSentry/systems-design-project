@@ -55,7 +55,42 @@ function cleanUrlParams() {
     }
 }
 
+function getQueryParam(name) {
+    return new URLSearchParams(window.location.search).get(name);
+}
+
+function redirectToLoginWithExpiredMessage() {
+    const loginUrl = window.AppBasePath + 'login?session_expired=1';
+    window.location.href = loginUrl;
+}
+
+function initSessionTimeout(timeoutSeconds = 900) {
+    if (window.isUserLoggedIn !== true) {
+        return;
+    }
+
+    let lastInteraction = Date.now();
+
+    const resetTimer = () => {
+        lastInteraction = Date.now();
+    };
+
+    const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
+    events.forEach(event => window.addEventListener(event, resetTimer));
+
+    setInterval(() => {
+        const secondsIdle = Math.floor((Date.now() - lastInteraction) / 1000);
+        if (secondsIdle >= timeoutSeconds) {
+            redirectToLoginWithExpiredMessage();
+        }
+    }, 1000);
+}
+
 function cleanAllInputs(querySelector, classToRemove) {
     const allInputs = document.querySelectorAll(querySelector);
     allInputs.forEach(input => input.classList.remove(classToRemove));
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    initSessionTimeout(15 * 60);
+});

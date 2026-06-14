@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
     const searchInput = document.getElementById("searchSnomed");
     const resultsList = document.getElementById("snomedResults");
@@ -18,97 +18,97 @@ document.addEventListener("DOMContentLoaded", function() {
     //Constante para seleccionar todos los input
     const inputs = createClientForm ? createClientForm.querySelectorAll('input') : [];
 
-        inputs.forEach(input => {
-            input.addEventListener("input", function() {
+    inputs.forEach(input => {
+        input.addEventListener("input", function () {
 
-                //Apenas se empiece a escribir, se quita la clase de error de Bootstrap
-                if (this.classList.contains("is-invalid")) {
+            //Apenas se empiece a escribir, se quita la clase de error de Bootstrap
+            if (this.classList.contains("is-invalid")) {
 
-                    this.classList.remove("is-invalid");
+                this.classList.remove("is-invalid");
 
-                }
-                
-            });
-        });
-
-   //Bloque para manejar los mensajes de error 
-   if (createClientForm) {
-
-    //Se usam async/await
-    createClientForm.addEventListener("submit", async (e) => {
-        e.preventDefault(); 
-
-        const submitBtn = document.getElementById("submitBtn");
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...`;
-
-        const formData = new FormData(e.target);
-        const urlAction = e.target.getAttribute('action');
-
-        const allInputs = e.target.querySelectorAll('.form-control');
-
-        //1. Limpiar todos los bordes rojos previos al inicio de la validación
-        cleanAllInputs('.form-control', 'is-invalid');
-
-        try {
-            const response = await fetch(urlAction, {
-                method: "POST",
-                body: formData
-            });
-
-            //Si el servidor responde un error fatal (ej: 500 o 404), saltamos al catch
-            if (!response.ok) throw new Error("Error en la respuesta del servidor");
-
-            const data = await response.json();
-
-            //Si el registro es exitoso, mostramos un mensaje
-            if (data.status === 'success') {
-
-                cleanAllInputs('.form-control', 'is-invalid');
-                submitBtn.innerText = "¡Cliente registrado!";
-                
-                showAlert('success', '¡Cliente registrado!','¿Desea realizar una reservación?', '#2aeb10')
-                .then(() => {
-
-                    //Redirección
-                    window.location.href = data.redirect;
-                });
-
-            //En caso de error, se muestra los mensajes de error correspondientes
-            } else {
-
-                //Restablecer botón en caso de error de validación
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = "<i class='bi bi-person-plus'></i> Registrar cliente";
-
-                //Mostrar mensaje de error enviado desde PHP
-                showToast('error', data.message);
-
-                //2. Pintar bordes rojos según la respuesta
-                if (data.field === 'dni') {
-                    const dniInput = document.getElementById("dni"); //Asegúrate de que el input tenga id="dni"
-
-                    if (dniInput) dniInput.classList.add("is-invalid");
-
-                } else if (data.field === 'all') {
-                    allInputs.forEach(input => input.classList.add("is-invalid"));
-                }
             }
 
-        } catch (error) {
-
-            //Manejo de caídas de conexión o errores sintácticos de PHP (HTML en lugar de JSON)
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = "<i class='bi bi-person-plus'></i> Registrar cliente";
-            console.error("Error capturado: ", error);
-
-            showToast('error', "Error de procesamiento en el servidor");
-        }
+        });
     });
-}
+
+    //Bloque para manejar los mensajes de error 
+    if (createClientForm) {
+
+        //Se usam async/await
+        createClientForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById("submitBtn");
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...`;
+
+            const formData = new FormData(e.target);
+            const urlAction = e.target.getAttribute('action');
+
+            const allInputs = e.target.querySelectorAll('.form-control');
+
+            //1. Limpiar todos los bordes rojos previos al inicio de la validación
+            cleanAllInputs('.form-control', 'is-invalid');
+
+            try {
+                const response = await fetch(urlAction, {
+                    method: "POST",
+                    body: formData
+                });
+
+                //Si el servidor responde un error fatal (ej: 500 o 404), saltamos al catch
+                if (!response.ok) throw new Error("Error en la respuesta del servidor");
+
+                const data = await response.json();
+
+                //Si el registro es exitoso, mostramos un mensaje
+                if (data.status === 'success') {
+
+                    cleanAllInputs('.form-control', 'is-invalid');
+                    submitBtn.innerText = "¡Cliente registrado!";
+
+                    showAlert('success', data.message, '¿Desea realizar una reservación?', '#2aeb10')
+                        .then(() => {
+
+                            //Redirección
+                            window.location.href = data.redirect;
+                        });
+
+                    //En caso de error, se muestra los mensajes de error correspondientes
+                } else {
+
+                    //Restablecer botón en caso de error de validación
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = "<i class='bi bi-person-plus'></i> Registrar cliente";
+
+                    //Mostrar mensaje de error enviado desde PHP
+                    showToast('error', data.message);
+
+                    //2. Pintar bordes rojos según la respuesta
+                    if (data.field === 'all') {
+                        allInputs.forEach(input => input.classList.add("is-invalid"));
+
+                    } else if (data.field) {
+                        const input = document.getElementById(data.field);
+
+                        if (input) input.classList.add("is-invalid");
+                    }
+                }
+
+            } catch (error) {
+
+                //Manejo de caídas de conexión o errores sintácticos de PHP (HTML en lugar de JSON)
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = "<i class='bi bi-person-plus'></i> Registrar cliente";
+                console.error("Error capturado: ", error);
+
+                showToast('error', "Error de procesamiento en el servidor");
+            }
+        });
+    }
 
     //Evento para el buscador de antecedentes usando el backend
-    searchInput.addEventListener("input", function() {
+    searchInput.addEventListener("input", function () {
         clearTimeout(timeout);
 
         selectedId = null;
@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         li.style.cursor = 'pointer';
                         li.innerHTML = `<strong>${term}</strong> <small class="text-muted">(${conceptId})</small>`;
 
-                        li.addEventListener('click', function() {
+                        li.addEventListener('click', function () {
                             searchInput.value = term;
                             selectedId = conceptId;
                             selectedTerm = term;
@@ -168,10 +168,10 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     //Botón "Anexar"
-    addBtn.addEventListener("click", function() {
+    addBtn.addEventListener("click", function () {
         if (!selectedId || !selectedTerm) {
             if (searchInput) searchInput.classList.add("is-invalid");
-            showToast('error', "Por favor, selecciona un término válido del buscador.");
+            showToast('error', "Por favor, selecciona un término válido del buscador");
             return;
         }
 

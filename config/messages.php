@@ -32,6 +32,6 @@ class Messages
     public const ERR_SELECTION_EMPTY = 'No se han seleccionado antecedentes clínicos';
     public const ERR_CLIENT_ALREADY_EXISTS = 'Ya existe un cliente con la cédula de identidad ingresada';
     public const ERR_CLIENT_CREATION_FAILED = 'No se pudo crear el cliente, intente nuevamente';
-    public const SUCCESS_CLIENT_CREATED = 'Cliente creado exitosamente';
+    public const SUCCESS_CLIENT_CREATED = '¡Cliente registrado exitosamente!';
     
 }

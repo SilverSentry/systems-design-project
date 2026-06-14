@@ -1,4 +1,5 @@
 <?php
+
 /** @var array $user */
 
 use App\Core\Paths;
@@ -28,7 +29,7 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
     <form id="createClientForm" method="POST" action="<?= Paths::to('clients/register') ?>">
         <input type="hidden" name="action" value="clients/register">
 
-        <div class="col-12 col-md-7 mx-auto mt-4">
+        <div class="col-12 col-md-8 mx-auto mt-4">
             <div class="card shadow border-0">
                 <div class="card-header py-3">
                     <h1 class="card-title mb-0 fw-bold">Agregar cliente</h1>
@@ -117,7 +118,7 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
                         <div class="col-md-3">
                             <button type="button" class="btn btn-secondary w-100" id="addAntecedenteBtn">Anexar</button>
                         </div>
-                        
+
                     </div>
 
                     <div class="mb-4">
@@ -129,14 +130,21 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
 
                     <div id="hiddenInputsContainer"></div>
 
-                    <div class="d-flex justify-content-center align-items-center">
-                        <button type="submit" class="btn btn-golden btn-golden-all btn-lg" id="submitBtn"><i class="bi bi-person-plus"></i> Registrar cliente</button>
+                    <div class="row g-2 justify-content-end">
+                        <div class="col-auto m-1">
+                            <a href="<?= Paths::to('clients') ?>" class="btn btn-second btn-lg"><i class="bi bi-box-arrow-in-left"></i> Regresar</a>
+                        </div>
+
+                        <div class="col-auto m-1">
+                            <button type="submit" class="btn btn-golden-all btn-lg" id="submitBtn"><i class="bi bi-person-plus"></i> Registrar cliente</button>
+                        </div>
                     </div>
                 </div>
-
             </div>
+
         </div>
-    </form>
+</div>
+</form>
 </div>
 
 <!-- Overlay para móvil -->

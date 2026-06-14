@@ -1,4 +1,5 @@
 <?php
+//Controlador para manejar la lógica relacionada con empleados (usuarios del sistema)
 
 namespace App\Controllers;
 
@@ -24,14 +25,28 @@ class EmployeeController
 
         $user = Session::getUser();
         $users = $this->userModel->getAll();
+
         $title = 'Panel de Empleados';
         $bodyClass = 'layout-footer';
+
         $extraScripts = [
             'DataTables/jquery-3.7.0.min.js',
             'DataTables/jquery.dataTables.min.js',
             'DataTables/dataTables.bootstrap5.min.js',
             'js/sidebar.js',
             'js/employees.js'
+        ];
+
+        $roleBadges = [
+            'admin' => 'text-bg-primary',
+            'superadmin' => 'text-bg-dark',
+            'usuario' => 'text-bg-info',
+            'cliente' => 'text-bg-secondary',
+        ];
+
+        $statusBadges = [
+            'activo' => 'text-bg-success',
+            'inactivo' => 'text-bg-danger',
         ];
 
         require_once __DIR__ . '/../views/employees/index.php';

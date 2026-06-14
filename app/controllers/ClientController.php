@@ -1,4 +1,5 @@
 <?php
+//Controlador para la gestión de clientes
 
 namespace App\Controllers;
 
@@ -80,6 +81,7 @@ class ClientController
         require_once __DIR__ . '/../views/clients/index.php';
     }
 
+    //Método para mostrar la vista de creación de clientes
     public function create()
     {
 
@@ -88,9 +90,15 @@ class ClientController
         }
 
         $user = Session::getUser();
+
         $title = 'Crear cliente';
         $bodyClass = 'layout-footer';
+
         $extraScripts = ['js/sidebar.js', 'js/client-create.js'];
+
+        $roleBadges = [
+            'cliente' => 'text-bg-secondary'
+        ];
 
         require_once __DIR__ . '/../views/clients/create.php';
     }
@@ -136,6 +144,7 @@ class ClientController
 
             echo json_encode([
                 'status' => 'success',
+                'message' => Messages::SUCCESS_CLIENT_CREATED,
                 'redirect' => Paths::to('clients/create')
             ]);
             exit();

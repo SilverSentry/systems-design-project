@@ -45,17 +45,22 @@ require __DIR__ . '/../layouts/head.php';
               </tr>
             </thead>
             <tbody>
-              <?php foreach ($users as $employee): ?>
+              <?php foreach ($users as $employee):
+                $roleName = strtolower($employee['rol_nombre'] ?? $employee['id_rol'] ?? 'desconocido');
+                $statusName = strtolower($employee['estado_nombre'] ?? $employee['id_estado'] ?? 'desconocido');
+                $roleClass = $roleBadges[$roleName] ?? 'text-bg-secondary';
+                $statusClass = $statusBadges[$statusName] ?? 'text-bg-secondary';
+              ?>
                 <tr>
                   <td><?= htmlspecialchars($employee['id']) ?></td>
                   <td><?= htmlspecialchars(ucfirst($employee['nombre'])) ?></td>
                   <td><?= htmlspecialchars(ucfirst($employee['apellido'])) ?></td>
                   <td><?= htmlspecialchars($employee['email']) ?></td>
-                  <td><?= htmlspecialchars(ucfirst($employee['rol_nombre'] ?? $employee['id_rol'] ?? 'Desconocido')) ?></td>
-                  <td><?= htmlspecialchars(ucfirst($employee['estado_nombre'] ?? $employee['id_estado'] ?? 'Desconocido')) ?></td>
+                  <td><span class="badge rounded-pill <?= $roleClass ?>"><?= htmlspecialchars(ucfirst($employee['rol_nombre'] ?? $employee['id_rol'] ?? 'Desconocido')) ?></span></td>
+                  <td><span class="badge rounded-pill <?= $statusClass ?>"><?= htmlspecialchars(ucfirst($employee['estado_nombre'] ?? $employee['id_estado'] ?? 'Desconocido')) ?></span></td>
                   <td>
                     <!-- Aquí puede ir un botón real de edición/eliminación cuando se agregue esa funcionalidad -->
-                    <button type="button" class="btn btn-sm btn-outline-secondary" disabled>Editar</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" disabled>Editar</button>
                   </td>
                 </tr>
               <?php endforeach; ?>

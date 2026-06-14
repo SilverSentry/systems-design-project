@@ -102,5 +102,41 @@ class Session
     public static function setUser(array $user): void
     {
         self::set('user', $user);
+        self::setLastActivity();
+    }
+
+    //Establecer el último momento de actividad
+    public static function setLastActivity(): void
+    {
+        self::set('last_activity', time());
+    }
+
+    //Obtener el último momento de actividad
+    public static function getLastActivity(): ?int
+    {
+        return self::get('last_activity');
+    }
+
+    //Verificar si la sesión ha expirado por inactividad
+    public static function isExpired(int $timeoutSeconds): bool
+    {
+        $lastActivity = self::getLastActivity();
+        return $lastActivity !== null && (time() - $lastActivity) >= $timeoutSeconds;
+    }
+
+    //Forzar expiración de sesión si se supera el tiempo de inactividad
+    public static function enforceTimeout(int $timeoutSeconds): void
+    {
+        self::start();
+
+        if (self::has('user') && self::isExpired($timeoutSeconds)) {
+            self::destroy();
+            redirect('login?session_expired=1');
+            exit();
+        }
+
+        if (self::has('user')) {
+            self::setLastActivity();
+        }
     }
 }

@@ -1,14 +1,14 @@
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function () {
 
     //Toggle para mostrar/ocultar contraseña
     const togglePassword = document.getElementById('togglePassword');
     const passwordInput = document.getElementById('password');
 
     //Se agrega el evento click al icono del ojo para mostrar/ocultar la contraseña
-    if(togglePassword && passwordInput) {
+    if (togglePassword && passwordInput) {
 
         //Se agrega el evento click al icono del ojo para mostrar/ocultar la contraseña
-        togglePassword.addEventListener('click', function() {
+        togglePassword.addEventListener('click', function () {
 
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
@@ -31,23 +31,23 @@ document.addEventListener("DOMContentLoaded", function(){
     //Constante para seleccionar todos los input
     const inputs = formLogin ? formLogin.querySelectorAll('input') : [];
 
-        inputs.forEach(input => {
-            input.addEventListener("input", function() {
+    inputs.forEach(input => {
+        input.addEventListener("input", function () {
 
-                //Apenas se empiece a escribir, se quita la clase de error de Bootstrap
-                if (this.classList.contains("is-invalid")) {
+            //Apenas se empiece a escribir, se quita la clase de error de Bootstrap
+            if (this.classList.contains("is-invalid")) {
 
-                    this.classList.remove("is-invalid");
+                this.classList.remove("is-invalid");
 
-                }
-                
-            });
+            }
+
         });
+    });
 
     //Captura de errores para el login
-    if(formLogin){
+    if (formLogin) {
 
-        formLogin.addEventListener("submit", async(e) =>{
+        formLogin.addEventListener("submit", async (e) => {
 
             e.preventDefault(); //Evita que se recargue la página
 
@@ -62,60 +62,65 @@ document.addEventListener("DOMContentLoaded", function(){
 
             fetch(urlAction, {
                 method: "POST",
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                },
                 body: formData
             })
 
-            .then(response => response.json())
-            .then(data => {
+                .then(response => response.json())
+                .then(data => {
+                    if (data.redirect) {
+                        return window.location.href = data.redirect;
+                    }
+                    if (data.status === 'success') {
 
-                //Si todo está bien, se redirige
-                if(data.status === 'success'){
+                        submitBtn.innerText = "¡Acceso concedido!";
+                        window.location.href = data.redirect;
 
-                    submitBtn.innerText = "¡Acceso concedido!";
-                    window.location.href = data.redirect;
+                        //En otro caso, se muestran los errores correspondientes
+                    } else {
 
-                //En otro caso, se muestran los errores correspondientes
-                } else{
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = "<i class='bi bi-box-arrow-in-right'></i> Ingresar";
 
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = "<i class='bi bi-box-arrow-in-right'></i> Ingresar";
+                        //Usamos el Toast genérico de app.js
+                        showToast("error", data.message);
 
-                    //Usamos el Toast genérico de app.js
-                    showToast("error", data.message);
-
-                    //Se limpia cualquier borde rojo previo (para no acumular errores)
-                    const allInputs = e.target.querySelectorAll('.form-control');
-                    allInputs.forEach(i => i.classList.remove("is-invalid"));
-
-                    //Manejo de error de formato no válido del correo
-                    if(data.field === 'email') {
-
-                        const emailError = document.getElementById(data.field);
-
-                        if(emailError) emailError.classList.add("is-invalid");
-
-                    //Manejo de otros mensajes de error
-                    } else{
-                            
+                        //Se limpia cualquier borde rojo previo (para no acumular errores)
                         const allInputs = e.target.querySelectorAll('.form-control');
                         allInputs.forEach(i => i.classList.remove("is-invalid"));
 
-                            if(data.field === 'all'){
+                        //Manejo de error de formato no válido del correo
+                        if (data.field === 'email') {
+
+                            const emailError = document.getElementById(data.field);
+
+                            if (emailError) emailError.classList.add("is-invalid");
+
+                            //Manejo de otros mensajes de error
+                        } else {
+
+                            const allInputs = e.target.querySelectorAll('.form-control');
+                            allInputs.forEach(i => i.classList.remove("is-invalid"));
+
+                            if (data.field === 'all') {
 
                                 allInputs.forEach(input => { input.classList.add("is-invalid"); });
 
                             }
-                    }
+                        }
 
-                }
-            })
-             
-            .catch (error => {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = "<i class='bi bi-box-arrow-in-right'></i> Ingresar";
-                console.error("Error en la petición: ", error);
-                showToast("error", "Error de conexión con el servidor");
-            });
+                    }
+                })
+
+                .catch(error => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = "<i class='bi bi-box-arrow-in-right'></i> Ingresar";
+                    console.error("Error en la petición: ", error);
+                    showToast("error", "Error de conexión con el servidor");
+                });
         });
     }
 
@@ -128,9 +133,15 @@ document.addEventListener("DOMContentLoaded", function(){
         const hasAuthError = authStatus.getAttribute('data-error') === 'true';
 
         if (hasAuthError) {
-            showAlert('warning', 'Acceso denegado', 'Debes iniciar sesión para poder acceder a esta sección.', '#eb1010')
-            .then(() => cleanUrlParams());
+            showAlert('warning', 'Acceso denegado', 'Debes iniciar sesión para poder acceder a esta sección', '#eb1010')
+                .then(() => cleanUrlParams());
         }
+    }
+
+    const sessionExpired = getQueryParam('session_expired') === '1';
+    if (sessionExpired) {
+        showAlert('warning', 'Sesión expirada', 'Por inactividad se cerró tu sesión. Vuelve a iniciar sesión para continuar', '#eb1010')
+            .then(() => cleanUrlParams());
     }
 
 });

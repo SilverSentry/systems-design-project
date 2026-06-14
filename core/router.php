@@ -45,7 +45,8 @@ class Router
     {
         $public = [
             'login',
-            'register'
+            'register',
+            'logout'
         ];
 
         //Permitir APIs públicas
@@ -65,6 +66,9 @@ class Router
 
         //Si la ruta está vacía, vamos al login por defecto
         $path =  $cleanRoute ?: 'login';
+
+        //Aplicar control de expiración de sesión por inactividad
+        Session::enforceTimeout(15 * 60);
 
         //Si la ruta no está registrada como vista ni como controlador GET, mostramos 404
         if (!array_key_exists($path, $this->views) && !array_key_exists($path, $this->getControllers)) {
@@ -107,6 +111,9 @@ class Router
         //Limpiamos la ruta
         $cleanRoute = trim($currentRoute, '/');
         $path = $cleanRoute ?: 'login';
+
+        //Aplicar control de expiración de sesión por inactividad
+        Session::enforceTimeout(15 * 60);
 
         //Para POST: permitir acciones públicas (login, register) sin sesión
         if (!Session::isLogged() && !$this->isPublicRoute($path)) {
