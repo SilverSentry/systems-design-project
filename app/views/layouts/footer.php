@@ -6,9 +6,13 @@ use App\Core\Paths;
 use App\Core\Session;
 
 ?>
+<!-- Overlay para móvil -->
+<div class="overlay" id="overlay"></div>
+
 <script>window.AppBasePath = '<?= Paths::to('') ?>';
 window.isUserLoggedIn = <?= Session::isLogged() ? 'true' : 'false' ?>;</script>
 <script src="<?= Paths::asset('SweetAlert2/sweetalert2.all.min.js') ?>"></script>
+<script src="<?= Paths::asset('Bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
 <script src="<?= Paths::asset('js/app.js') ?>"></script>
 
 <!-- Carga de scripts adicionales específicos para cada vista -->

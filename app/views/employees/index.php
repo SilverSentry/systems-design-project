@@ -15,9 +15,6 @@ require __DIR__ . '/../layouts/head.php';
   }
 </style>
 
-<!-- Esto es la capa que oscurece el fondo -->
-<div id="sidebar-overlay" class="overlay"></div>
-
 <?php require __DIR__ . '/../layouts/sidebar.php'; ?>
 
 <div id="page-content-wrapper" class="w-100">
@@ -72,8 +69,5 @@ require __DIR__ . '/../layouts/head.php';
   </div>
 
 </div>
-
-<!-- Overlay para móvil -->
-<div class="overlay" id="overlay"></div>
 
 <?php require __DIR__ . '/../layouts/footer.php'; ?>

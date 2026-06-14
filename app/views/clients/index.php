@@ -1,5 +1,4 @@
 <?php
-
 /** @var array $clients Arreglo de clientes provisto por ClientController */
 /** @var string $urlCreate URL para el botón de creación */
 /** @var string $urlEdit URL base para el formulario de edición */
@@ -18,9 +17,6 @@ require __DIR__ . '/../layouts/head.php';
         box-shadow: 0 4px 6px rgba(255, 87, 51, 0.1) !important;
     }
 </style>
-
-<!-- Esto es la capa que oscurece el fondo -->
-<div id="sidebar-overlay" class="overlay"></div>
 
 <?php require __DIR__ . '/../layouts/sidebar.php'; ?>
 
@@ -53,7 +49,7 @@ require __DIR__ . '/../layouts/head.php';
                         </thead>
                         <tbody>
                             <?php foreach ($clients as $client):
-                                $roleName = strtolower($employee['rol_nombre'] ?? $employee['id_rol'] ?? 'desconocido');
+                                $roleName = strtolower($client['rol_nombre'] ?? $client['id_rol'] ?? 'desconocido');
                                 $roleClass = $roleBadges[$roleName] ?? 'text-bg-secondary';
                             ?>
                                 <tr>
@@ -80,8 +76,5 @@ require __DIR__ . '/../layouts/head.php';
     </div>
 
 </div>
-
-<!-- Overlay para móvil -->
-<div class="overlay" id="overlay"></div>
 
 <?php require __DIR__ . '/../layouts/footer.php'; ?>

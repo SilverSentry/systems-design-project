@@ -55,15 +55,18 @@ function cleanUrlParams() {
     }
 }
 
+//Obtiene el valor de un parámetro específico de la URL
 function getQueryParam(name) {
     return new URLSearchParams(window.location.search).get(name);
 }
 
+//Redirige al usuario a la página de login con un mensaje de sesión expirada
 function redirectToLoginWithExpiredMessage() {
     const loginUrl = window.AppBasePath + 'login?session_expired=1';
     window.location.href = loginUrl;
 }
 
+//Inicializa el temporizador de sesión para redirigir al login después de un período de inactividad
 function initSessionTimeout(timeoutSeconds = 900) {
     if (window.isUserLoggedIn !== true) {
         return;
@@ -86,6 +89,7 @@ function initSessionTimeout(timeoutSeconds = 900) {
     }, 1000);
 }
 
+//Función para limpiar clases de error o validación de todos los inputs que coincidan con un selector
 function cleanAllInputs(querySelector, classToRemove) {
     const allInputs = document.querySelectorAll(querySelector);
     allInputs.forEach(input => input.classList.remove(classToRemove));

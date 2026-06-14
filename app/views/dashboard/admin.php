@@ -27,9 +27,6 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
     }
 </style>
 
-<!-- Esto es la capa que oscurece el fondo -->
-<div id="sidebar-overlay" class="overlay"></div>
-
 <?php require __DIR__ . '/../layouts/sidebar.php'; ?>
 
 <div id="page-content-wrapper" class="w-100">
@@ -85,7 +82,7 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="text-uppercase mb-1 opacity-75">Reservaciones</h6>
+                                <h6 class="text-uppercase mb-1 opacity-75">Citas</h6>
                                 <h3 class="fw-bold mb-0">0</h3>
                             </div>
                             <div class="stat-icon bg-warning text-black">
@@ -132,8 +129,5 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
     </div>
 
 </div>
-
-<!-- Overlay para móvil -->
-<div class="overlay" id="overlay"></div>
 
 <?php require __DIR__ . '/../layouts/footer.php'; ?>

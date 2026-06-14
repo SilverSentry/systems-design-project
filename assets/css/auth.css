@@ -106,10 +106,6 @@
   text-align: center;
 }
 
-.custom-swal-rect {
-  border-radius: 20px !important;
-}
-
 @media (max-width: 768px) {
   .brand-section {
     display: none;

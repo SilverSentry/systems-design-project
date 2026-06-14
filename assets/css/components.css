@@ -189,3 +189,19 @@
 #sidebar.active {
   left: 0;
 }
+
+.custom-swal-rect {
+  border-radius: 20px !important;
+  backdrop-filter: blur(10px) !important;
+  background: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Forzar a los elementos internos de animación a ser transparentes 
+   cuando estén dentro de tu clase personalizada */
+.custom-swal-rect .swal2-success-circular-line-left,
+.custom-swal-rect .swal2-success-circular-line-right,
+.custom-swal-rect .swal2-success-fix {
+  background: transparent !important;
+  background-color: transparent !important;
+}

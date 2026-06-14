@@ -11,25 +11,42 @@ class Router
     private $controllers = [];
     private $getControllers = [];
 
-    //Registra una ruta y el archivo de vista que debe cargar
+    /**
+     * Registra una ruta y el archivo de vista que debe cargar
+     * @param mixed $route
+     * @param mixed $file
+     */
     public function addView($route, $file)
     {
         $this->views[$route] = $file;
     }
 
-    //Registra una ruta, el controlador y el método para POST
+    /**
+     * Registra una ruta, el controlador y el método para POST
+     * @param mixed $route
+     * @param mixed $controller
+     * @param mixed $method
+     */
     public function addController($route, $controller, $method)
     {
         $this->controllers[$route] = ['controller' => $controller, 'method' => $method];
     }
 
-    //Registra controladores accesibles por GET (API endpoints, etc.)
+    /**
+     * Registra controladores accesibles por GET (API endpoints, etc.)
+     * @param mixed $route
+     * @param mixed $controller
+     * @param mixed $method
+     */
     public function addGetController($route, $controller, $method)
     {
         $this->getControllers[$route] = ['controller' => $controller, 'method' => $method];
     }
 
-    //Comparamos la URL actual con lo que tenemos registrada y ejecutamos la acción correspondiente
+    /**
+     * Comparamos la URL actual con lo que tenemos registrada y ejecutamos la acción correspondiente
+     * @param mixed $currentRoute
+     */
     public function run($currentRoute)
     {
 
@@ -57,7 +74,10 @@ class Router
         return in_array($path, $public, true);
     }
 
-    //Manejo de las peticiones GET
+    /**
+     * Manejo de las peticiones GET
+     * @param mixed $currentRoute
+     */
     private function handleGet($currentRoute)
     {
 
@@ -104,7 +124,10 @@ class Router
         }
     }
 
-    //Manejo de las peticiones POST
+    /**
+     * Manejo de las peticiones POST
+     * @param mixed $currentRoute
+     */
     private function handlePost($currentRoute)
     {
 

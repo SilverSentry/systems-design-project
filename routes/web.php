@@ -15,6 +15,8 @@ $router->addGetController('employees', \App\Controllers\EmployeeController::clas
 $router->addGetController('clients/create', \App\Controllers\ClientController::class, 'create');
 $router->addGetController('clients', \App\Controllers\ClientController::class, 'index');
 $router->addGetController('logout', \App\Controllers\AuthController::class, 'logout');
+$router->addGetController('appointments', \App\Controllers\AppointmentController::class, 'index');
+$router->addGetController('appointments/create', \App\Controllers\AppointmentController::class, 'create');
 
 //API: búsqueda SNOMED proxyeada por el backend
 $router->addGetController('api/search', \App\Controllers\ApiController::class, 'search');
@@ -26,6 +28,7 @@ $router->addController('register', \App\Controllers\AuthController::class, 'regi
 $router->addController('logout', \App\Controllers\AuthController::class, 'logout');
 $router->addController('clients/register', \App\Controllers\ClientController::class, 'register');
 $router->addController('clients/edit', \App\Controllers\ClientController::class, 'edit');
+$router->addController('appointments/schedule', \App\Controllers\AppointmentController::class, 'schedule');
 
 //Ejecutamos el router con la ruta actual
 $router->run(isset($_GET['p']) ? $_GET['p'] : 'login');

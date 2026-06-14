@@ -33,5 +33,10 @@ class Messages
     public const ERR_CLIENT_ALREADY_EXISTS = 'Ya existe un cliente con la cédula de identidad ingresada';
     public const ERR_CLIENT_CREATION_FAILED = 'No se pudo crear el cliente, intente nuevamente';
     public const SUCCESS_CLIENT_CREATED = '¡Cliente registrado exitosamente!';
+
+    //Mensajes para el agendamiento de citas
+    public const ERR_INVALID_DATE = 'La fecha de la cita no es válida';
+    public const ERR_INVALID_TIME = 'El horario ingresado no es válido';
+    public const ERR_INVALID_SERVICE_SELECTION = 'Selecciona al menos un servicio válido';
     
 }
