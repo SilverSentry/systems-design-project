@@ -4,8 +4,11 @@
 /** @var array $services */
 
 use App\Core\Paths;
+use App\Core\Session;
 
 require __DIR__ . '/../layouts/head.php'; //Carga el head común
+
+$appointmentError = Session::getFlash('appointment_error');
 ?>
 
 <style>
@@ -40,7 +43,7 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
                         <div class="col-md-12">
                             <div class="mb-3">
                                 <label for="client_id" class="form-label"><i class="bi bi-person"></i> Cliente</label>
-                                <select name="client_id" id="client_id" class="form-control" required>
+                                <select name="client_id" id="client_id" class="form-control">
                                     <option value="" selected disabled>Seleccione un cliente</option>
                                     <?php foreach ($clients as $client): ?>
                                         <option value="<?= htmlspecialchars($client['id']) ?>"><?= htmlspecialchars(ucfirst($client['nombre']) . ' ' . ucfirst($client['apellido'])) ?></option>
@@ -54,48 +57,53 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="date" class="form-label"><i class="bi bi-calendar"></i> Fecha</label>
-                                <input type="date" name="date" class="form-control" id="date" required>
+                                <input type="date" name="date" class="form-control" id="date">
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="mb-3">
                                 <label for="time_start" class="form-label"><i class="bi bi-clock"></i> Hora inicio</label>
-                                <input type="time" name="time_start" class="form-control" id="time_start" required>
+                                <input type="time" name="time_start" class="form-control" id="time_start">
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="mb-3">
                                 <label for="time_end" class="form-label"><i class="bi bi-clock-history"></i> Hora fin</label>
-                                <input type="time" name="time_end" class="form-control" id="time_end" required>
+                                <input type="time" name="time_end" class="form-control" id="time_end">
                             </div>
                         </div>
                     </div>
 
-                    <div class="row g-2">
-                        <div class="col-md-6">
+                    <div class="row g-2 align-items-end">
+                        <div class="col-md-8">
                             <div class="mb-3">
                                 <label for="amount" class="form-label"><i class="bi bi-currency-dollar"></i> Monto total</label>
-                                <input type="number" name="amount" class="form-control" id="amount" placeholder="ej: 100.00" step="0.01" required>
+                                <input type="number" name="amount" class="form-control" id="amount" placeholder="Autocompletado desde los servicios" step="0.01" required readonly>
+                                <span class="form-text" id="selectedServicesSummary">Servicios seleccionados: ninguno</span>
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="notes" class="form-label"><i class="bi bi-card-text"></i> Notas</label>
-                                <textarea name="notes" id="notes" class="form-control" rows="2" placeholder="Observaciones opcionales"></textarea>
+                                <button type="button" class="btn btn-golden-all w-100" id="openServicesBtn"><i class="bi bi-list-check"></i> Elegir servicios</button>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="notes" class="form-label"><i class="bi bi-card-text"></i> Notas</label>
+                        <textarea name="notes" id="notes" class="form-control" rows="2" placeholder="Observaciones opcionales"></textarea>
                     </div>
 
                     <div class="row g-2 justify-content-end">
                         <div class="col-auto m-1">
-                            <a href="<?= Paths::to('appointments') ?>" class="btn btn-second btn-lg"><i class="bi bi-box-arrow-in-left"></i> Regresar</a>
+                            <a href="<?= Paths::to('appointments') ?>" class="btn btn-second btn-lg"><i class="bi bi-arrow-left"></i> Regresar</a>
                         </div>
 
                         <div class="col-auto m-1">
-                            <button type="button" class="btn btn-golden-all btn-lg" id="openServicesBtn"><i class="bi bi-arrow-right"></i> Continuar</button>
+                            <button type="submit" class="btn btn-golden-all btn-lg" id="submitBtn"><i class="bi bi-calendar-check"></i> Agendar</button>
                         </div>
                     </div>
                 </div>
@@ -106,40 +114,11 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
 </div>
 </form>
 
-<!-- Modal de selección de servicios -->
-<div class="modal fade" id="servicesModal" tabindex="-1" aria-labelledby="servicesModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="servicesModalLabel">Seleccionar servicios</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                <p>Marca los servicios que el cliente desea realizar y luego confirma para agendar la cita.</p>
+<?php if (!empty($appointmentError) && is_array($appointmentError)): ?>
+    <div id="appointment-error" data-field="<?= htmlspecialchars($appointmentError['field'] ?? '') ?>" data-message="<?= htmlspecialchars($appointmentError['message'] ?? '') ?>"></div>
+<?php endif; ?>
 
-                <div class="row g-3">
-                    <?php foreach ($services as $service): ?>
-                        <div class="col-md-6">
-                            <div class="form-check border rounded p-3">
-                                <input class="form-check-input service-checkbox" type="checkbox" value="<?= htmlspecialchars($service['id']) ?>" id="service-<?= htmlspecialchars($service['id']) ?>">
-                                <label class="form-check-label fw-bold" for="service-<?= htmlspecialchars($service['id']) ?>">
-                                    <?= htmlspecialchars($service['nombre']) ?>
-                                </label>
-                                <p class="mb-0 text-muted small"><?= htmlspecialchars($service['descripcion']) ?></p>
-                                <p class="mb-0 mt-2"><strong>Precio:</strong> <?= htmlspecialchars(number_format($service['precio'], 2, ',', '.')) ?> USD</p>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-golden-all" id="confirmServicesBtn">Confirmar servicios</button>
-            </div>
-        </div>
-    </div>
-</div>
+<?php require __DIR__ . '/../partials/services-modal.php'; ?>
 
 </div>
 

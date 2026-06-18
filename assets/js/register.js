@@ -67,6 +67,10 @@ document.addEventListener("DOMContentLoaded", function(){
 
             fetch(urlAction, {
                 method: "POST",
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                },
                 body: formData
             })
 
@@ -80,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     submitBtn.innerText = "¡Éxito! Redirigiendo...";
 
                     //Mostrar alerta de registro exitoso
-                    showAlertWithTimer('success', '¡Registro Exitoso!', 'Ya puedes iniciar sesión', 7000)
+                    showAlertWithTimer('success', '¡Registro Exitoso!', data.message, 7000)
                     .then(() => {
 
                     //Redirección

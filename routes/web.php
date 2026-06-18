@@ -17,6 +17,7 @@ $router->addGetController('clients', \App\Controllers\ClientController::class, '
 $router->addGetController('logout', \App\Controllers\AuthController::class, 'logout');
 $router->addGetController('appointments', \App\Controllers\AppointmentController::class, 'index');
 $router->addGetController('appointments/create', \App\Controllers\AppointmentController::class, 'create');
+$router->addGetController('services', \App\Controllers\AppointmentController::class, 'showServices');
 
 //API: búsqueda SNOMED proxyeada por el backend
 $router->addGetController('api/search', \App\Controllers\ApiController::class, 'search');

@@ -71,26 +71,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 .then(response => response.json())
                 .then(data => {
-                    if (data.redirect) {
-                        return window.location.href = data.redirect;
-                    }
+                    
                     if (data.status === 'success') {
 
                         submitBtn.innerText = "¡Acceso concedido!";
                         window.location.href = data.redirect;
 
-                        //En otro caso, se muestran los errores correspondientes
+                    //En otro caso, se muestran los errores correspondientes
                     } else {
 
                         submitBtn.disabled = false;
                         submitBtn.innerHTML = "<i class='bi bi-box-arrow-in-right'></i> Ingresar";
 
                         //Usamos el Toast genérico de app.js
-                        showToast("error", data.message);
+                        showToast('error', data.message);
 
                         //Se limpia cualquier borde rojo previo (para no acumular errores)
-                        const allInputs = e.target.querySelectorAll('.form-control');
-                        allInputs.forEach(i => i.classList.remove("is-invalid"));
+                        cleanAllInputs('.form-control', 'is-invalid');
 
                         //Manejo de error de formato no válido del correo
                         if (data.field === 'email') {
@@ -107,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             if (data.field === 'all') {
 
-                                allInputs.forEach(input => { input.classList.add("is-invalid"); });
+                                addAllInput('.form-control', 'is-invalid');
 
                             }
                         }

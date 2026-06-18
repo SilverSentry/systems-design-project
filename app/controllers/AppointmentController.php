@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\Service;
 use App\Core\Session;
 use App\Core\Paths;
+use App\Core\ValidationHelper;
 use App\Config\Messages;
 
 class AppointmentController
@@ -36,6 +37,7 @@ class AppointmentController
 
         //Rutas para acciones
         $urlCreate = Paths::to('appointments/create');
+        $urlServices = Paths::to('services');
 
         $title = 'Panel de Citas';
         $bodyClass = 'layout-footer';
@@ -76,6 +78,30 @@ class AppointmentController
         require_once __DIR__ . '/../views/appointments/create.php';
     }
 
+    //Método para mostrar la vista de servicios
+    public function showServices()
+    {
+
+        if (!Session::isLogged()) {
+            redirect('login');
+        }
+
+        $services = $this->serviceModel->getAll();
+
+        $title = 'Servicios';
+        $bodyClass = 'layout-footer';
+
+        $extraScripts = [
+            'DataTables/jquery-3.7.0.min.js',
+            'DataTables/jquery.dataTables.min.js',
+            'DataTables/dataTables.bootstrap5.min.js',
+            'js/sidebar.js',
+            'js/appointments.js'
+        ];
+
+        require_once __DIR__ . '/../views/appointments/services_appointment.php';
+    }
+
     //Método para procesar el formulario de agendar cita
     public function schedule()
     {
@@ -85,6 +111,7 @@ class AppointmentController
 
         $data = $this->validateScheduleRequest();
 
+        //Validar que los servicios seleccionados existan realmente en la base de datos
         $selectedServices = $this->serviceModel->getByIds($data['service_ids']);
         if (count($selectedServices) !== count($data['service_ids'])) {
             redirect('appointments/create');
@@ -100,7 +127,8 @@ class AppointmentController
         $totalAmount = is_numeric($data['amount']) ? floatval($data['amount']) : 0.0;
         $employeeId = Session::getUser()['id'] ?? 0;
 
-        $this->appointmentModel->create(
+        // Crear la cita y luego guardar el detalle de cada servicio seleccionado
+        $this->appointmentModel->createWithServices(
             $data['client_id'],
             $employeeId,
             $data['date'],
@@ -108,7 +136,8 @@ class AppointmentController
             $data['time_end'],
             $totalAmount,
             1,
-            implode(' | ', $notesList)
+            implode(' | ', $notesList),
+            $data['service_ids']
         );
 
         redirect('appointments');
@@ -163,7 +192,7 @@ class AppointmentController
             ]
         ];
 
-        $this->validateRules($rules);
+        ValidationHelper::validate($rules);
 
         return [
             'client_id' => $clientId,
@@ -174,14 +203,5 @@ class AppointmentController
             'notes' => $notes,
             'service_ids' => $serviceIds
         ];
-    }
-
-    private function validateRules(array $rules): void
-    {
-        foreach ($rules as $rule) {
-            if (!empty($rule['condition'])) {
-                redirect('appointments/create');
-            }
-        }
     }
 }

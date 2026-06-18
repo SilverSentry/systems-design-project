@@ -117,6 +117,21 @@ class Session
         return self::get('last_activity');
     }
 
+    //Obtener un valor de sesión y eliminarlo inmediatamente (flash)
+    public static function getFlash(string $key, $default = null)
+    {
+        self::start();
+        $value = $_SESSION[$key] ?? $default;
+        self::remove($key);
+        return $value;
+    }
+
+    //Establecer un valor en sesión que se consumirá una sola vez
+    public static function flash(string $key, $value): void
+    {
+        self::set($key, $value);
+    }
+
     //Verificar si la sesión ha expirado por inactividad
     public static function isExpired(int $timeoutSeconds): bool
     {

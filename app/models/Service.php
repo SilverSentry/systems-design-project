@@ -37,4 +37,14 @@ class Service extends Model
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
+
+    public function countActive()
+    {
+        $sql = "SELECT COUNT(*) AS total FROM " . $this->tableName . " WHERE estado = 1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return intval($result['total'] ?? 0);
+    }
 }

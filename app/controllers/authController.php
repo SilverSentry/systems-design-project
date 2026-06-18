@@ -74,6 +74,7 @@ class AuthController
 
             echo json_encode([
                 'status' => 'success',
+                'message' => Messages::SUCCESS_REGISTER,
                 'redirect' => Paths::to('login')
             ]);
             exit();

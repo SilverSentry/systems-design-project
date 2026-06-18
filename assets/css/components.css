@@ -31,6 +31,10 @@
   box-shadow: 0 4px 15px rgba(200, 169, 110, 0.4), 0 0 20px rgba(255, 215, 0, 0.2);
 }
 
+.btn-golden-all:active {
+  transform: translateY(2px);
+}
+
 .btn-golden-all:hover::after {
   left: 100%;
 }
@@ -67,6 +71,11 @@
   z-index: -1;
 }
 
+.btn-second:active {
+  transform: translateY(2px);
+  color: #fff;
+}
+
 .btn-second:hover::after {
   left: 100%;
 }
@@ -99,10 +108,6 @@
   transition: transform 0.2s;
 }
 
-.stat-card:hover {
-  transform: translateY(-4px);
-}
-
 .stat-icon {
   width: 70px;
   height: 70px;
@@ -118,6 +123,10 @@
 .stat-icon.gold {
   background: linear-gradient(135deg, var(--color-dorado) 0%, var(--color-dorado-oscuro) 100%);
   color: white;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
 }
 
 .password-toggle,
@@ -192,9 +201,9 @@
 
 .custom-swal-rect {
   border-radius: 20px !important;
-  backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(20px) !important;
   background: #ffffff !important;
-  background-color: rgba(255, 255, 255, 0.8) !important;
+  background-color: rgba(255, 255, 255, 0.158) !important;
 }
 
 /* Forzar a los elementos internos de animación a ser transparentes 

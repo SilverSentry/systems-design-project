@@ -4,6 +4,8 @@
 namespace App\Controllers;
 
 use App\Core\Session;
+use App\Models\Appointment;
+use App\Models\Service;
 
 class DashboardController
 {
@@ -44,6 +46,23 @@ class DashboardController
         $title = $isAdmin ? 'Panel de Administración' : 'Panel de Empleados';
         $bodyClass = 'layout-footer';
         $extraScripts = ['js/sidebar.js', 'Chart.js/chart.js', 'js/dashboard.js'];
+
+        $clientsAttended = 0;
+        $totalRevenue = 0;
+        $appointmentsPending = 0;
+        $activeServices = 0;
+        $todayAppointments = 0;
+
+        if ($isAdmin) {
+            $appointmentModel = new Appointment();
+            $clientsAttended = $appointmentModel->countDistinctClients();
+            $totalRevenue = $appointmentModel->sumRevenue();
+            $appointmentsPending = $appointmentModel->countByState(1);
+            $todayAppointments = $appointmentModel->countTodayAppointments();
+
+            $serviceModel = new Service();
+            $activeServices = $serviceModel->countActive();
+        }
 
         if ($isAdmin) {
             require_once __DIR__ . '/../views/dashboard/admin.php';

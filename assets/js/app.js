@@ -6,7 +6,7 @@
 
 //Lanza un Toast rápido en la parte superior (Notificaciones efímeras)
 function showToast(icon, title) {
-    Swal.mixin({
+    return Swal.mixin({
         toast: true,
         position: "top",                      
         showConfirmButton: false,
@@ -16,10 +16,6 @@ function showToast(icon, title) {
         title: title,
         customClass: { popup: 'custom-swal-rect' }
     });
-}
-
-function showToastError(title) {
-    showToast('error', title);
 }
 
 //Lanza un Modal de alerta estándar (Requiere interacción)
@@ -87,6 +83,12 @@ function initSessionTimeout(timeoutSeconds = 900) {
             redirectToLoginWithExpiredMessage();
         }
     }, 1000);
+}
+
+//Función para agregar una clase a todos los inputs que coincidan con un selector
+function addAllInput(querySelector, classToAdd) {
+    const allInputs = document.querySelectorAll(querySelector);
+    allInputs.forEach(input => input.classList.add(classToAdd));
 }
 
 //Función para limpiar clases de error o validación de todos los inputs que coincidan con un selector
