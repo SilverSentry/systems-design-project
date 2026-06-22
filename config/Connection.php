@@ -4,6 +4,7 @@
 
 namespace App\Config;
 
+use App\Core\Logger;
 use PDO;
 use PDOException;
 
@@ -32,7 +33,8 @@ class Connection
             ]);
         } catch (PDOException $exception) {
 
-            die("Error de conexión: " . $exception->getMessage());
+            Logger::log('Error de conexión a la base de datos: ' . $exception->getMessage(), 'ERROR');
+            $this->renderDatabaseError();
         }
     }
 
@@ -50,6 +52,21 @@ class Connection
     public static function getConnection()
     {
         return self::getInstance()->pdo;
+    }
+
+    //Método para mostrar una página de error personalizada en caso de fallo de conexión
+    private function renderDatabaseError(): void
+    {
+        http_response_code(503);
+
+        $viewPath = __DIR__ . '/../app/views/database_error.php';
+        if (file_exists($viewPath)) {
+            include $viewPath;
+        } else {
+            echo '<h1>Error de base de datos</h1><p>No fue posible conectar con el servidor o la base de datos no existe.</p>';
+        }
+
+        exit();
     }
 
     //Método para evitar la clonación de la instancia

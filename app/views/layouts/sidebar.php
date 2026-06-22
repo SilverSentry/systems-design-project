@@ -30,9 +30,7 @@ use App\Core\Helpers;
 
       <a href="<?= Paths::to('appointments') ?>" class="list-group-item list-group-item-action <?= Helpers::activeClass('appointments'); ?>"><i class="bi bi-calendar me-2"></i>Citas</a>
 
-      <form method="post" action="<?= Paths::to('logout') ?>">
-        <button type="submit" class="list-group-item list-group-item-action"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
-      </form>
+      <a href="<?= Paths::to('services') ?>" class="list-group-item list-group-item-action <?= Helpers::activeClass('services'); ?>"><i class="bi bi-bag-plus"></i>Servicios</a>
 
     </div>
   </nav>

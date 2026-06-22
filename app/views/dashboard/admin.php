@@ -11,7 +11,8 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
 <style>
     .hero-section {
         position: relative;
-        height: 30vh;
+        border-radius: 80px;
+        height: 20vh;
         background: url("<?= Paths::asset('img/hero-bg.png') ?>") no-repeat center center;
         background-size: cover;
         overflow: hidden;
@@ -34,12 +35,14 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
     <?php require __DIR__ . '/../layouts/navbar.php'; ?>
 
     <!-- Hero Section -->
-    <header class="hero-section text-center d-flex align-items-center justify-content-center animate-fadeInUp">
-        <div class="container position-relative px-3">
-            <h1 class="fs-2 fs-md-1 display-5 fw-bold text-overlay text-white">Panel de Administración</h1>
-            <h4 class="fs-5 fs-md-4 text-white text-overlay">Bienvenido, <?= ucfirst($user['name']); ?></h4>
-        </div>
-    </header>
+    <div class="col-lg-11 mx-auto mt-3">
+        <header class="hero-section d-flex align-items-center justify-content-beetween animate-fadeInUp">
+            <div class="container position-relative px-3">
+                <h1 class="fs-2 fs-md-1 display-5 fw-bold text-overlay text-white">Panel de Administración</h1>
+                <h4 class="fs-5 fs-md-4 text-white text-overlay">Bienvenido</h4>
+            </div>
+        </header>
+    </div>
 
     <div class="container-fluid p-4 dashboard-content animate-fadeIn animate-delay-1">
 
@@ -53,7 +56,7 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
 
         <div class="row g-3 mb-4">
 
-        <div class="col-12 col-md-6 col-lg-3">
+            <div class="col-12 col-md-6 col-lg-3">
                 <div class="card stat-card text-black animate-fadeInUp animate-delay-6 h-100">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
@@ -125,6 +128,7 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
                 </div>
             </div>
 
+            <!--
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="card stat-card text-black animate-fadeInUp animate-delay-5 h-100 d-flex flex-column justify-content-center align-items-center text-center">
                     <div class="card-body">
@@ -134,6 +138,7 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
                     </div>
                 </div>
             </div>
+            -->
 
         </div>
 

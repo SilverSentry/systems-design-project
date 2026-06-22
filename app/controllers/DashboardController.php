@@ -53,16 +53,14 @@ class DashboardController
         $activeServices = 0;
         $todayAppointments = 0;
 
-        if ($isAdmin) {
-            $appointmentModel = new Appointment();
-            $clientsAttended = $appointmentModel->countDistinctClients();
-            $totalRevenue = $appointmentModel->sumRevenue();
-            $appointmentsPending = $appointmentModel->countByState(1);
-            $todayAppointments = $appointmentModel->countTodayAppointments();
+        $appointmentModel = new Appointment();
+        $clientsAttended = $appointmentModel->countDistinctClients();
+        $totalRevenue = $appointmentModel->sumRevenue();
+        $appointmentsPending = $appointmentModel->countByState(1);
+        $todayAppointments = $appointmentModel->countTodayAppointments();
 
-            $serviceModel = new Service();
-            $activeServices = $serviceModel->countActive();
-        }
+        $serviceModel = new Service();
+        $activeServices = $serviceModel->countActive();
 
         if ($isAdmin) {
             require_once __DIR__ . '/../views/dashboard/admin.php';

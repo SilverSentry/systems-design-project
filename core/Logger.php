@@ -8,8 +8,8 @@ class Logger
     public static function log(string $message, string $level = 'INFO'): void
     {
 
-        //Calculamos la ruta subiendo desde app/Core hacia la raíz, entrando a storage/logs
-        $logDir = dirname(__DIR__, 2) . '/storage/logs';
+        //Calculamos la ruta desde core/ hasta la raíz del proyecto y luego a storage/logs
+        $logDir = dirname(__DIR__) . '/storage/logs';
 
         //Si la carpeta no existe por ser la primera vez, la creamos de forma segura
         if (!is_dir($logDir)) {

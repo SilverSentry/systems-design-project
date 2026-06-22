@@ -58,6 +58,14 @@
   justify-content: center;
 }
 
+@media (min-width: 768px) {
+  #sidebar ~ .footer {
+    margin-left: var(--sidebar-width, 280px) !important;
+    width: calc(100% - var(--sidebar-width, 280px)) !important;
+    transition: all 0.3s ease-in-out;
+  }
+}
+
 .layout-footer {
   display: flex !important;
   flex-direction: column !important;
