@@ -114,10 +114,12 @@ const OrdoAPI = {
     async request(endpoint, options = {}) {
         try {
             const response = await fetch(`${this.baseUrl}${endpoint}`, options);
+            const responseBody = await response.json().catch(() => null);
             if (!response.ok) {
-                throw new Error(`Error HTTP: ${response.status}`);
+                const errorMessage = responseBody?.message || `Error HTTP: ${response.status}`;
+                throw new Error(errorMessage);
             }
-            return await response.json();
+            return responseBody;
         } catch (error) {
             console.error(`Error en API (${endpoint}):`, error);
             throw error; //Re-lanzamos el error para que el componente visual lo maneje
@@ -170,9 +172,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 const data = await OrdoAPI.tasaBCV.actualizar();
                 tasaValor.innerText = data.bcv.toFixed(2).replace('.', ',');
                 tasaFecha.innerText = `Ref: ${data.date}`;
+
+                if (data.status === 'success') {
                 showAlert('success', data.message, `Dólar BCV: Bs. ${data.bcv}`, '#28a745');
+                }
+
             } catch (error) {
-                showAlert('error', 'Error', data.message, '#dc3545');
+                let message = 'No se pudo actualizar la tasa del BCV. Intente nuevamente más tarde.';
+
+                if (error instanceof TypeError ||
+                    (error.message && error.message.toLowerCase().includes('failed to fetch')) ||
+                    (error.message && error.message.toLowerCase().includes('networkerror'))
+                ) {
+                    message = 'No se pudo actualizar la tasa del BCV. Verifica tu conexión a internet e inténtalo de nuevo.';
+                } else if (error.message) {
+                    message = error.message;
+                }
+
+                showAlert('error', 'Error', message, '#dc3545');
             } finally {
                 btnActualizar.disabled = false;
                 icono.classList.remove('spin-animation');

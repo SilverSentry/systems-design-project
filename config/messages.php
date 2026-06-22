@@ -41,6 +41,7 @@ class Messages
 
     //Mensajes para la actualización de la tasa del BCV
     public const ERR_TASA_BCV_UPDATE_FAILED = 'No se pudo actualizar la tasa del BCV. Intente nuevamente más tarde';
+    public const ERR_TASA_BCV_CONNECTION_FAILED = 'No se pudo actualizar la tasa del BCV. Verifica tu conexión a internet e inténtalo de nuevo';
     public const SUCCESS_TASA_BCV_UPDATED = '¡Tasa actualizada exitosamente!';
     public const ERR_TASA_BCV_INVALID_RESPONSE = 'La respuesta del BCV no contiene un precio válido';
     

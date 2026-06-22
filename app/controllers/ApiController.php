@@ -102,9 +102,10 @@ class ApiController
             $response = @file_get_contents($url, false, $context);
             
             if ($response === FALSE) {
+                http_response_code(503);
                 echo json_encode([
                     'status' => 'error',
-                    'message' => Messages::ERR_TASA_BCV_UPDATE_FAILED
+                    'message' => Messages::ERR_TASA_BCV_CONNECTION_FAILED
                 ]);
                 exit;
             }
