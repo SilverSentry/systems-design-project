@@ -8,6 +8,7 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 require_once 'config/Settings.php';
+require_once 'core/Helpers.php';
 require_once 'routes/web.php';
 
 ?>

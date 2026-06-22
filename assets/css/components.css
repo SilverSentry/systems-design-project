@@ -1,5 +1,9 @@
 /* Componentes reutilizables */
 
+:root {
+  --sidebar-width: 250px;
+}
+
 .btn-golden-all {
   border: none;
   background: linear-gradient(135deg, #fff5c8 10%, #c9a769 90%);
@@ -13,13 +17,18 @@
 }
 
 .btn-golden-all::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
   transform: skewX(-25deg);
   transition: left 0.5s ease;
   z-index: -1;
@@ -28,7 +37,9 @@
 .btn-golden-all:hover {
   background: linear-gradient(135deg, #fff5c8 10%, #c9a769 90%);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(200, 169, 110, 0.4), 0 0 20px rgba(255, 215, 0, 0.2);
+  box-shadow:
+    0 4px 15px rgba(200, 169, 110, 0.4),
+    0 0 20px rgba(255, 215, 0, 0.2);
 }
 
 .btn-golden-all:active {
@@ -59,13 +70,18 @@
 }
 
 .btn-second::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(248, 248, 248, 0.089), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(248, 248, 248, 0.089),
+    transparent
+  );
   transform: skewX(-25deg);
   transition: left 0.5s ease;
   z-index: -1;
@@ -121,7 +137,11 @@
 }
 
 .stat-icon.gold {
-  background: linear-gradient(135deg, var(--color-dorado) 0%, var(--color-dorado-oscuro) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-dorado) 0%,
+    var(--color-dorado-oscuro) 100%
+  );
   color: white;
 }
 
@@ -152,16 +172,81 @@
   box-shadow: none;
 }
 
+/* Sidebar */
+
 #sidebar {
+  width: var(--sidebar-width);
   min-width: var(--sidebar-width);
   max-width: var(--sidebar-width);
+  height: 100vh;
   min-height: 100vh;
-  background: linear-gradient(180deg, var(--color-negro) 0%, #1a1a1a 100%);
-  color: #fff;
-  transition: margin 0.3s ease;
-  border-right: 2px solid #fee28f;
+  position: fixed; /* Posicionamiento fijo para que flote correctamente */
+  top: 0;
+  left: calc(-1 * var(--sidebar-width)); /* Escondido por defecto a la izquierda */
+  z-index: 1050;
+  background: #ffffff;
+  color: #2b2b2b; /* Texto oscuro para legibilidad */
+  border-right: 1px solid rgba(194, 156, 85, 0.2); /* Sutil línea dorada */
+  box-shadow: 4px 0 25px rgba(0, 0, 0, 0.05); /* Sombra muy suave y limpia */
+
+  /* Transición suave para la animación de apertura */
+  transition: left 0.3s ease-in-out;
 }
 
+/* Estado activo: cuando JS añade la clase para mostrarlo */
+#sidebar.active {
+  left: 0 !important;
+}
+
+/* Estilo del logo y el título */
+#sidebar .sidebar-brand {
+  padding: 2rem 1.5rem 1rem 1.5rem; /* Más aire arriba para respirar */
+}
+
+#sidebar .logo-container {
+  width: 110px;
+  height: 110px;
+  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* CLAVE: Volver el contenedor un círculo perfecto */
+  border-radius: 50%;
+  overflow: hidden;
+  
+  /* Detalle premium: Borde dorado fino que combina con las letras */
+  border: 2px solid #c29c55; 
+  box-shadow: 0 4px 10px rgba(194, 156, 85, 0.15);
+  background-color: #000000; /* Mantiene el fondo negro original dentro del círculo */
+}
+
+#sidebar .logo-container img {
+  width: 110%;
+  height: 110%;
+}
+
+#sidebar .sidebar-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  line-height: 1.3;
+  color: #1a1a1a; /* Color principal oscuro */
+  margin: 0;
+}
+
+#sidebar .sidebar-title span {
+  color: #c29c55; /* Tu dorado corporativo destacado en 'STETIC' */
+  font-weight: 800;
+}
+
+#sidebar .sidebar-divider {
+  margin: 0 1.5rem 1.5rem 1.5rem;
+  border-top: 1px solid rgba(194, 156, 85, 0.15);
+  opacity: 1;
+}
+
+/* --- Elementos Internos (Encabezado y Links) --- */
 #sidebar .sidebar-heading {
   padding: 1.25rem 1.5rem;
   font-size: 1.25rem;
@@ -171,32 +256,79 @@
 
 #sidebar .list-group-item {
   border: none;
-  padding: 1rem 1.5rem;
+  padding: 0.85rem 1.5rem;
   background: transparent;
-  color: rgba(255, 255, 255, 0.75);
-  transition: all 0.2s;
+  color: #555555; /* Gris intermedio sofisticado */
+  font-weight: 500;
+  border-left: 4px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#sidebar .list-group-item i {
+  font-size: 1.15rem;
+  color: #777777; /* Iconos sutiles por defecto */
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 #sidebar .list-group-item:hover,
 #sidebar .list-group-item.active {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  border-left: 4px solid var(--primary-color);
+  color: #c29c55 !important; /* Texto pasa a dorado premium */
+  /* Fondo dorado extremadamente traslúcido y sedoso */
+  background: linear-gradient(90deg, rgba(194, 156, 85, 0.06) 0%, rgba(255, 255, 255, 0) 100%) !important;
+  border-left: 4px solid #c29c55 !important; /* Línea dorada sólida */
+  font-weight: 600;
 }
 
-#sidebar {
-  position: fixed;
-  top: 0;
-  left: -280px;
-  width: 280px;
-  height: 100vh;
-  z-index: 1050;
-  transition: all 0.3s ease;
-  background-color: #1a1a1a;
+#sidebar .list-group-item:hover {
+  padding-left: 1.8rem; /* Pequeño empuje dinámico */
 }
 
-#sidebar.active {
-  left: 0;
+#sidebar .list-group-item:hover i,
+#sidebar .list-group-item.active i {
+  color: #c29c55; /* Iconos se iluminan en dorado */
+  transform: scale(1.1);
+}
+
+/* Asegurar compatibilidad en escritorio */
+@media (min-width: 768px) {
+  #sidebar { left: 0; }
+  #sidebar.toggled { left: calc(-1 * var(--sidebar-width, 280px)) !important; }
+}
+
+  /* Si usas un botón para colapsarlo en PC, esta regla lo esconde */
+  #sidebar.toggled {
+    left: calc(-1 * var(--sidebar-width)) !important;
+  }
+  /* Ocultar sidebar en desktop cuando se añade la clase al body */
+  body.sidebar-collapsed #sidebar {
+    left: calc(-1 * var(--sidebar-width)) !important;
+  }
+
+/* --- Capa de Oscurecimiento (Overlay) para móviles --- */
+@media (max-width: 767.98px) {
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1040; /* Por debajo del sidebar (1050) pero por encima del contenido */
+
+    /* SOLUCIÓN AL CLIC: Completamente apagado e impenetrable por defecto */
+    display: none;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  /* Cuando el JavaScript le añade la clase para mostrarlo */
+  .overlay.show {
+    display: block !important;
+    pointer-events: auto; /* Recupera los clics para poder cerrarlo al tocar el fondo */
+  }
 }
 
 .custom-swal-rect {

@@ -33,14 +33,13 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
 
     <?php require __DIR__ . '/../layouts/navbar.php'; ?>
 
-    <!-- Hero Section
+    <!-- Hero Section -->
     <header class="hero-section text-center d-flex align-items-center justify-content-center animate-fadeInUp">
         <div class="container position-relative px-3">
             <h1 class="fs-2 fs-md-1 display-5 fw-bold text-overlay text-white">Panel de Administración</h1>
             <h4 class="fs-5 fs-md-4 text-white text-overlay">Bienvenido, <?= ucfirst($user['name']); ?></h4>
         </div>
     </header>
-    -->
 
     <div class="container-fluid p-4 dashboard-content animate-fadeIn animate-delay-1">
 

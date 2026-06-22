@@ -1,14 +1,31 @@
-const menuToggle = document.getElementById("menu-toggle");
-const sidebar = document.getElementById("sidebar");
-const overlay = document.getElementById("overlay");
-
-//Función para mostrar/ocultar el sidebar y el overlay
+// Función para mostrar/ocultar el sidebar y el overlay
 function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  if (!sidebar) return;
+
+  //Obtenemos el overlay
+  const overlay = document.getElementById("sidebar-overlay") || document.querySelector(".overlay");
+
+  //Adaptamos el comportamiento según el tamaño de pantalla
+  if (window.innerWidth >= 768) {
+    sidebar.classList.toggle('toggled');
+    document.body.classList.toggle('sidebar-collapsed');
+    return;
+  }
+
+  //Comportamiento Móvil (< 768px)
   sidebar.classList.toggle("active");
-  overlay.classList.toggle("show");
+  if (overlay) {
+    overlay.classList.toggle("show");
+  }
+  document.body.classList.toggle('sidebar-open'); // Por si manejas scroll en el body
 }
 
-if (menuToggle && sidebar && overlay) {
-  menuToggle.addEventListener("click", toggleSidebar);
-  overlay.addEventListener("click", toggleSidebar);
-}
+//Aseguramos que los listeners se registran una vez el DOM está listo
+document.addEventListener('DOMContentLoaded', function () {
+  const menuToggle = document.getElementById("menu-toggle");
+  const overlay = document.getElementById("sidebar-overlay") || document.querySelector(".overlay");
+
+  if (menuToggle) menuToggle.addEventListener('click', toggleSidebar);
+  if (overlay) overlay.addEventListener('click', toggleSidebar);
+});
