@@ -97,6 +97,27 @@ function cleanAllInputs(querySelector, classToRemove) {
     allInputs.forEach(input => input.classList.remove(classToRemove));
 }
 
+//Función para actualizar la tasa, tanto en la sección de escritorio como en la móvil
+function updateTasaDisplay(data) {
+    const desktopValor = document.getElementById('tasa-valor');
+    const desktopFecha = document.getElementById('tasa-fecha');
+    const mobileValor = document.getElementById('tasa-valor-mobile');
+    const mobileFecha = document.getElementById('tasa-fecha-mobile');
+
+    if (desktopValor) {
+        desktopValor.innerText = data.bcv.toFixed(2).replace('.', ',');
+    }
+    if (desktopFecha) {
+        desktopFecha.innerText = `Ref: ${data.date}`;
+    }
+    if (mobileValor) {
+        mobileValor.innerText = data.bcv.toFixed(2).replace('.', ',');
+    }
+    if (mobileFecha) {
+        mobileFecha.innerText = `Ref: ${data.date}`;
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     initSessionTimeout(15 * 60);
 });
@@ -155,45 +176,57 @@ const OrdoAPI = {
 };
 
 //Funcionalidad para actualizar la tasa del BCV
-document.addEventListener("DOMContentLoaded", function () {
-    const btnActualizar = document.getElementById('btn-actualizar-tasa');
-    
-    //El "if" es vital para que no dé error en vistas que no tengan el botón
-    if (btnActualizar) {
-        const icono = document.getElementById('icono-refresh');
-        const tasaValor = document.getElementById('tasa-valor');
-        const tasaFecha = document.getElementById('tasa-fecha');
+document.addEventListener('DOMContentLoaded', function () {
+    const updateButtons = document.querySelectorAll('.btn-actualizar-tasa');
+    const refreshIcons = document.querySelectorAll('.refresh-icon');
 
-        btnActualizar.addEventListener('click', async function () {
-            btnActualizar.disabled = true;
-            icono.classList.add('spin-animation');
+    if (updateButtons.length === 0) {
+        return;
+    }
 
-            try {
-                const data = await OrdoAPI.tasaBCV.actualizar();
-                tasaValor.innerText = data.bcv.toFixed(2).replace('.', ',');
-                tasaFecha.innerText = `Ref: ${data.date}`;
+    const setButtonsDisabled = (disabled) => {
+        updateButtons.forEach(button => button.disabled = disabled);
+    };
 
-                if (data.status === 'success') {
-                showAlert('success', data.message, `Dólar BCV: Bs. ${data.bcv}`, '#28a745');
-                }
-
-            } catch (error) {
-                let message = 'No se pudo actualizar la tasa del BCV. Intente nuevamente más tarde.';
-
-                if (error instanceof TypeError ||
-                    (error.message && error.message.toLowerCase().includes('failed to fetch')) ||
-                    (error.message && error.message.toLowerCase().includes('networkerror'))
-                ) {
-                    message = 'No se pudo actualizar la tasa del BCV. Verifica tu conexión a internet e inténtalo de nuevo.';
-                } else if (error.message) {
-                    message = error.message;
-                }
-
-                showAlert('error', 'Error', message, '#dc3545');
-            } finally {
-                btnActualizar.disabled = false;
-                icono.classList.remove('spin-animation');
+    const toggleIcons = (spinning) => {
+        refreshIcons.forEach(icon => {
+            if (spinning) {
+                icon.classList.add('spin-animation');
+            } else {
+                icon.classList.remove('spin-animation');
             }
         });
-    }
+    };
+
+    const clickHandler = async () => {
+        setButtonsDisabled(true);
+        toggleIcons(true);
+
+        try {
+            const data = await OrdoAPI.tasaBCV.actualizar();
+            updateTasaDisplay(data);
+
+            if (data.status === 'success') {
+                showAlert('success', data.message, `Dólar BCV: Bs. ${data.bcv}`, '#28a745');
+            }
+        } catch (error) {
+            let message = 'No se pudo actualizar la tasa del BCV. Intente nuevamente más tarde.';
+
+            if (error instanceof TypeError ||
+                (error.message && error.message.toLowerCase().includes('failed to fetch')) ||
+                (error.message && error.message.toLowerCase().includes('networkerror'))
+            ) {
+                message = 'No se pudo actualizar la tasa del BCV. Verifica tu conexión a internet e inténtalo de nuevo.';
+            } else if (error.message) {
+                message = error.message;
+            }
+
+            showAlert('error', 'Error', message, '#dc3545');
+        } finally {
+            setButtonsDisabled(false);
+            toggleIcons(false);
+        }
+    };
+
+    updateButtons.forEach(button => button.addEventListener('click', clickHandler));
 });

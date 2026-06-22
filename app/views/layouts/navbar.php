@@ -43,15 +43,15 @@ if (file_exists($cacheFile)) {
 
   <div class="d-flex align-items-center gap-5">
 
-    <div class="d-flex align-items-center p-2 rounded shadow-sm text-dark" style="max-width: 280px;">
+    <div class="d-none d-md-flex align-items-center p-2 rounded shadow-sm text-dark" style="max-width: 280px;">
       <div class="me-3">
         <small class="text-muted d-block" style="font-size: 0.75rem;">TASA OFICIAL BCV</small>
         <span class="fw-bold fs-5">Bs. <span id="tasa-valor"><?php echo $savedTasa; ?></span></span>
         <small class="text-muted d-block" id="tasa-fecha" style="font-size: 0.65rem;">Ref: <?php echo $savedData; ?></small>
       </div>
 
-      <button type="button" id="btn-actualizar-tasa" class="btn btn-sm d-flex align-items-center justify-content-center btn-outline-primary rounded-circle p-2" title="Actualizar Tasa" style="width: 32px; height: 32px;">
-        <i class="bi bi-arrow-clockwise" id="icono-refresh"></i>
+      <button type="button" id="btn-actualizar-tasa" class="btn btn-sm btn-actualizar-tasa d-flex align-items-center justify-content-center btn-outline-primary rounded-circle p-2" title="Actualizar Tasa" style="width: 32px; height: 32px;">
+        <i class="bi bi-arrow-clockwise refresh-icon"></i>
       </button>
     </div>
 
@@ -68,6 +68,19 @@ if (file_exists($cacheFile)) {
       </button>
 
       <ul class="dropdown-menu dropdown-menu-end shadow border-0 p-2 mt-2">
+
+        <li class="d-md-none px-3 py-2 border-bottom">
+          <div class="d-flex align-items-start justify-content-between gap-2">
+            <div>
+              <div class="fw-semibold text-dark">TASA OFICIAL BCV</div>
+              <span class="fw-bold">Bs. <span id="tasa-valor-mobile"><?php echo $savedTasa; ?></span></span>
+              <small class="text-secondary d-block mt-1" id="tasa-fecha-mobile">Ref: <?php echo $savedData; ?></small>
+            </div>
+            <button type="button" class="btn btn-sm btn-actualizar-tasa d-flex align-items-center justify-content-center btn-outline-primary rounded-circle p-2" title="Actualizar Tasa" style="width: 32px; height: 32px;">
+              <i class="bi bi-arrow-clockwise refresh-icon"></i>
+            </button>
+          </div>
+        </li>
 
         <li class="px-3 py-2 border-bottom">
           <div class="fw-semibold text-dark"><?= htmlspecialchars($userName) ?></div>
