@@ -100,3 +100,83 @@ function cleanAllInputs(querySelector, classToRemove) {
 document.addEventListener('DOMContentLoaded', function () {
     initSessionTimeout(15 * 60);
 });
+
+/**
+ * Módulo centralizado para interactuar con los endpoints de Studio Ordo Stetic
+ */
+const OrdoAPI = {
+    //URL base del proyecto
+    baseUrl: '/StudioOrdoStetic/api',
+
+    /**
+     * Helper genérico para peticiones HTTP
+     */
+    async request(endpoint, options = {}) {
+        try {
+            const response = await fetch(`${this.baseUrl}${endpoint}`, options);
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.error(`Error en API (${endpoint}):`, error);
+            throw error; //Re-lanzamos el error para que el componente visual lo maneje
+        }
+    },
+
+    /**
+     * Módulo del Dólar BCV
+     */
+    tasaBCV: {
+        async actualizar() {
+            return await OrdoAPI.request('/tasa-bcv/actualizar', { method: 'POST' });
+        }
+    },
+
+    /**
+     * Módulo del Catálogo SNOMED CT
+     */
+    snomed: {
+        async buscar(termino) {
+            return await OrdoAPI.request(`/snomed/buscar?q=${encodeURIComponent(termino)}`);
+        }
+    },
+
+    /**
+     * Módulo de Estadísticas para Gráficos
+     */
+    stats: {
+        async getEmpleados() {
+            return await OrdoAPI.request('/stats/empleados');
+        }
+    }
+};
+
+//Funcionalidad para actualizar la tasa del BCV
+document.addEventListener("DOMContentLoaded", function () {
+    const btnActualizar = document.getElementById('btn-actualizar-tasa');
+    
+    //El "if" es vital para que no dé error en vistas que no tengan el botón
+    if (btnActualizar) {
+        const icono = document.getElementById('icono-refresh');
+        const tasaValor = document.getElementById('tasa-valor');
+        const tasaFecha = document.getElementById('tasa-fecha');
+
+        btnActualizar.addEventListener('click', async function () {
+            btnActualizar.disabled = true;
+            icono.classList.add('spin-animation');
+
+            try {
+                const data = await OrdoAPI.tasaBCV.actualizar();
+                tasaValor.innerText = data.bcv.toFixed(2).replace('.', ',');
+                tasaFecha.innerText = `Ref: ${data.date}`;
+                showAlert('success', data.message, `Dólar BCV: Bs. ${data.bcv}`, '#28a745');
+            } catch (error) {
+                showAlert('error', 'Error', data.message, '#dc3545');
+            } finally {
+                btnActualizar.disabled = false;
+                icono.classList.remove('spin-animation');
+            }
+        });
+    }
+});

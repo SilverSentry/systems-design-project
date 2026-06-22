@@ -22,6 +22,9 @@ $router->addGetController('services', \App\Controllers\AppointmentController::cl
 //API: búsqueda SNOMED proxyeada por el backend
 $router->addGetController('api/search', \App\Controllers\ApiController::class, 'search');
 
+//API: actualización de la tasa oficial del BCV
+$router->addController('api/tasa-bcv/actualizar', \App\Controllers\ApiController::class, 'updateTasa');
+
 //Registro de rutas para controladores que manejan POST (acciones, formularios, etc.)
 //Parámetros: ruta, controlador, método
 $router->addController('login', \App\Controllers\AuthController::class, 'login');

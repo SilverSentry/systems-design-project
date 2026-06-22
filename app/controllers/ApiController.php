@@ -3,6 +3,10 @@
 
 namespace App\Controllers;
 
+use DateTimeImmutable;
+use DateTimeZone;
+use App\Config\Messages;
+
 class ApiController
 {
 
@@ -69,5 +73,79 @@ class ApiController
 
         //Limitamos a un máximo de 10 resultados para no sobrecargar la interfaz
         return array_slice($results, 0, 10);
+    }
+
+    /**
+     * Maneja la actualización de la tasa oficial del BCV
+     * Consume la API comunitaria del BCV y guarda el resultado
+     * Ese resultado guardado se puede usar para mostrar la tasa
+     * en el navbar sin necesidad de consultar el BCV cada vez
+     */
+    public function updateTasa() {
+        header('Content-Type: application/json');
+
+        //URL de la API pública del dólar que responde JSON de forma consistente
+        $url = "https://ve.dolarapi.com/v1/dolares/oficial";
+        
+        //Opciones para la solicitud HTTP, incluyendo un User-Agent personalizado
+        $options = [
+            "http" => [
+                "method" => "GET",
+                "header" => "User-Agent: StudioOrdoSteticApp/1.0\r\n"
+            ]
+        ];
+        
+        //Creamos el contexto de la solicitud con las opciones definidas
+        $context = stream_context_create($options);
+        
+        try {
+            $response = @file_get_contents($url, false, $context);
+            
+            if ($response === FALSE) {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => Messages::ERR_TASA_BCV_UPDATE_FAILED
+                ]);
+                exit;
+            }
+
+            $data = json_decode($response, true);
+            $dollarPrice = $data['promedio'] ?? $data['price'] ?? $data['efectivo'] ?? $data['venta'] ?? $data['compra'] ?? null;
+            
+            if ($dollarPrice === null || $dollarPrice === '') {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => Messages::ERR_TASA_BCV_INVALID_RESPONSE
+                ]);
+                exit;
+            }
+
+            $finalPrice = round($dollarPrice, 2);
+            $caracasNow = new DateTimeImmutable('now', new DateTimeZone('America/Caracas'));
+            $storedDate = $caracasNow->format('Y-m-d H:i:s');
+
+            //Guardamos el nuevo valor de forma física en tu carpeta storage
+            $archivoCache = dirname(__DIR__, 2) . '/storage/tasa.json';
+            file_put_contents($archivoCache, json_encode([
+                'bcv' => $finalPrice,
+                'date' => $storedDate,
+                'timezone' => 'America/Caracas'
+            ]));
+
+            echo json_encode([
+                'status' => 'success',
+                'message' => Messages::SUCCESS_TASA_BCV_UPDATED,
+                'bcv' => $finalPrice,
+                'date' => $caracasNow->format('d-m-Y h:i A')
+            ]);
+
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+        exit();
     }
 }

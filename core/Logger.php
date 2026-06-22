@@ -18,8 +18,8 @@ class Logger
 
         $filePath = $logDir . '/app.log';
 
-        //Formato profesional: [2026-06-01 22:00:00] [ERROR] Mensaje del log
-        $date = date('Y-m-d H:i:s');
+        //Formato profesional en hora de Caracas: [2026-06-01 22:00:00] [ERROR] Mensaje del log
+        $date = (new \DateTimeImmutable('now', new \DateTimeZone('America/Caracas')))->format('Y-m-d H:i:s');
         $formattedMessage = "[{$date}] [{$level}] {$message}" . PHP_EOL;
 
         //Escribe al final del archivo sin borrar lo anterior (FILE_APPEND)

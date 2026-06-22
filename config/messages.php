@@ -38,5 +38,10 @@ class Messages
     public const ERR_INVALID_DATE = 'La fecha de la cita no es válida';
     public const ERR_INVALID_TIME = 'El horario ingresado no es válido';
     public const ERR_INVALID_SERVICE_SELECTION = 'Selecciona al menos un servicio válido';
+
+    //Mensajes para la actualización de la tasa del BCV
+    public const ERR_TASA_BCV_UPDATE_FAILED = 'No se pudo actualizar la tasa del BCV. Intente nuevamente más tarde';
+    public const SUCCESS_TASA_BCV_UPDATED = '¡Tasa actualizada exitosamente!';
+    public const ERR_TASA_BCV_INVALID_RESPONSE = 'La respuesta del BCV no contiene un precio válido';
     
 }
