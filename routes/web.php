@@ -19,6 +19,9 @@ $router->addGetController('appointments', \App\Controllers\AppointmentController
 $router->addGetController('appointments/create', \App\Controllers\AppointmentController::class, 'create');
 $router->addGetController('services', \App\Controllers\AppointmentController::class, 'showServices');
 
+$router->addGetController('inventory', \App\Controllers\InventarioController::class, 'index');
+$router->addGetController('api/inventory/history', \App\Controllers\InventarioController::class, 'history');
+
 //API: búsqueda SNOMED proxyeada por el backend
 $router->addGetController('api/search', \App\Controllers\ApiController::class, 'search');
 
@@ -33,6 +36,11 @@ $router->addController('logout', \App\Controllers\AuthController::class, 'logout
 $router->addController('clients/register', \App\Controllers\ClientController::class, 'register');
 $router->addController('clients/edit', \App\Controllers\ClientController::class, 'edit');
 $router->addController('appointments/schedule', \App\Controllers\AppointmentController::class, 'schedule');
+
+$router->addController('inventory/create', \App\Controllers\InventarioController::class, 'create');
+$router->addController('inventory/edit', \App\Controllers\InventarioController::class, 'edit');
+$router->addController('inventory/delete', \App\Controllers\InventarioController::class, 'delete');
+$router->addController('inventory/movement', \App\Controllers\InventarioController::class, 'movement');
 
 //Ejecutamos el router con la ruta actual
 $router->run(isset($_GET['p']) ? $_GET['p'] : 'login');

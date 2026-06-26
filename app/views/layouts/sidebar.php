@@ -32,6 +32,8 @@ use App\Core\Helpers;
 
       <a href="<?= Paths::to('services') ?>" class="list-group-item list-group-item-action <?= Helpers::activeClass('services'); ?>"><i class="bi bi-bag-plus"></i>Servicios</a>
 
+      <a href="<?= Paths::to('inventory') ?>" class="list-group-item list-group-item-action <?= Helpers::activeClass('inventory'); ?>"><i class="bi bi-box-seam me-2"></i>Inventario</a>
+
     </div>
   </nav>
 </div>

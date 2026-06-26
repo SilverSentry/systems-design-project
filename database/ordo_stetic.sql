@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-06-2026 a las 13:47:41
+-- Tiempo de generación: 26-06-2026 a las 01:44:43
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,9 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `ordo_stetic`
 --
-
-CREATE DATABASE IF NOT EXISTS `ordo_stetic` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `ordo_stetic`;
 
 -- --------------------------------------------------------
 
@@ -172,6 +169,38 @@ CREATE TABLE `estados_usuario` (
 INSERT INTO `estados_usuario` (`id`, `nombre`) VALUES
 (1, 'activo'),
 (2, 'inactivo');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `inventario`
+--
+
+CREATE TABLE `inventario` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `descripcion` text NOT NULL,
+  `sotck_actual` int(11) NOT NULL DEFAULT 0,
+  `stock_minimo` int(11) NOT NULL DEFAULT 5,
+  `precio_compra` decimal(10,2) NOT NULL,
+  `estado` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `movimientos_inventario`
+--
+
+CREATE TABLE `movimientos_inventario` (
+  `id` int(11) NOT NULL,
+  `id_producto` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `tipo_movimiento` enum('entrada','salida') NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `motivo` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -341,6 +370,20 @@ ALTER TABLE `estados_usuario`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `inventario`
+--
+ALTER TABLE `inventario`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `movimientos_inventario`
+--
+ALTER TABLE `movimientos_inventario`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_producto` (`id_producto`,`id_usuario`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
 -- Indices de la tabla `roles`
 --
 ALTER TABLE `roles`
@@ -415,6 +458,18 @@ ALTER TABLE `estados_usuario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT de la tabla `inventario`
+--
+ALTER TABLE `inventario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `movimientos_inventario`
+--
+ALTER TABLE `movimientos_inventario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
@@ -475,6 +530,13 @@ ALTER TABLE `clientes`
 ALTER TABLE `detalles_cita`
   ADD CONSTRAINT `detalles_cita_ibfk_1` FOREIGN KEY (`id_servicio`) REFERENCES `servicios` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `detalles_cita_ibfk_2` FOREIGN KEY (`id_cita`) REFERENCES `citas` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `movimientos_inventario`
+--
+ALTER TABLE `movimientos_inventario`
+  ADD CONSTRAINT `movimientos_inventario_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `movimientos_inventario_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `inventario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `superadmin`
