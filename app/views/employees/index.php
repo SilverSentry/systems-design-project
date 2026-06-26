@@ -22,7 +22,7 @@ require __DIR__ . '/../layouts/head.php';
   <div class="col-12 col-md-11 mx-auto mt-4 animate-fadeIn">
     <div class="card shadow border-0">
       <div class="card-header py-3">
-        <h1 class="card-tittle mb-0 fw-bold"><i class="bi bi-person me-2"></i>Empleados</h1>
+        <h1 class="card-tittle mb-0 fw-bold"><i class="bi bi-people me-2"></i>Empleados</h1>
       </div>
       <div class="card-body p-4">
         <div class="table-responsive">

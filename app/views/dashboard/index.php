@@ -35,7 +35,7 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
         <?php require __DIR__ . '/../layouts/navbar.php'; ?>
 
        <!-- Hero Section -->
-    <div class="col-lg-11 mx-auto">
+    <div class="col-lg-11 mx-auto mt-3">
         <header class="hero-section d-flex align-items-center justify-content-beetween animate-fadeInUp">
             <div class="container position-relative px-3">
                 <h1 class="fs-2 fs-md-1 display-5 fw-bold text-overlay text-white">Panel de Empleados</h1>

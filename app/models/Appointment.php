@@ -34,7 +34,7 @@ class Appointment extends Model
     //Método para crear registros de servicios seleccionados en la tabla intermedia detalles_cita
     public function attachServices(int $appointmentId, array $serviceIds): bool
     {
-        $serviceIds = array_filter(array_map('intval', $serviceIds), fn ($id) => $id > 0);
+        $serviceIds = array_filter(array_map('intval', $serviceIds), fn($id) => $id > 0);
 
         if (empty($serviceIds)) {
             return false;
@@ -72,7 +72,7 @@ class Appointment extends Model
     }
 
     //Método para obtener todas las citas activas con información del cliente, estado y servicios agendados
-    public function getAll()
+    public function getAll(): array
     {
 
         $sql = "SELECT ci.id, cl.nombre, cl.apellido, ci.created_at AS creada, ci.fecha, ci.hora_inicio, ci.hora_fin, ci.monto_total, ci.notas, e.nombre AS estado_nombre, " .
@@ -90,6 +90,61 @@ class Appointment extends Model
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    }
+
+    /**
+     * Get all active appointments that have not been invoiced yet.
+     *
+     * @return array
+     */
+    public function getUnbilled(): array
+    {
+        $sql = "SELECT ci.id, cl.nombre AS client_name, cl.apellido AS client_surname, cl.dni AS client_dni, ci.fecha, ci.monto_total 
+                FROM " . $this->tableName . " ci
+                JOIN clientes cl ON ci.id_cliente = cl.id
+                LEFT JOIN facturas f ON ci.id = f.id_cita
+                WHERE f.id IS NULL AND ci.id_estado IN (1, 2)
+                ORDER BY ci.fecha DESC, ci.hora_inicio DESC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    }
+
+    /**
+     * Get details of an appointment for billing, including client information and services.
+     *
+     * @param int $appointmentId
+     * @return array|null
+     */
+    public function getDetailsForBilling(int $appointmentId): ?array
+    {
+        $sql = "SELECT ci.id, ci.monto_total, 
+                       cl.id AS client_id, cl.nombre AS client_name, cl.apellido AS client_surname, cl.dni AS client_dni, cl.telefono AS client_phone
+                FROM " . $this->tableName . " ci
+                JOIN clientes cl ON ci.id_cliente = cl.id
+                WHERE ci.id = :appointmentId";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':appointmentId' => $appointmentId]);
+        $appointment = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$appointment) {
+            return null;
+        }
+
+        // Load services
+        $servicesSql = "SELECT s.id, s.nombre, s.precio 
+                        FROM detalles_cita dc
+                        JOIN servicios s ON dc.id_servicio = s.id
+                        WHERE dc.id_cita = :appointmentId";
+
+        $servicesStmt = $this->db->prepare($servicesSql);
+        $servicesStmt->execute([':appointmentId' => $appointmentId]);
+        $appointment['services'] = $servicesStmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+
+        return $appointment;
     }
 
     public function countDistinctClients()

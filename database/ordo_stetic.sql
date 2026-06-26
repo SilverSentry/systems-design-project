@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-06-2026 a las 01:44:43
+-- Tiempo de generación: 26-06-2026 a las 14:13:49
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -133,6 +133,21 @@ INSERT INTO `detalles_cita` (`id`, `id_cita`, `id_servicio`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `detalles_factura`
+--
+
+CREATE TABLE `detalles_factura` (
+  `id` int(11) NOT NULL,
+  `id_factura` int(11) NOT NULL,
+  `id_servicio` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `precio_unitario` decimal(10,2) NOT NULL,
+  `total` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `estados_cita`
 --
 
@@ -150,6 +165,25 @@ INSERT INTO `estados_cita` (`id`, `nombre`) VALUES
 (2, 'Asistida'),
 (3, 'Cancelada'),
 (4, 'No_asistio');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `estados_factura`
+--
+
+CREATE TABLE `estados_factura` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `estados_factura`
+--
+
+INSERT INTO `estados_factura` (`id`, `nombre`) VALUES
+(1, 'pagada'),
+(2, 'anulada');
 
 -- --------------------------------------------------------
 
@@ -173,6 +207,27 @@ INSERT INTO `estados_usuario` (`id`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `facturas`
+--
+
+CREATE TABLE `facturas` (
+  `id` int(11) NOT NULL,
+  `numero_factura` varchar(20) NOT NULL,
+  `id_cliente` int(11) NOT NULL,
+  `id_cita` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `subtotal_usd` decimal(10,2) NOT NULL,
+  `iva_usd` decimal(10,2) NOT NULL,
+  `total_usd` decimal(10,2) NOT NULL,
+  `tasa_bcv` decimal(10,2) NOT NULL,
+  `id_metodo_pago` int(11) NOT NULL,
+  `id_estado` int(11) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `inventario`
 --
 
@@ -184,6 +239,28 @@ CREATE TABLE `inventario` (
   `stock_minimo` int(11) NOT NULL DEFAULT 5,
   `precio_compra` decimal(10,2) NOT NULL,
   `estado` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `inventario`
+--
+
+INSERT INTO `inventario` (`id`, `nombre`, `descripcion`, `sotck_actual`, `stock_minimo`, `precio_compra`, `estado`) VALUES
+(1, 'Aceite de Coco Orgánico', 'Aceite hidratante de coco para masajes corporales y aromaterapia.', 15, 5, 12.50, 1),
+(2, 'Crema Exfoliante Facial', 'Crema exfoliante suave con microesferas de aloe vera para limpieza de cutis.', 3, 8, 18.20, 1),
+(3, 'Gel Conductor Neutro', 'Gel conductor especial para tratamientos de radiofrecuencia y aparatología.', 25, 10, 24.00, 1),
+(4, 'Toallas Desechables Premium', 'Paquete de 50 toallas desechables absorbentes para uso higiénico en cabina.', 4, 5, 9.99, 1),
+(5, 'Shampoo Hidratante', 'Shampoo para cabello seco', 10, 55, 8.50, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `metodos_pago`
+--
+
+CREATE TABLE `metodos_pago` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -358,9 +435,23 @@ ALTER TABLE `detalles_cita`
   ADD KEY `id_servicio` (`id_servicio`);
 
 --
+-- Indices de la tabla `detalles_factura`
+--
+ALTER TABLE `detalles_factura`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_factura` (`id_factura`,`id_servicio`),
+  ADD KEY `id_servicio` (`id_servicio`);
+
+--
 -- Indices de la tabla `estados_cita`
 --
 ALTER TABLE `estados_cita`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `estados_factura`
+--
+ALTER TABLE `estados_factura`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -370,9 +461,26 @@ ALTER TABLE `estados_usuario`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `facturas`
+--
+ALTER TABLE `facturas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_cliente` (`id_cliente`,`id_cita`,`id_usuario`,`id_metodo_pago`,`id_estado`),
+  ADD KEY `id_cita` (`id_cita`),
+  ADD KEY `id_usuario` (`id_usuario`),
+  ADD KEY `id_metodo_pago` (`id_metodo_pago`),
+  ADD KEY `id_estado` (`id_estado`);
+
+--
 -- Indices de la tabla `inventario`
 --
 ALTER TABLE `inventario`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `metodos_pago`
+--
+ALTER TABLE `metodos_pago`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -446,10 +554,22 @@ ALTER TABLE `detalles_cita`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT de la tabla `detalles_factura`
+--
+ALTER TABLE `detalles_factura`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `estados_cita`
 --
 ALTER TABLE `estados_cita`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `estados_factura`
+--
+ALTER TABLE `estados_factura`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `estados_usuario`
@@ -458,9 +578,21 @@ ALTER TABLE `estados_usuario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT de la tabla `facturas`
+--
+ALTER TABLE `facturas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `inventario`
 --
 ALTER TABLE `inventario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `metodos_pago`
+--
+ALTER TABLE `metodos_pago`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -530,6 +662,23 @@ ALTER TABLE `clientes`
 ALTER TABLE `detalles_cita`
   ADD CONSTRAINT `detalles_cita_ibfk_1` FOREIGN KEY (`id_servicio`) REFERENCES `servicios` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `detalles_cita_ibfk_2` FOREIGN KEY (`id_cita`) REFERENCES `citas` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `detalles_factura`
+--
+ALTER TABLE `detalles_factura`
+  ADD CONSTRAINT `detalles_factura_ibfk_1` FOREIGN KEY (`id_factura`) REFERENCES `facturas` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `detalles_factura_ibfk_2` FOREIGN KEY (`id_servicio`) REFERENCES `servicios` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `facturas`
+--
+ALTER TABLE `facturas`
+  ADD CONSTRAINT `facturas_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `facturas_ibfk_2` FOREIGN KEY (`id_cita`) REFERENCES `citas` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `facturas_ibfk_3` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `facturas_ibfk_4` FOREIGN KEY (`id_metodo_pago`) REFERENCES `metodos_pago` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `facturas_ibfk_5` FOREIGN KEY (`id_estado`) REFERENCES `estados_factura` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `movimientos_inventario`
