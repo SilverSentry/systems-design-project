@@ -38,9 +38,9 @@ require __DIR__ . '/../layouts/head.php';
                             <?php foreach ($services as $service): ?>
                                 <tr>
                                     <td><?= htmlspecialchars($service['id']) ?></td>
-                                    <td><?= htmlspecialchars($service['nombre']) ?></td>
-                                    <td><?= htmlspecialchars($service['descripcion']) ?></td>
-                                    <td><?= htmlspecialchars(number_format($service['precio'], 2, ',', '.')) ?></td>
+                                    <td class="fw-semibold text-dark"><?= htmlspecialchars($service['nombre']) ?></td>
+                                    <td class="text-secondary small"><?= htmlspecialchars($service['descripcion']) ?></td>
+                                    <td>$ <?= htmlspecialchars(number_format($service['precio'], 2, ',', '.')) ?></td>
                                     <td>
                                         <?php if (isset($service['estado']) && intval($service['estado']) === 1): ?>
                                             <span class="badge rounded-pill text-bg-success">Activo</span>

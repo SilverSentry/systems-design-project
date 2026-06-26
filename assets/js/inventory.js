@@ -340,7 +340,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                     
                     history.forEach(mov => {
-                        const badgeClass = mov.tipo_movimiento === 'entrada' ? 'badge-stock-ok' : 'badge-stock-bajo';
+                        const badgeClass = mov.tipo_movimiento === 'entrada' ? 'text-success' : 'text-danger';
                         const typeText = mov.tipo_movimiento === 'entrada' ? 'Entrada' : 'Salida';
                         const prefix = mov.tipo_movimiento === 'entrada' ? '+' : '-';
                         
