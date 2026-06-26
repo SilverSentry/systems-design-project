@@ -31,7 +31,7 @@ $appointmentError = Session::getFlash('appointment_error');
     <form id="scheduleAppointmentForm" method="POST" action="<?= Paths::to('appointments/schedule') ?>">
         <input type="hidden" name="action" value="appointments/schedule">
 
-        <div class="col-12 col-md-9 mx-auto mt-4">
+        <div class="col-12 col-md-9 mx-auto mt-4 animate-fadeIn">
             <div class="card shadow border-0">
                 <div class="card-header py-3">
                     <h1 class="card-title mb-0 fw-bold">Agendar cita</h1>

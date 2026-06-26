@@ -6,6 +6,12 @@
   animation: fadeInUp 0.85s ease-out both;
 }
 
+.animate-fadeInDown {
+  opacity: 0;
+  transform: translateY(-28px);
+  animation: fadeInDown 0.5s ease-out both;
+}
+
 .animate-fadeIn {
   opacity: 0;
   animation: fadeIn 0.85s ease-out both;
@@ -41,6 +47,13 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  to {
+    opacity: 1;
+    transform: translateY(0); 
   }
 }
 

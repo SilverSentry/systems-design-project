@@ -25,10 +25,10 @@ require __DIR__ . '/../layouts/head.php';
     <?php require __DIR__ . '/../layouts/navbar.php'; ?>
 
     <!-- Contenido principal -->
-    <div class="col-12 col-md-11 mx-auto mt-4">
+    <div class="col-12 col-md-11 mx-auto mt-4 animate-fadeIn">
         <div class="card shadow border-0">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h1 class="card-title mb-0 fw-bold">Clientes</h1>
+                <h1 class="card-title mb-0 fw-bold"><i class="bi bi-person me-2"></i>Clientes</h1>
                 <a href="<?= $urlCreate; ?>" class="btn btn-golden btn-golden-all btn-lg"><i class="bi bi-plus-lg"></i> Agregar cliente</a>
             </div>
             <div class="card-body p-4">

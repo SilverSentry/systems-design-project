@@ -10,9 +10,6 @@ require __DIR__ . '/../layouts/head.php';
     color: #000000c7 !important;
   }
 
-  .card-header {
-    border-bottom: 2px solid #e6c486 !important;
-  }
 </style>
 
 <?php require __DIR__ . '/../layouts/sidebar.php'; ?>
@@ -22,10 +19,10 @@ require __DIR__ . '/../layouts/head.php';
   <?php require __DIR__ . '/../layouts/navbar.php'; ?>
 
   <!-- Contenido principal -->
-  <div class="col-12 col-md-11 mx-auto mt-4">
+  <div class="col-12 col-md-11 mx-auto mt-4 animate-fadeIn">
     <div class="card shadow border-0">
       <div class="card-header py-3">
-        <h1 class="card-tittle mb-0 fw-bold">Empleados</h1>
+        <h1 class="card-tittle mb-0 fw-bold"><i class="bi bi-person me-2"></i>Empleados</h1>
       </div>
       <div class="card-body p-4">
         <div class="table-responsive">

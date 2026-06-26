@@ -27,7 +27,7 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
     <form id="createClientForm" method="POST" action="<?= Paths::to('clients/register') ?>">
         <input type="hidden" name="action" value="clients/register">
 
-        <div class="col-12 col-md-9 mx-auto mt-4">
+        <div class="col-12 col-md-9 mx-auto mt-4 animate-fadeIn">
             <div class="card shadow border-0">
                 <div class="card-header py-3">
                     <h1 class="card-title mb-0 fw-bold">Agregar cliente</h1>

@@ -6,7 +6,7 @@ use App\Core\Paths;
 require __DIR__ . '/../layouts/head.php';
 ?>
 
-    <div class="container mt-3">
+    <div class="container mt-3 animate-fadeInDown">
 
         <div class="row justify-content-center">
 

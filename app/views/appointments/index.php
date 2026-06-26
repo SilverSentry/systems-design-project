@@ -15,10 +15,10 @@ require __DIR__ . '/../layouts/head.php';
     <?php require __DIR__ . '/../layouts/navbar.php'; ?>
 
     <!-- Contenido principal -->
-    <div class="col-12 col-md-11 mx-auto mt-4">
+    <div class="col-12 col-md-11 mx-auto mt-4 animate-fadeIn">
         <div class="card shadow border-0">
-            <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h1 class="card-title mb-0 fw-bold">Citas</h1>
+            <div class="card-header py-3 d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
+                <h1 class="card-title mb-0 fw-bold"> <i class="bi bi-calendar me-2"></i> Citas</h1>
                 <div class="d-flex gap-3">
                     <a href="<?= $urlServices ?>" class="btn btn-second btn-lg"><i class="bi bi-list"></i> Ver servicios</a>
                     <a href="<?= $urlCreate ?>" class="btn btn-golden btn-golden-all btn-lg"><i class="bi bi-plus-lg"></i> Agendar cita</a>

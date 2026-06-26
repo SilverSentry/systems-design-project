@@ -3,7 +3,7 @@
 
 namespace App\Controllers;
 
-use App\Models\Inventario;
+use App\Models\Inventory;
 use App\Core\Session;
 use App\Core\Paths;
 use App\Core\ValidationHelper;
@@ -14,7 +14,7 @@ class InventarioController
 
     public function __construct()
     {
-        $this->inventarioModel = new Inventario();
+        $this->inventarioModel = new Inventory();
     }
 
     /**

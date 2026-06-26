@@ -145,3 +145,8 @@ body {
 .letter-spacing-1 {
   letter-spacing: 0.12em;
 }
+
+.card-header {
+    border-bottom: 2px solid #e6c486 !important;
+    box-shadow: 0 4px 6px rgba(255, 87, 51, 0.1) !important;
+  }
