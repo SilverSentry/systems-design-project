@@ -1,13 +1,13 @@
 $(document).ready(function () {
-    // Initialize DataTable for invoices list
+    // Inicializar DataTable para la lista de facturas
     $('#tabla-facturas').DataTable({
         language: {
             url: '/StudioOrdoStetic/assets/DataTables/es-ES.json'
         },
-        order: [[2, 'desc']] // Order by date descending by default
+        order: [[2, 'desc']] // Ordenar por fecha descendente por defecto
     });
 
-    // Handle cancellation / voiding of invoices
+    // Manejar la cancelación/anulación de facturas
     $(document).on('click', '.btn-cancel-invoice', function () {
         const invoiceId = $(this).data('id');
         const invoiceNumber = $(this).data('number');

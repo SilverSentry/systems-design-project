@@ -191,6 +191,8 @@
 
   /* Transición suave para la animación de apertura */
   transition: left 0.3s ease-in-out;
+  overflow-y: auto; /* Activa el scroll vertical solo si el contenido se pasa */
+  overflow-x: hidden; /* Evita cualquier scroll horizontal extraño */
 }
 
 /* Estado activo: cuando JS añade la clase para mostrarlo */

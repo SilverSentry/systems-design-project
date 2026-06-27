@@ -11,7 +11,7 @@
   width: 100%; /* Ancho completo en móviles */
   margin-left: 0;
   /* Animación suave alineada con la velocidad del sidebar en components.css */
-  transition: all 0.3s ease-in-out; 
+  transition: all 0.3s ease-in-out;
 }
 
 /* En pantallas amplias el contenido deja espacio para el sidebar (visible por defecto) */
@@ -88,4 +88,36 @@
 
 .overlay.show {
   display: block;
+}
+
+/* diseño de scrollbar */
+
+/* 1. Contenedor de la barra (Ancho total de la tira vertical) */
+::-webkit-scrollbar {
+  width: 8px; /* Un grosor sutil y elegante para el sistema */
+  height: 8px; /* Grosor para barras de scroll horizontales (ej. en tablas anchas) */
+}
+
+/* 2. El fondo de la barra (Vía o carril por donde corre) */
+::-webkit-scrollbar-track {
+  background: #f9f9f9; /* Un gris casi blanco muy limpio que combina con el fondo */
+  border-left: 1px solid rgba(0, 0, 0, 0.03); /* Separación imperceptible */
+}
+
+/* 3. El indicador / Tirador (La barrita que arrastras con el cursor) */
+::-webkit-scrollbar-thumb {
+  background: rgba(194, 156, 85, 0.25); /* Tu dorado corporativo traslúcido */
+  border-radius: 20px; /* Bordes completamente redondeados */
+  border: 2px solid #f9f9f9; /* Truco de espaciado: crea un colchón transparente alrededor */
+  transition: background 0.3s ease;
+}
+
+/* 4. Estado Hover (Cuando el usuario pasa el mouse para interactuar) */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(
+    194,
+    156,
+    85,
+    0.55
+  ); /* El dorado toma más cuerpo y presencia */
 }

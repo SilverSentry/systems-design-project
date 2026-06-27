@@ -40,7 +40,7 @@ class InvoiceController
         $user = Session::getUser();
         $invoices = $this->invoiceModel->getAll();
 
-        // Load the cached BCV rate for display/calculating totals in Bs.
+        // Cargar la tasa BCV en caché para mostrar/calcular totales en Bs.
         $cacheFile = dirname(__DIR__, 2) . '/storage/tasa.json';
         $bcvRate = 1.0;
         if (file_exists($cacheFile)) {
@@ -80,13 +80,13 @@ class InvoiceController
 
         $user = Session::getUser();
         
-        // Ensure payment methods exist
+        // Asegurar que existan métodos de pago
         $paymentMethods = $this->paymentMethodModel->getAll();
         
-        // Fetch appointments that are not billed yet
+        // Cargar citas que aún no han sido facturadas
         $appointments = $this->appointmentModel->getUnbilled();
 
-        // Load the cached BCV rate
+        // Cargar la tasa BCV en caché
         $cacheFile = dirname(__DIR__, 2) . '/storage/tasa.json';
         $bcvRate = 1.0;
         $bcvRateFormatted = "0,00";
@@ -169,14 +169,14 @@ class InvoiceController
             exit();
         }
 
-        // Verify the appointment details and check if it's already invoiced
+        // Verificar los detalles de la cita y comprobar si ya está facturada
         $details = $this->appointmentModel->getDetailsForBilling($appointmentId);
         if (!$details) {
             echo json_encode(['status' => 'error', 'message' => 'Cita no encontrada o no válida']);
             exit();
         }
 
-        // Check if there's already an invoice for this appointment
+        // Comprobar si ya existe una factura para esta cita
         $checkSql = "SELECT id FROM facturas WHERE id_cita = :appointmentId LIMIT 1";
         $checkStmt = Connection::getConnection()->prepare($checkSql);
         $checkStmt->execute([':appointmentId' => $appointmentId]);
@@ -185,7 +185,7 @@ class InvoiceController
             exit();
         }
 
-        // Retrieve pricing information and user info
+        // Obtener la información de precios e información del usuario
         $services = $details['services'];
         if (empty($services)) {
             echo json_encode(['status' => 'error', 'message' => 'La cita no tiene servicios asociados para facturar']);
@@ -195,7 +195,7 @@ class InvoiceController
         $user = Session::getUser();
         $userId = intval($user['id'] ?? 1);
 
-        // Load the current BCV rate
+        // Cargar la tasa BCV actual
         $cacheFile = dirname(__DIR__, 2) . '/storage/tasa.json';
         $bcvRate = 1.0;
         if (file_exists($cacheFile)) {
@@ -203,12 +203,12 @@ class InvoiceController
             $bcvRate = floatval($cacheData['bcv'] ?? 1.0);
         }
 
-        // Calculate pricing
+        // Calcular precios
         $subtotalUsd = 0.0;
         foreach ($services as $service) {
             $subtotalUsd += floatval($service['precio']);
         }
-        $ivaUsd = $subtotalUsd * 0.16; // Standard 16% IVA
+        $ivaUsd = $subtotalUsd * 0.16; // IVA estándar 16%
         $totalUsd = $subtotalUsd + $ivaUsd;
 
         $db = Connection::getInstance()->getConnection();
@@ -216,10 +216,10 @@ class InvoiceController
         try {
             $db->beginTransaction();
 
-            // Generate sequential invoice number
+            // Generar número de factura secuencial
             $invoiceNumber = $this->invoiceModel->generateInvoiceNumber();
 
-            // 1. Create the Invoice
+            // 1. Crear la factura
             $invoiceId = $this->invoiceModel->create(
                 $invoiceNumber,
                 intval($details['client_id']),
@@ -230,22 +230,22 @@ class InvoiceController
                 $totalUsd,
                 $bcvRate,
                 $paymentMethodId,
-                1 // Status: pagada (1)
+                1 // Estado: pagada (1)
             );
 
-            // 2. Create the Invoice Details
+            // 2. Crear los detalles de la factura
             foreach ($services as $service) {
                 $servicePrice = floatval($service['precio']);
                 $this->invoiceDetailModel->create(
                     $invoiceId,
                     intval($service['id']),
-                    1, // Quantity defaults to 1 for aesthetic services
+                    1, // Cantidad predeterminada 1 para servicios estéticos
                     $servicePrice,
                     $servicePrice
                 );
             }
 
-            // 3. Update the Appointment Status to 'Asistida' (ID 2)
+            // 3. Actualizar el estado de la cita a 'Asistida' (ID 2)
             $updateApptSql = "UPDATE citas SET id_estado = 2, updated_at = NOW() WHERE id = :appointmentId";
             $updateStmt = $db->prepare($updateApptSql);
             $updateStmt->execute([':appointmentId' => $appointmentId]);
@@ -302,8 +302,8 @@ class InvoiceController
             exit();
         }
 
-        // Void the invoice
-        $success = $this->invoiceModel->updateStatus($invoiceId, 2); // Status: anulada (2)
+        // Anular la factura
+        $success = $this->invoiceModel->updateStatus($invoiceId, 2); // Estado: anulada (2)
 
         if ($success) {
             echo json_encode([

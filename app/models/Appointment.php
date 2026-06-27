@@ -134,7 +134,7 @@ class Appointment extends Model
             return null;
         }
 
-        // Load services
+        // Cargar servicios
         $servicesSql = "SELECT s.id, s.nombre, s.precio 
                         FROM detalles_cita dc
                         JOIN servicios s ON dc.id_servicio = s.id

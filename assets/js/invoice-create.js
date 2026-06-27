@@ -4,25 +4,25 @@ document.addEventListener("DOMContentLoaded", function () {
     const servicesCard = document.getElementById("services-card");
     const submitBtn = document.getElementById("submitBtn");
     
-    // Client detail elements
+    // Elementos de detalles del cliente
     const clientFullname = document.getElementById("client-fullname");
     const clientDni = document.getElementById("client-dni");
     const clientPhone = document.getElementById("client-phone");
 
-    // Services list body
+    // Cuerpo de la lista de servicios
     const servicesList = document.getElementById("services-list");
 
-    // Summary elements
+    // Elementos del resumen
     const summarySubtotal = document.getElementById("summary-subtotal");
     const summaryIva = document.getElementById("summary-iva");
     const summaryTotalUsd = document.getElementById("summary-total-usd");
     const summaryTotalVes = document.getElementById("summary-total-ves");
     
-    // BCV Rate
+    // Tasa BCV
     const bcvRateHidden = document.getElementById("bcv_rate_hidden");
     const bcvRate = bcvRateHidden ? parseFloat(bcvRateHidden.value) : 1.0;
 
-    // Form inputs cleanup on interaction
+    // Limpiar inputs del formulario al interactuar
     const createInvoiceForm = document.getElementById("createInvoiceForm");
     const selectInputs = createInvoiceForm ? createInvoiceForm.querySelectorAll("select") : [];
 
@@ -34,12 +34,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Helper to format currency decimals in Spanish standard
+    // Ayudante para formatear decimales de moneda en formato español
     function formatCurrency(value, prefix = '$') {
         return prefix + ' ' + value.toFixed(2).replace('.', ',').replace(/\d(?=(\d{3})+,)/g, '$&.');
     }
 
-    // Fetch appointment details when a new one is selected
+    // Obtener detalles de la cita cuando se selecciona una nueva
     appointmentSelect.addEventListener("change", async function () {
         const appointmentId = this.value;
         if (!appointmentId) {
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // Show loading state
+        // Mostrar estado de carga
         appointmentSelect.disabled = true;
         
         try {
@@ -75,14 +75,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Populate UI with fetched details
+    // Rellenar la UI con los datos obtenidos
     function populateAppointmentDetails(data) {
-        // 1. Set client details
+        // 1. Asignar detalles del cliente
         clientFullname.innerText = (data.client_name + ' ' + data.client_surname).toUpperCase();
         clientDni.innerText = data.client_dni ? data.client_dni : 'S/D';
         clientPhone.innerText = data.client_phone ? data.client_phone : 'S/D';
 
-        // 2. Populate services list
+        // 2. Rellenar la lista de servicios
         servicesList.innerHTML = '';
         let subtotal = 0.0;
 
@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
 
-        // 3. Calculate and display totals
+        // 3. Calcular y mostrar totales
         const iva = subtotal * 0.16; // 16% IVA
         const totalUsd = subtotal + iva;
         const totalVes = totalUsd * bcvRate;
@@ -121,15 +121,15 @@ document.addEventListener("DOMContentLoaded", function () {
         summaryTotalUsd.innerText = formatCurrency(totalUsd);
         summaryTotalVes.innerText = formatCurrency(totalVes, 'Bs.');
 
-        // 4. Reveal cards
+        // 4. Mostrar las tarjetas
         clientInfoCard.classList.remove("d-none");
         servicesCard.classList.remove("d-none");
         
-        // Enable register button if there are services
+        // Activar el botón de registro si hay servicios
         submitBtn.disabled = services.length === 0;
     }
 
-    // Reset Form when no appointment is selected
+    // Restablecer el formulario cuando no se selecciona cita
     function resetInvoicingForm() {
         clientFullname.innerText = "-";
         clientDni.innerText = "-";
@@ -145,12 +145,12 @@ document.addEventListener("DOMContentLoaded", function () {
         submitBtn.disabled = true;
     }
 
-    // Handle AJAX Form Submission
+    // Manejar envío del formulario por AJAX
     if (createInvoiceForm) {
         createInvoiceForm.addEventListener("submit", async function (e) {
             e.preventDefault();
 
-            // Disable button and show spinner
+            // Deshabilitar botón y mostrar spinner
             submitBtn.disabled = true;
             const originalBtnHtml = submitBtn.innerHTML;
             submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...`;
