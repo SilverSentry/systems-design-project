@@ -30,6 +30,10 @@ $router->addGetController('clients', \App\Controllers\ClientController::class, '
 $router->addGetController('appointments', \App\Controllers\AppointmentController::class, 'index');
 $router->addGetController('appointments/create', \App\Controllers\AppointmentController::class, 'create');
 $router->addGetController('services', \App\Controllers\AppointmentController::class, 'showServices');
+$router->addGetController('services/create', \App\Controllers\AppointmentController::class, 'createService');
+
+//Rutas de Servicios POST
+$router->addController('services/store', \App\Controllers\AppointmentController::class, 'storeService');
 
 //Rutas de Inventario
 $router->addGetController('inventory', \App\Controllers\InventarioController::class, 'index');

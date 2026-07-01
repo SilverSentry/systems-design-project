@@ -4,6 +4,9 @@
 
 use App\Core\Paths;
 use App\Core\Helpers;
+use App\Core\Session;
+
+$user = Session::getUser() ?? [];
 
 ?>
 <!-- Esto es la capa que oscurece el fondo -->
@@ -22,9 +25,11 @@ use App\Core\Helpers;
   <nav class="nav flex-column">
     <div class="list-group list-group-flush">
 
-      <a href="<?= Paths::to('admin_dashboard') ?>" class="list-group-item <?= Helpers::activeClass('admin_dashboard'); ?>"><i class="bi bi-speedometer2"></i> Inicio</a>
+      <a href="<?= Paths::to('admin_dashboard') ?>" class="list-group-item <?= Helpers::activeClass('dashboard'); ?>"><i class="bi bi-speedometer2"></i> Inicio</a>
 
-      <a href="<?= Paths::to('employees') ?>" class="list-group-item list-group-item-action <?= Helpers::activeClass('employees'); ?>"><i class="bi bi-people me-2"></i>Empleados</a>
+      <?php if (!Session::isEmployee()): ?>
+        <a href="<?= Paths::to('employees') ?>" class="list-group-item list-group-item-action <?= Helpers::activeClass('employees'); ?>"><i class="bi bi-people me-2"></i>Empleados</a>
+      <?php endif; ?>
 
       <a href="<?= Paths::to('clients') ?>" class="list-group-item list-group-item-action <?= Helpers::activeClass('clients'); ?>"><i class="bi bi-person me-2"></i>Clientes</a>
 

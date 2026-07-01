@@ -61,6 +61,10 @@ class InventarioController
             $this->respondWithError('No autorizado. Debes iniciar sesión.');
         }
 
+        if (Session::isEmployee()) {
+            $this->respondWithError('No autorizado. No tienes permisos para crear productos.');
+        }
+
         // Validar campos
         $nombre = trim($_POST['nombre'] ?? '');
         $descripcion = trim($_POST['descripcion'] ?? '');
@@ -115,6 +119,10 @@ class InventarioController
     {
         if (!Session::isLogged()) {
             $this->respondWithError('No autorizado. Debes iniciar sesión.');
+        }
+
+        if (Session::isEmployee()) {
+            $this->respondWithError('No autorizado. No tienes permisos para editar productos.');
         }
 
         $id = intval($_POST['id'] ?? 0);
@@ -177,6 +185,10 @@ class InventarioController
     {
         if (!Session::isLogged()) {
             $this->respondWithError('No autorizado. Debes iniciar sesión.');
+        }
+
+        if (Session::isEmployee()) {
+            $this->respondWithError('No autorizado. No tienes permisos para eliminar productos.');
         }
 
         $id = intval($_POST['id'] ?? 0);

@@ -3,6 +3,10 @@
 /** @var array $products Arreglo de productos de inventario provisto por InventarioController */
 
 require __DIR__ . '/../layouts/head.php';
+
+use App\Core\Session;
+
+$isEmployee = Session::isEmployee();
 ?>
 
 <style>
@@ -31,9 +35,11 @@ require __DIR__ . '/../layouts/head.php';
           <button type="button" class="btn btn-golden-all btn-lg d-flex align-items-end gap-2" data-bs-toggle="modal" data-bs-target="#modalMovement">
             <i class="bi bi-arrow-left-right"></i> Registrar Movimiento
           </button>
-          <button type="button" class="btn btn-golden-all btn-lg d-flex align-items-end gap-2" data-bs-toggle="modal" data-bs-target="#modalAddProduct">
-            <i class="bi bi-plus-lg"></i> Agregar Producto
-          </button>
+          <?php if (!$isEmployee): ?>
+            <button type="button" class="btn btn-golden-all btn-lg d-flex align-items-end gap-2" data-bs-toggle="modal" data-bs-target="#modalAddProduct">
+              <i class="bi bi-plus-lg"></i> Agregar Producto
+            </button>
+          <?php endif; ?>
         </div>
       </div>
 
@@ -77,22 +83,26 @@ require __DIR__ . '/../layouts/head.php';
                     <?php endif; ?>
                   </td>
                   <td>
-                    <div class="d-flex gap-2">
-                      <button type="button" class="btn btn-outline-primary btn-sm btn-edit-product d-flex align-items-center gap-1"
-                        data-id="<?= $prod['id'] ?>"
-                        data-nombre="<?= htmlspecialchars($prod['nombre'], ENT_QUOTES) ?>"
-                        data-descripcion="<?= htmlspecialchars($prod['descripcion'], ENT_QUOTES) ?>"
-                        data-sotck_actual="<?= $prod['sotck_actual'] ?>"
-                        data-stock_minimo="<?= $prod['stock_minimo'] ?>"
-                        data-precio_compra="<?= $prod['precio_compra'] ?>">
-                        <i class="bi bi-pencil-square"></i> Editar
-                      </button>
-                      <button type="button" class="btn btn-outline-danger btn-sm btn-delete-product d-flex align-items-center gap-1"
-                        data-id="<?= $prod['id'] ?>"
-                        data-nombre="<?= htmlspecialchars($prod['nombre'], ENT_QUOTES) ?>">
-                        <i class="bi bi-trash-fill"></i> Eliminar
-                      </button>
-                    </div>
+                    <?php if (!$isEmployee): ?>
+                      <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-outline-primary btn-sm btn-edit-product d-flex align-items-center gap-1"
+                          data-id="<?= $prod['id'] ?>"
+                          data-nombre="<?= htmlspecialchars($prod['nombre'], ENT_QUOTES) ?>"
+                          data-descripcion="<?= htmlspecialchars($prod['descripcion'], ENT_QUOTES) ?>"
+                          data-sotck_actual="<?= $prod['sotck_actual'] ?>"
+                          data-stock_minimo="<?= $prod['stock_minimo'] ?>"
+                          data-precio_compra="<?= $prod['precio_compra'] ?>">
+                          <i class="bi bi-pencil-square"></i> Editar
+                        </button>
+                        <button type="button" class="btn btn-outline-danger btn-sm btn-delete-product d-flex align-items-center gap-1"
+                          data-id="<?= $prod['id'] ?>"
+                          data-nombre="<?= htmlspecialchars($prod['nombre'], ENT_QUOTES) ?>">
+                          <i class="bi bi-trash-fill"></i> Eliminar
+                        </button>
+                      </div>
+                    <?php else: ?>
+                      <span class="text-muted small">Sin permisos</span>
+                    <?php endif; ?>
                   </td>
                 </tr>
               <?php endforeach; ?>

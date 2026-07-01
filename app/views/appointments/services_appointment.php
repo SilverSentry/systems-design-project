@@ -3,8 +3,11 @@
 /** @var array $services */
 
 use App\Core\Paths;
+use App\Core\Session;
 
 require __DIR__ . '/../layouts/head.php';
+
+$isEmployee = Session::isEmployee();
 ?>
 
 <?php require __DIR__ . '/../layouts/sidebar.php'; ?>
@@ -18,8 +21,10 @@ require __DIR__ . '/../layouts/head.php';
             <div class="card-header py-3 d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
                 <h1 class="card-title mb-0 fw-bold"><i class="bi bi-bag-plus"></i> Servicios</h1>
                 <div class="d-flex gap-3">
-                    <a href="<?= Paths::to('appointments') ?>" class="btn btn-second btn-lg"><i class="bi bi-arrow-left"></i> Regresar</a>
-                    <a href="<?= Paths::to('appointments/create') ?>" class="btn btn-golden-all btn-lg"><i class="bi bi-calendar-check"></i> Agendar</a>
+                    <a href="<?= Paths::to('appointments') ?>" class="btn btn-second btn-lg"><i class="bi bi-calendar"></i> Ver citas</a>
+                    <?php if (!$isEmployee): ?>
+                        <a href="<?= Paths::to('services/create') ?>" class="btn btn-golden-all btn-lg"><i class="bi bi-plus-lg"></i> Agregar Servicio</a>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="card-body p-4">

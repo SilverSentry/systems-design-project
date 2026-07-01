@@ -19,6 +19,19 @@ class Service extends Model
         return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
 
+    public function create(string $name, string $description, float $price)
+    {
+        $sql = "INSERT INTO " . $this->tableName . " (nombre, descripcion, precio, estado) VALUES (:nombre, :descripcion, :precio, 1)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            ':nombre' => $name,
+            ':descripcion' => $description,
+            ':precio' => $price
+        ]);
+
+        return intval($this->db->lastInsertId());
+    }
+
     public function getByIds(array $ids)
     {
         $ids = array_filter(array_map('intval', $ids), function ($id) {

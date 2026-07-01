@@ -102,6 +102,61 @@ class AppointmentController
         require_once __DIR__ . '/../views/appointments/services_appointment.php';
     }
 
+    //Método para mostrar la vista de creación de servicios
+    public function createService()
+    {
+
+        if (!Session::isLogged()) {
+            redirect('login');
+        }
+
+        if (Session::isEmployee()) {
+            redirect('services');
+        }
+
+        $title = 'Agregar Servicio';
+        $bodyClass = 'layout-footer';
+        $extraScripts = ['js/sidebar.js'];
+
+        require_once __DIR__ . '/../views/appointments/service_create.php';
+    }
+
+    //Método para procesar el formulario de creación de servicios
+    public function storeService()
+    {
+
+        if (!Session::isLogged()) {
+            redirect('login');
+        }
+
+        if (Session::isEmployee()) {
+            redirect('services');
+        }
+
+        $nombre = trim($_POST['nombre'] ?? '');
+        $descripcion = trim($_POST['descripcion'] ?? '');
+        $precio = trim($_POST['precio'] ?? '');
+
+        $rules = [
+            [
+                'condition' => empty($nombre) || $precio === '',
+                'message' => \App\Config\Messages::ERR_EMPTY_FIELDS,
+                'field' => 'all'
+            ],
+            [
+                'condition' => !is_numeric($precio) || floatval($precio) < 0,
+                'message' => 'El precio debe ser un número válido mayor o igual a cero.',
+                'field' => 'precio'
+            ]
+        ];
+
+        \App\Core\ValidationHelper::validate($rules, 'services/create', 'service_error');
+
+        $this->serviceModel->create($nombre, $descripcion, floatval($precio));
+
+        redirect('services');
+    }
+
     //Método para procesar el formulario de agendar cita
     public function schedule()
     {

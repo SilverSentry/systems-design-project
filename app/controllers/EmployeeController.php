@@ -23,6 +23,10 @@ class EmployeeController
             redirect('login');
         }
 
+        if (Session::isEmployee()) {
+            redirect('dashboard');
+        }
+
         $user = Session::getUser();
         $users = $this->userModel->getAll();
 

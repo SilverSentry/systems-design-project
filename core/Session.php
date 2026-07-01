@@ -92,6 +92,26 @@ class Session
         return self::get('user');
     }
 
+    //Obtener el rol del usuario actual
+    public static function getRoleId(): ?int
+    {
+        $user = self::getUser();
+        return isset($user['roleId']) ? intval($user['roleId']) : (isset($user['id_rol']) ? intval($user['id_rol']) : null);
+    }
+
+    //Verificar si el usuario es administrador
+    public static function isAdmin(): bool
+    {
+        $roleId = self::getRoleId();
+        return in_array($roleId, [1, 4], true);
+    }
+
+    //Verificar si el usuario es empleado
+    public static function isEmployee(): bool
+    {
+        return self::getRoleId() === 2;
+    }
+
     //Verificar si hay usuario logueado
     public static function isLogged(): bool
     {
