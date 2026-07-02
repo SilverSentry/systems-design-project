@@ -76,7 +76,7 @@ $appointmentError = Session::getFlash('appointment_error');
                         </div>
                     </div>
 
-                    <div class="row g-2 align-items-end">
+                    <div class="row g-2 align-items-center">
                         <div class="col-md-8">
                             <div class="mb-3">
                                 <label for="amount" class="form-label"><i class="bi bi-currency-dollar"></i> Monto total</label>
@@ -85,11 +85,12 @@ $appointmentError = Session::getFlash('appointment_error');
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <button type="button" class="btn btn-golden-all w-100" id="openServicesBtn"><i class="bi bi-list-check"></i> Elegir servicios</button>
-                            </div>
+                        <div class="col-md-4 d-grid" style="margin-top: -3px;">
+                            <button type="button" class="btn btn-golden-all" id="openServicesBtn">
+                                <i class="bi bi-list-check"></i> Elegir servicios
+                            </button>
                         </div>
+
                     </div>
 
                     <div class="mb-3">
