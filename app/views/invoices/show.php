@@ -78,7 +78,10 @@ require __DIR__ . '/../layouts/head.php';
         <!-- Botones de Control no-print -->
         <div class="d-flex justify-content-between align-items-center mb-4 no-print">
             <a href="<?= \App\Core\Paths::to('invoices') ?>" class="btn btn-second"><i class="bi bi-arrow-left"></i> Volver a Facturas</a>
-            <button onclick="window.print();" class="btn btn-golden btn-golden-all btn-lg"><i class="bi bi-printer"></i> Imprimir Factura</button>
+            <div class="d-flex gap-2">
+                <!-- <button onclick="window.print();" class="btn btn-outline-secondary btn-lg"><i class="bi bi-printer"></i> Imprimir</button> -->
+                <a href="<?= \App\Core\Paths::to('invoices/download?id=' . $invoice['id']) ?>" class="btn btn-golden btn-golden-all btn-lg"><i class="bi bi-file-earmark-pdf"></i> Descargar PDF</a>
+            </div>
         </div>
 
         <!-- Cuerpo de Factura -->

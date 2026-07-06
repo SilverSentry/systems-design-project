@@ -59,7 +59,7 @@ require __DIR__ . '/../layouts/head.php';
                                     <td><span class="badge rounded-pill <?= $statusClass ?>"><?= htmlspecialchars(ucfirst($invoice['status_name'] ?? 'Desconocido')) ?></span></td>
                                     <td>
                                         <div class="d-flex gap-2">
-                                            <a href="<?= \App\Core\Paths::to('invoices/show?id=' . $invoice['id']) ?>" class="btn btn-outline-primary btn-sm"><i class="bi bi-printer"></i> Ver / Imprimir</a>
+                                            <a href="<?= \App\Core\Paths::to('invoices/show?id=' . $invoice['id']) ?>" class="btn btn-outline-primary btn-sm"><i class="bi bi-eye"></i> Ver Factura</a>
                                             <?php if ($statusName !== 'anulada'): ?>
                                                 <button type="button" class="btn btn-sm btn-outline-danger btn-cancel-invoice" data-id="<?= $invoice['id'] ?>" data-number="<?= htmlspecialchars($invoice['numero_factura']) ?>"><i class="bi bi-x-circle"></i> Anular</button>
                                             <?php else: ?>

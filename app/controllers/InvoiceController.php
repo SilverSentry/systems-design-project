@@ -10,6 +10,8 @@ use App\Core\Session;
 use App\Core\Paths;
 use App\Config\Messages;
 use App\Config\Connection;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class InvoiceController
 {
@@ -109,6 +111,169 @@ class InvoiceController
         ];
 
         require_once __DIR__ . '/../views/invoices/create.php';
+    }
+
+    public function downloadPDF(): void
+    {
+        if (!Session::isLogged()) {
+            redirect('login');
+        }
+
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        if ($id <= 0) {
+            redirect('invoices');
+        }
+
+        $invoice = $this->invoiceModel->getById($id);
+        if (!$invoice) {
+            redirect('invoices');
+        }
+
+        $invoiceDetails = $this->invoiceDetailModel->getByInvoiceId($id);
+
+        $statusName = htmlspecialchars(strtoupper($invoice['status_name'] ?? 'PAGADA'));
+        $badgeClass = strtolower($invoice['status_name'] ?? '') === 'anulada' ? 'badge-anulada' : '';
+        $clientName = htmlspecialchars(ucfirst($invoice['client_name']) . ' ' . ucfirst($invoice['client_surname']));
+        $clientDni = htmlspecialchars($invoice['client_dni'] ?: 'S/D');
+        $clientPhone = htmlspecialchars($invoice['client_phone'] ?: 'S/D');
+        $employeeName = htmlspecialchars(ucfirst($invoice['user_name']) . ' ' . ucfirst($invoice['user_surname']));
+        $paymentMethod = htmlspecialchars($invoice['payment_method_name'] ?? 'No definido');
+        $invoiceNumber = htmlspecialchars($invoice['numero_factura'] ?? 'SIN-NUMERO');
+        $invoiceDate = htmlspecialchars(date('d/m/Y h:i A', strtotime($invoice['fecha'])));
+        $appointmentDate = htmlspecialchars(date('d/m/Y', strtotime($invoice['appointment_date'])));
+
+        $detailsRows = '';
+        foreach ($invoiceDetails as $detail) {
+            $serviceName = htmlspecialchars($detail['service_name'] ?? 'Servicio');
+            $serviceDescription = htmlspecialchars($detail['service_description'] ?: 'Sin descripción');
+            $quantity = intval($detail['cantidad'] ?? 1);
+            $unitPrice = number_format(floatval($detail['precio_unitario'] ?? 0), 2, ',', '.');
+            $total = number_format(floatval($detail['total'] ?? 0), 2, ',', '.');
+
+            $detailsRows .= "<tr>
+                <td>
+                    <div class='fw-semibold'>{$serviceName}</div>
+                    <small class='text-muted'>{$serviceDescription}</small>
+                </td>
+                <td class='text-center'>{$quantity}</td>
+                <td class='text-end'>\${$unitPrice}</td>
+                <td class='text-end'>\${$total}</td>
+            </tr>";
+        }
+
+        $subtotalUsd = number_format(floatval($invoice['subtotal_usd'] ?? 0), 2, ',', '.');
+        $ivaUsd = number_format(floatval($invoice['iva_usd'] ?? 0), 2, ',', '.');
+        $totalUsd = number_format(floatval($invoice['total_usd'] ?? 0), 2, ',', '.');
+        $bcvRate = number_format(floatval($invoice['tasa_bcv'] ?? 0), 2, ',', '.');
+        $totalVes = number_format(floatval($invoice['total_usd'] ?? 0) * floatval($invoice['tasa_bcv'] ?? 0), 2, ',', '.');
+
+        $html = <<<HTML
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Factura {$invoiceNumber}</title>
+    <style>
+        body { font-family: Arial, sans-serif; color: #1f2937; margin: 24px; }
+        .header { border-bottom: 2px solid #e5e7eb; padding-bottom: 16px; margin-bottom: 20px; }
+        .company { font-size: 20px; font-weight: 700; margin: 0; }
+        .muted { color: #6b7280; font-size: 12px; }
+        .badge { display: inline-block; padding: 6px 10px; border-radius: 999px; color: #fff; background: #16a34a; font-size: 12px; font-weight: 700; }
+        .badge-anulada { background: #dc2626; }
+        .section-title { font-size: 14px; font-weight: 700; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        th, td { border: 1px solid #e5e7eb; padding: 8px; }
+        th { background: #f9fafb; text-align: left; }
+        .totals { width: 100%; margin-top: 16px; }
+        .totals td { border: 0; padding: 4px 0; font-size: 13px; }
+        .text-end { text-align: right; }
+        .footer { margin-top: 28px; text-align: center; font-size: 12px; color: #6b7280; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+                <p class="company">STUDIO ORDO STETIC</p>
+                <div class="muted">RIF: J-0000000-0</div>
+                <div class="muted">Avenida Santa Rosa, Valencia, Edo. Carabobo.</div>
+                <div class="muted">Teléfono: (0412) 000-000</div>
+            </div>
+            <div style="text-align: right;">
+                <span class="badge {$badgeClass}">{$statusName}</span>
+                <h2 style="margin: 8px 0 4px;">{$invoiceNumber}</h2>
+                <div class="muted">Fecha: {$invoiceDate}</div>
+            </div>
+        </div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; gap: 20px; margin-bottom: 20px;">
+        <div style="width: 48%;">
+            <div class="section-title">Cliente</div>
+            <div style="font-size: 13px; line-height: 1.5;">{$clientName}</div>
+            <div style="font-size: 13px; line-height: 1.5;">Cédula: {$clientDni}</div>
+            <div style="font-size: 13px; line-height: 1.5;">Teléfono: {$clientPhone}</div>
+        </div>
+        <hr>
+        <div style="width: 48%;">
+            <div class="section-title">Detalles de Operación</div>
+            <div style="font-size: 13px; line-height: 1.5;">Cita Relacionada: #{$invoice['id_cita']}</div>
+            <div style="font-size: 13px; line-height: 1.5;">Fecha de Cita: {$appointmentDate}</div>
+            <div style="font-size: 13px; line-height: 1.5;">Atendido por: {$employeeName}</div>
+        </div>
+    </div>
+
+    <div class="section-title">Detalle de Servicios</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Servicio</th>
+                <th style="width: 80px; text-align: center;">Cant.</th>
+                <th style="width: 120px; text-align: right;">Precio Unit.</th>
+                <th style="width: 120px; text-align: right;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {$detailsRows}
+        </tbody>
+    </table>
+
+    <table class="totals">
+        <tr><td class="text-end">Subtotal USD:</td><td class="text-end">\${$subtotalUsd}</td></tr>
+        <tr><td class="text-end">IVA (16%):</td><td class="text-end">\${$ivaUsd}</td></tr>
+        <tr><td class="text-end" style="font-weight: 700;">Total USD:</td><td class="text-end" style="font-weight: 700;">\${$totalUsd}</td></tr>
+        <tr><td class="text-end">Tasa BCV:</td><td class="text-end">Bs. {$bcvRate}</td></tr>
+        <tr><td class="text-end" style="font-weight: 700;">Total VES:</td><td class="text-end" style="font-weight: 700;">Bs. {$totalVes}</td></tr>
+        <tr><td class="text-end">Método de Pago:</td><td class="text-end">{$paymentMethod}</td></tr>
+    </table>
+
+    <div class="footer">
+        <p>¡Gracias por preferir a Studio Ordo Stetic!</p>
+        <p>Documento no fiscal emitido por el sistema.</p>
+    </div>
+</body>
+</html>
+HTML;
+
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('defaultFont', 'Arial');
+
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html, 'UTF-8');
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        $safeInvoiceNumber = preg_replace('/[^A-Za-z0-9\-]+/', '-', $invoice['numero_factura'] ?? 'factura');
+        $filename = 'factura-' . trim($safeInvoiceNumber, '-') . '.pdf';
+
+        if (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        $dompdf->stream($filename, ['Attachment' => true]);
+        exit();
     }
 
     /**

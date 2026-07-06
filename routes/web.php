@@ -43,6 +43,7 @@ $router->addGetController('api/inventory/history', \App\Controllers\InventarioCo
 $router->addGetController('invoices', \App\Controllers\InvoiceController::class, 'index');
 $router->addGetController('invoices/create', \App\Controllers\InvoiceController::class, 'create');
 $router->addGetController('invoices/show', \App\Controllers\InvoiceController::class, 'show');
+$router->addGetController('invoices/download', \App\Controllers\InvoiceController::class, 'downloadPDF');
 $router->addGetController('api/appointments/details', \App\Controllers\InvoiceController::class, 'getAppointmentDetails');
 
 //API: búsqueda SNOMED proxyeada por el backend
