@@ -21,6 +21,7 @@ $router->addGetController('dashboard', \App\Controllers\DashboardController::cla
 
 //Rutas de Empleados
 $router->addGetController('employees', \App\Controllers\EmployeeController::class, 'index');
+$router->addGetController('employees/edit', \App\Controllers\EmployeeController::class, 'edit');
 
 //Rutas de Clientes
 $router->addGetController('clients/create', \App\Controllers\ClientController::class, 'create');
@@ -74,6 +75,9 @@ $router->addController('inventory/create', \App\Controllers\InventarioController
 $router->addController('inventory/edit', \App\Controllers\InventarioController::class, 'edit');
 $router->addController('inventory/delete', \App\Controllers\InventarioController::class, 'delete');
 $router->addController('inventory/movement', \App\Controllers\InventarioController::class, 'movement');
+
+// Empleados: actualizar datos
+$router->addController('employees/update', \App\Controllers\EmployeeController::class, 'update');
 
 //Rutas de Facturación
 $router->addController('invoices/store', \App\Controllers\InvoiceController::class, 'store');

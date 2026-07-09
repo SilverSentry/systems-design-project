@@ -53,8 +53,7 @@ require __DIR__ . '/../layouts/head.php';
                   <td><span class="badge rounded-pill <?= $roleClass ?>"><?= htmlspecialchars(ucfirst($employee['rol_nombre'] ?? $employee['id_rol'] ?? 'Desconocido')) ?></span></td>
                   <td><span class="badge rounded-pill <?= $statusClass ?>"><?= htmlspecialchars(ucfirst($employee['estado_nombre'] ?? $employee['id_estado'] ?? 'Desconocido')) ?></span></td>
                   <td>
-                    <!-- Aquí puede ir un botón real de edición/eliminación cuando se agregue esa funcionalidad -->
-                    <button type="button" class="btn btn-outline-primary btn-sm" disabled>Editar</button>
+                    <a href="<?= \App\Core\Paths::to('employees/edit?id=' . $employee['id']) ?>" class="btn btn-outline-primary btn-sm">Editar</a>
                   </td>
                 </tr>
               <?php endforeach; ?>

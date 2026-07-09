@@ -55,4 +55,66 @@ class EmployeeController
 
         require_once __DIR__ . '/../views/employees/index.php';
     }
+
+    /**
+     * Show edit form for a single employee.
+     *
+     * @return void
+     */
+    public function edit(): void
+    {
+        if (!Session::isLogged()) {
+            redirect('login');
+        }
+
+        if (Session::isEmployee()) {
+            redirect('dashboard');
+        }
+
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        if ($id <= 0) {
+            redirect('employees');
+        }
+
+        $employee = $this->userModel->getById($id);
+        if (!$employee) {
+            redirect('employees');
+        }
+
+        $title = 'Editar Empleado';
+        $bodyClass = 'layout-footer';
+        $extraScripts = ['js/sidebar.js'];
+
+        require_once __DIR__ . '/../views/employees/edit.php';
+    }
+
+    /**
+     * Update employee data.
+     *
+     * @return void
+     */
+    public function update(): void
+    {
+        if (!Session::isLogged()) {
+            redirect('login');
+        }
+
+        if (Session::isEmployee()) {
+            redirect('dashboard');
+        }
+
+        $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+        $name = isset($_POST['nombre']) ? trim($_POST['nombre']) : '';
+        $surname = isset($_POST['apellido']) ? trim($_POST['apellido']) : '';
+        $email = isset($_POST['email']) ? trim($_POST['email']) : '';
+        $state = isset($_POST['estado']) ? intval($_POST['estado']) : 1;
+
+        if ($id <= 0 || $name === '' || $surname === '' || $email === '') {
+            redirect('employees');
+        }
+
+        $success = $this->userModel->update($id, $name, $surname, $email, $state);
+
+        redirect('employees');
+    }
 }

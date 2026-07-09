@@ -70,4 +70,43 @@ class User extends Model
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
+
+    /**
+     * Get a single user by ID.
+     *
+     * @param int $id
+     * @return array|null
+     */
+    public function getById(int $id): ?array
+    {
+        $sql = "SELECT u.*, r.nombre AS rol_nombre, e.nombre AS estado_nombre FROM " . $this->tableName . " u LEFT JOIN roles r ON u.id_rol = r.rol LEFT JOIN estados_usuario e ON u.id_estado = e.id WHERE u.id = :id LIMIT 1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':id' => $id]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
+
+    /**
+     * Update an existing user.
+     *
+     * @param int $id
+     * @param string $name
+     * @param string $surname
+     * @param string $email
+     * @param int $stateId
+     * @return bool
+     */
+    public function update(int $id, string $name, string $surname, string $email, int $stateId): bool
+    {
+        $sql = "UPDATE " . $this->tableName . " SET nombre = :name, apellido = :surname, email = :email, id_estado = :state WHERE id = :id";
+        $stmt = $this->query($sql, [
+            ':name' => $name,
+            ':surname' => $surname,
+            ':email' => $email,
+            ':state' => $stateId,
+            ':id' => $id
+        ]);
+
+        return $stmt->rowCount() > 0;
+    }
 }
