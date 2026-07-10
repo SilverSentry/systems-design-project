@@ -198,6 +198,89 @@ class AppointmentController
         redirect('appointments');
     }
 
+    public function showEdit()
+    {
+        if (!Session::isLogged()) {
+            redirect('login');
+        }
+
+        $id = intval($_GET['id'] ?? 0);
+        if ($id <= 0) {
+            redirect('appointments');
+        }
+
+        $appointment = $this->appointmentModel->getById($id);
+        if (!$appointment) {
+            redirect('appointments');
+        }
+
+        $clients = $this->clientModel->read();
+        $services = $this->serviceModel->getAll();
+
+        $title = 'Editar cita';
+        $bodyClass = 'layout-footer';
+        $extraScripts = ['js/sidebar.js'];
+
+        require_once __DIR__ . '/../views/appointments/edit.php';
+    }
+
+    public function edit()
+    {
+        if (!Session::isLogged()) {
+            redirect('login');
+        }
+
+        $id = intval($_POST['id'] ?? 0);
+        if ($id <= 0) {
+            redirect('appointments');
+        }
+
+        $data = $this->validateScheduleRequest();
+
+        $selectedServices = $this->serviceModel->getByIds($data['service_ids']);
+        if (count($selectedServices) !== count($data['service_ids'])) {
+            redirect('appointments/edit?id=' . $id);
+        }
+
+        $serviceNames = array_column($selectedServices, 'nombre');
+        $notesList = ['Servicios: ' . implode(', ', $serviceNames)];
+
+        if (!empty($data['notes'])) {
+            $notesList[] = 'Notas: ' . $data['notes'];
+        }
+
+        $totalAmount = is_numeric($data['amount']) ? floatval($data['amount']) : 0.0;
+        $employeeId = Session::getUser()['id'] ?? 0;
+
+        $this->appointmentModel->updateWithServices(
+            $id,
+            $data['client_id'],
+            $employeeId,
+            $data['date'],
+            $data['time_start'],
+            $data['time_end'],
+            $totalAmount,
+            implode(' | ', $notesList),
+            $data['service_ids']
+        );
+
+        redirect('appointments');
+    }
+
+    public function cancel()
+    {
+        if (!Session::isLogged()) {
+            redirect('login');
+        }
+
+        $id = intval($_POST['id'] ?? 0);
+        if ($id > 0) {
+            $this->appointmentModel->cancel($id);
+        }
+
+        redirect('appointments');
+    }
+
     //Función para validar los datos del formulario de agendar cita
     private function validateScheduleRequest(): array
     {

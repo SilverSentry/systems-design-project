@@ -160,6 +160,86 @@ class ClientController
         }
     }
 
+    //Método para procesar el formulario de edición (POST)
+    public function edit()
+    {
+        if (!Session::isLogged()) {
+            redirect('login');
+        }
+
+        $id = intval($_POST['id'] ?? 0);
+        if ($id <= 0) {
+            redirect('clients');
+        }
+
+        $data = $this->validateClientRequest();
+
+        try {
+            $this->clientModel->update(
+                $id,
+                $data['name'],
+                $data['surname'],
+                $data['phone'],
+                $data['dni'],
+                $data['birthdate'],
+                $data['gender']
+            );
+
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Cliente actualizado correctamente',
+                'redirect' => Paths::to('clients')
+            ]);
+            exit();
+        } catch (\Exception $e) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Error al actualizar el cliente',
+                'debug' => $e->getMessage()
+            ]);
+            exit();
+        }
+    }
+
+    //Método para mostrar la vista de edición (GET)
+    public function showEdit()
+    {
+        if (!Session::isLogged()) {
+            redirect('login');
+        }
+
+        $id = intval($_GET['id'] ?? 0);
+        if ($id <= 0) {
+            redirect('clients');
+        }
+
+        $client = $this->clientModel->getById($id);
+        if (!$client) {
+            redirect('clients');
+        }
+
+        $title = 'Editar cliente';
+        $bodyClass = 'layout-footer';
+        $extraScripts = ['js/sidebar.js', 'js/client-edit.js'];
+
+        require_once __DIR__ . '/../views/clients/edit.php';
+    }
+
+    //Método para eliminar (desactivar) un cliente (POST)
+    public function delete()
+    {
+        if (!Session::isLogged()) {
+            redirect('login');
+        }
+
+        $id = intval($_POST['id'] ?? 0);
+        if ($id > 0) {
+            $this->clientModel->deactivate($id);
+        }
+
+        redirect('clients');
+    }
+
     //Validador privado para las solicitudes de cliente
     private function validateClientRequest()
     {

@@ -41,4 +41,25 @@ $(document).ready(function () {
             });
         });
     }
+
+    $(document).on('submit', '.form-cancel-appointment', function(e) {
+        e.preventDefault();
+        const form = this;
+        
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Se cancelará esta cita y no podrá ser restaurada.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Sí, cancelar',
+            cancelButtonText: 'No, mantener',
+            customClass: { popup: 'custom-swal-rect' }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
 });

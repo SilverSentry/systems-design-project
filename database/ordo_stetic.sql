@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-06-2026 a las 14:13:49
+-- Tiempo de generación: 10-07-2026 a las 18:41:51
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -77,7 +77,10 @@ CREATE TABLE `citas` (
 INSERT INTO `citas` (`id`, `id_cliente`, `id_empleado`, `fecha`, `hora_inicio`, `hora_fin`, `monto_total`, `id_estado`, `notas`, `created_at`, `updated_at`) VALUES
 (1, 4, 18, '2026-06-16', '14:30:00', '15:00:00', 50.00, 1, 'xd', '2026-06-14 22:38:55', '2026-06-14 22:38:55'),
 (2, 54, 18, '2026-06-16', '10:32:00', '11:32:00', 20.00, 1, 'nada xd', '2026-06-15 12:32:37', '2026-06-15 12:32:37'),
-(3, 4, 18, '2026-06-16', '00:47:00', '14:47:00', 20.00, 1, 'xd', '2026-06-15 12:48:06', '2026-06-15 12:48:06');
+(3, 4, 18, '2026-06-16', '00:47:00', '14:47:00', 20.00, 2, 'xd', '2026-06-15 12:48:06', '2026-06-26 12:56:15'),
+(4, 54, 1, '2026-06-26', '10:00:00', '12:00:00', 20.00, 2, 'Servicios: Radiofrecuencia | Notas: mosca', '2026-06-26 12:59:50', '2026-06-26 13:03:53'),
+(7, 58, 18, '2026-06-27', '11:40:00', '12:40:00', 20.00, 1, 'Servicios: Radiofrecuencia | Notas: ekide ekide', '2026-06-27 14:38:29', '2026-06-27 14:38:29'),
+(8, 58, 18, '2026-06-27', '11:40:00', '12:40:00', 20.00, 1, 'Servicios: Radiofrecuencia | Notas: ekide ekide', '2026-06-27 14:38:50', '2026-06-27 14:38:50');
 
 -- --------------------------------------------------------
 
@@ -94,22 +97,23 @@ CREATE TABLE `clientes` (
   `fecha_nacimiento` date NOT NULL,
   `genero` enum('Masculino','Femenino','Otro') NOT NULL,
   `creado_en` timestamp NOT NULL DEFAULT current_timestamp(),
-  `id_rol` int(11) NOT NULL
+  `id_rol` int(11) NOT NULL,
+  `id_estado` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `clientes`
 --
 
-INSERT INTO `clientes` (`id`, `nombre`, `apellido`, `telefono`, `dni`, `fecha_nacimiento`, `genero`, `creado_en`, `id_rol`) VALUES
-(4, 'gregory', 'arrieta', '04169110558', '', '2026-05-27', 'Masculino', '2026-05-27 23:50:24', 3),
-(7, 'gregory', 'arrieta', '04169110558', '', '2026-05-04', 'Otro', '2026-05-28 01:19:42', 3),
-(53, 'gregory', 'arrieta', '04169110558', '30640191', '2026-05-12', 'Masculino', '2026-05-28 23:11:11', 3),
-(54, 'Abraham', 'Rios', '04169110558', '30640192', '2004-04-05', 'Masculino', '2026-05-28 23:57:31', 3),
-(55, 'Grego', 'Rios', '04169110558', '1234567', '2019-01-25', 'Masculino', '2026-06-07 11:40:02', 3),
-(56, 'asdad', 'asdad', '12345677846', '12345689', '2025-06-05', 'Masculino', '2026-06-07 22:33:34', 3),
-(57, 'xdd', 'xdxd', '12345678901', '12345678', '2022-02-07', 'Femenino', '2026-06-07 23:51:51', 3),
-(58, 'abraham', 'flores', '04169110558', '30640193', '2002-02-14', 'Masculino', '2026-06-14 13:34:01', 3);
+INSERT INTO `clientes` (`id`, `nombre`, `apellido`, `telefono`, `dni`, `fecha_nacimiento`, `genero`, `creado_en`, `id_rol`, `id_estado`) VALUES
+(4, 'gregory', 'arrieta', '04169110558', '', '2026-05-27', 'Masculino', '2026-05-27 23:50:24', 3, 1),
+(7, 'gregory', 'arrieta', '04169110558', '', '2026-05-04', 'Otro', '2026-05-28 01:19:42', 3, 1),
+(53, 'gregory', 'arrieta', '04169110558', '30640191', '2026-05-12', 'Masculino', '2026-05-28 23:11:11', 3, 1),
+(54, 'Abraham', 'Rios', '04169110558', '30640192', '2004-04-05', 'Masculino', '2026-05-28 23:57:31', 3, 1),
+(55, 'Grego', 'Rios', '04169110558', '1234567', '2019-01-25', 'Masculino', '2026-06-07 11:40:02', 3, 1),
+(56, 'asdad', 'asdad', '12345677846', '12345689', '2025-06-05', 'Masculino', '2026-06-07 22:33:34', 3, 1),
+(57, 'xdd', 'xdxd', '12345678901', '12345678', '2022-02-07', 'Femenino', '2026-06-07 23:51:51', 3, 1),
+(58, 'abraham', 'flores', '04169110558', '30640193', '2002-02-14', 'Masculino', '2026-06-14 13:34:01', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -128,7 +132,10 @@ CREATE TABLE `detalles_cita` (
 --
 
 INSERT INTO `detalles_cita` (`id`, `id_cita`, `id_servicio`) VALUES
-(1, 3, 1);
+(1, 3, 1),
+(2, 4, 1),
+(5, 7, 1),
+(6, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -144,6 +151,14 @@ CREATE TABLE `detalles_factura` (
   `precio_unitario` decimal(10,2) NOT NULL,
   `total` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `detalles_factura`
+--
+
+INSERT INTO `detalles_factura` (`id`, `id_factura`, `id_servicio`, `cantidad`, `precio_unitario`, `total`) VALUES
+(2, 2, 1, 1, 20.00, 20.00),
+(3, 3, 1, 1, 20.00, 20.00);
 
 -- --------------------------------------------------------
 
@@ -225,6 +240,14 @@ CREATE TABLE `facturas` (
   `fecha` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `facturas`
+--
+
+INSERT INTO `facturas` (`id`, `numero_factura`, `id_cliente`, `id_cita`, `id_usuario`, `subtotal_usd`, `iva_usd`, `total_usd`, `tasa_bcv`, `id_metodo_pago`, `id_estado`, `fecha`) VALUES
+(2, 'FAC-00001', 4, 3, 1, 20.00, 3.20, 23.20, 622.21, 1, 2, '2026-06-26 12:56:15'),
+(3, 'FAC-00003', 54, 4, 1, 20.00, 3.20, 23.20, 622.21, 3, 1, '2026-06-26 13:03:53');
+
 -- --------------------------------------------------------
 
 --
@@ -262,6 +285,16 @@ CREATE TABLE `metodos_pago` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `metodos_pago`
+--
+
+INSERT INTO `metodos_pago` (`id`, `nombre`) VALUES
+(1, 'Efectivo'),
+(2, 'Punto de Venta'),
+(3, 'Pago Móvil'),
+(4, 'Transferencia');
 
 -- --------------------------------------------------------
 
@@ -379,7 +412,7 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id`, `nombre`, `apellido`, `email`, `password`, `fecha_registro`, `id_rol`, `id_estado`) VALUES
 (1, 'Admin', 'Ordo', 'admin@ordostetic.com', '$2y$10$2uWL3Lvswlrcd9pJOdfHW.5tmBHwLRpHvpnZeyBc09aHDG29HuXZm', '2026-05-25 15:51:03', 1, 1),
-(2, 'gregory', 'arrieta', 'josefamacuaya@gmail.com', '$2y$10$twW5JaMNniWVfH6yy8NFlegR2S2fh9y15Hgx3OmQOxI0GM0l.9lRy', '2026-05-25 15:51:03', 2, 1),
+(2, 'gregory', 'arrieta', 'josefamacuaya@gmail.com', '$2y$10$twW5JaMNniWVfH6yy8NFlegR2S2fh9y15Hgx3OmQOxI0GM0l.9lRy', '2026-07-09 18:02:15', 2, 1),
 (6, 'Yaneth', 'Rios', 'yaneska@gmail.com', '$2y$10$Bazz4NCy3b6ti700zsStvepQ3eI1zxOTgc4A.ec4N1C95hNL76wrC', '2026-05-25 15:51:03', 2, 1),
 (7, 'carly', 'acosta', 'carly@gmail.com', '$2y$10$HhfPg4.eOeu5a2riUth2q.HXjiigCRU.KzA9uya1V1cHGSwpnGvqq', '2026-05-25 15:51:03', 2, 1),
 (17, 'jesus', 'pacheco', 'pacheco@gmail.com', '$2y$10$RUqn.xAvC0Yh16NJEJHtx.4fh87EGIssFIOQAIGckDyUT4Pn.i6P6', '2026-05-25 15:51:03', 2, 1),
@@ -424,7 +457,8 @@ ALTER TABLE `citas`
 --
 ALTER TABLE `clientes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_rol` (`id_rol`);
+  ADD KEY `id_rol` (`id_rol`),
+  ADD KEY `id_estado` (`id_estado`);
 
 --
 -- Indices de la tabla `detalles_cita`
@@ -539,7 +573,7 @@ ALTER TABLE `antecedentes_clientes`
 -- AUTO_INCREMENT de la tabla `citas`
 --
 ALTER TABLE `citas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
@@ -551,13 +585,13 @@ ALTER TABLE `clientes`
 -- AUTO_INCREMENT de la tabla `detalles_cita`
 --
 ALTER TABLE `detalles_cita`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `detalles_factura`
 --
 ALTER TABLE `detalles_factura`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `estados_cita`
@@ -581,7 +615,7 @@ ALTER TABLE `estados_usuario`
 -- AUTO_INCREMENT de la tabla `facturas`
 --
 ALTER TABLE `facturas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `inventario`
@@ -593,7 +627,7 @@ ALTER TABLE `inventario`
 -- AUTO_INCREMENT de la tabla `metodos_pago`
 --
 ALTER TABLE `metodos_pago`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `movimientos_inventario`
@@ -654,7 +688,8 @@ ALTER TABLE `citas`
 -- Filtros para la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  ADD CONSTRAINT `clientes_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`rol`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `clientes_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`rol`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `clientes_ibfk_2` FOREIGN KEY (`id_estado`) REFERENCES `estados_usuario` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `detalles_cita`

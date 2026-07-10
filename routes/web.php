@@ -25,11 +25,13 @@ $router->addGetController('employees/edit', \App\Controllers\EmployeeController:
 
 //Rutas de Clientes
 $router->addGetController('clients/create', \App\Controllers\ClientController::class, 'create');
+$router->addGetController('clients/edit', \App\Controllers\ClientController::class, 'showEdit');
 $router->addGetController('clients', \App\Controllers\ClientController::class, 'index');
 
 //Rutas de Citas
 $router->addGetController('appointments', \App\Controllers\AppointmentController::class, 'index');
 $router->addGetController('appointments/create', \App\Controllers\AppointmentController::class, 'create');
+$router->addGetController('appointments/edit', \App\Controllers\AppointmentController::class, 'showEdit');
 $router->addGetController('services', \App\Controllers\AppointmentController::class, 'showServices');
 $router->addGetController('services/create', \App\Controllers\AppointmentController::class, 'createService');
 
@@ -66,9 +68,12 @@ $router->addController('logout', \App\Controllers\AuthController::class, 'logout
 //Rutas de Clientes
 $router->addController('clients/register', \App\Controllers\ClientController::class, 'register');
 $router->addController('clients/edit', \App\Controllers\ClientController::class, 'edit');
+$router->addController('clients/delete', \App\Controllers\ClientController::class, 'delete');
 
 //Rutas de Citas
 $router->addController('appointments/schedule', \App\Controllers\AppointmentController::class, 'schedule');
+$router->addController('appointments/edit', \App\Controllers\AppointmentController::class, 'edit');
+$router->addController('appointments/cancel', \App\Controllers\AppointmentController::class, 'cancel');
 
 //Rutas de Inventario
 $router->addController('inventory/create', \App\Controllers\InventarioController::class, 'create');

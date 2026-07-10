@@ -64,8 +64,13 @@ require __DIR__ . '/../layouts/head.php';
                                     <td><span class="badge rounded-pill <?= $statusClass ?>"><?= htmlspecialchars(ucfirst($appointment['estado_nombre'] ?? 'Desconocido')) ?></span></td>
                                     <td><?= htmlspecialchars($appointment['notas'] ?: 'Sin notas') ?></td>
                                     <td>
-                                        <button type="button" class="btn btn-outline-primary btn-sm" disabled>Editar</button>
-                                        <button type="button" class="btn btn-sm btn-outline-danger" disabled>Eliminar</button>
+                                        <div class="d-flex gap-2">
+                                            <a href="<?= \App\Core\Paths::to('appointments/edit?id=' . $appointment['id']) ?>" class="btn btn-outline-primary btn-sm">Editar</a>
+                                            <form action="<?= \App\Core\Paths::to('appointments/cancel') ?>" method="POST" class="form-cancel-appointment">
+                                                <input type="hidden" name="id" value="<?= htmlspecialchars($appointment['id']) ?>">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Cancelar</button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

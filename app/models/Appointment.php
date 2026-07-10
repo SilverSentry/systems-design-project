@@ -71,6 +71,56 @@ class Appointment extends Model
         }
     }
 
+    public function getById(int $id): ?array
+    {
+        $sql = "SELECT ci.*, GROUP_CONCAT(DISTINCT dc.id_servicio SEPARATOR ',') AS service_ids_string FROM " . $this->tableName . " ci LEFT JOIN detalles_cita dc ON ci.id = dc.id_cita WHERE ci.id = :id GROUP BY ci.id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
+
+    public function update($id, $clientId, $employeeId, $date, $startTime, $endTime, $totalAmount, $notes)
+    {
+        $sql = "UPDATE " . $this->tableName . " SET id_cliente = :clientId, id_empleado = :employeeId, fecha = :date, hora_inicio = :startTime, hora_fin = :endTime, monto_total = :totalAmount, notas = :notes WHERE id = :id";
+        $this->query($sql, [
+            ':id' => $id,
+            ':clientId' => $clientId,
+            ':employeeId' => $employeeId,
+            ':date' => $date,
+            ':startTime' => $startTime,
+            ':endTime' => $endTime,
+            ':totalAmount' => $totalAmount,
+            ':notes' => $notes
+        ]);
+        return true;
+    }
+
+    public function updateWithServices($id, $clientId, $employeeId, $date, $startTime, $endTime, $totalAmount, $notes, array $serviceIds)
+    {
+        $this->db->beginTransaction();
+        try {
+            $this->update($id, $clientId, $employeeId, $date, $startTime, $endTime, $totalAmount, $notes);
+            
+            $sqlDelete = "DELETE FROM detalles_cita WHERE id_cita = :id";
+            $this->query($sqlDelete, [':id' => $id]);
+
+            $this->attachServices($id, $serviceIds);
+
+            $this->db->commit();
+            return true;
+        } catch (\Exception $e) {
+            $this->db->rollBack();
+            throw $e;
+        }
+    }
+
+    public function cancel(int $id)
+    {
+        $sql = "UPDATE " . $this->tableName . " SET id_estado = 3 WHERE id = :id";
+        $this->query($sql, [':id' => $id]);
+        return true;
+    }
+
     //Método para obtener todas las citas activas con información del cliente, estado y servicios agendados
     public function getAll(): array
     {
