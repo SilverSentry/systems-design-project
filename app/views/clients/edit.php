@@ -32,7 +32,7 @@ require __DIR__ . '/../layouts/head.php'; //Carga el head común
         <div class="col-12 col-md-9 mx-auto mt-4 animate-fadeIn">
             <div class="card shadow border-0">
                 <div class="card-header py-3">
-                    <h1 class="card-title mb-0 fw-bold">Editar cliente</h1>
+                    <h1 class="card-title mb-0 fw-bold"><i class="bi bi-person"></i> Editar cliente</h1>
                 </div>
                 <div class="card-body p-4">
                     <h5 class="mb-3">Datos Personales</h5>
