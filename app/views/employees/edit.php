@@ -4,8 +4,11 @@
 /** @var array $employee */
 
 use App\Core\Paths;
+use App\Core\Session;
 
 require __DIR__ . '/../layouts/head.php';
+
+$employeeError = Session::getFlash('employee_error');
 ?>
 
 <?php require __DIR__ . '/../layouts/sidebar.php'; ?>
@@ -27,6 +30,12 @@ require __DIR__ . '/../layouts/head.php';
             </div>
 
             <div class="card-body p-4">
+                <?php if (!empty($employeeError['message'])): ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?= htmlspecialchars($employeeError['message']) ?>
+                    </div>
+                <?php endif; ?>
+
                 <form method="post" action="<?= Paths::to('employees/update') ?>">
                     <input type="hidden" name="id" value="<?= htmlspecialchars($employee['id']) ?>">
 
@@ -52,6 +61,35 @@ require __DIR__ . '/../layouts/head.php';
                             <i class="bi bi-envelope me-1"></i> Correo Electrónico
                         </label>
                         <input type="email" name="email" class="form-control px-3 py-2" value="<?= htmlspecialchars($employee['email']) ?>" required style="border-radius: 8px;">
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold text-secondary" style="font-size: 0.9rem;">
+                                <i class="bi bi-lock me-1"></i> Nueva Contraseña
+                            </label>
+                            <div class="input-group">
+                                <input type="password" id="password" name="password" class="form-control px-3 py-2" autocomplete="new-password" placeholder="Dejar vacío para conservar la actual" style="border-radius: 8px 0 0 8px;">
+                                <button class="btn btn-outline-secondary password-toggle" type="button" id="togglePassword" aria-label="Mostrar contraseña">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold text-secondary" style="font-size: 0.9rem;">
+                                <i class="bi bi-lock-fill me-1"></i> Confirmar Contraseña
+                            </label>
+                            <div class="input-group">
+                                <input type="password" id="passwordConfirm" name="passwordConfirm" class="form-control px-3 py-2" autocomplete="new-password" placeholder="Repite la nueva contraseña" style="border-radius: 8px 0 0 8px;">
+                                <button class="btn btn-outline-secondary password-toggle" type="button" id="togglePasswordConfirm" aria-label="Mostrar confirmar contraseña">
+                                    <i class="bi bi-eye-slash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="small text-muted mb-4">
+                        La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número. Si dejas los campos vacíos, la contraseña actual se conserva.
                     </div>
 
                     <!-- Campo Estado (Select Estilizado) -->

@@ -3,8 +3,10 @@
 
 namespace App\Controllers;
 
+use App\Config\Messages;
 use App\Models\User;
 use App\Core\Session;
+use App\Core\ValidationHelper;
 
 class EmployeeController
 {
@@ -83,7 +85,7 @@ class EmployeeController
 
         $title = 'Editar Empleado';
         $bodyClass = 'layout-footer';
-        $extraScripts = ['js/sidebar.js'];
+        $extraScripts = ['js/sidebar.js', 'js/register.js'];
 
         require_once __DIR__ . '/../views/employees/edit.php';
     }
@@ -108,12 +110,36 @@ class EmployeeController
         $surname = isset($_POST['apellido']) ? trim($_POST['apellido']) : '';
         $email = isset($_POST['email']) ? trim($_POST['email']) : '';
         $state = isset($_POST['estado']) ? intval($_POST['estado']) : 1;
+        $password = isset($_POST['password']) ? trim($_POST['password']) : '';
+        $passwordConfirm = isset($_POST['passwordConfirm']) ? trim($_POST['passwordConfirm']) : '';
 
         if ($id <= 0 || $name === '' || $surname === '' || $email === '') {
             redirect('employees');
         }
 
-        $success = $this->userModel->update($id, $name, $surname, $email, $state);
+        $rules = [];
+
+        if ($password !== '' || $passwordConfirm !== '') {
+            $rules[] = [
+                'condition' => empty($password) || empty($passwordConfirm),
+                'message' => Messages::ERR_EMPTY_FIELDS,
+                'field' => 'password'
+            ];
+            $rules[] = [
+                'condition' => !preg_match("/(?=.*[A-Z])(?=.*\d).{8,}$/", $password),
+                'message' => Messages::ERR_PASS_INVALID,
+                'field' => 'password'
+            ];
+            $rules[] = [
+                'condition' => $password !== $passwordConfirm,
+                'message' => Messages::ERR_PASS_DOES_NOT_MATCH,
+                'field' => 'passwords'
+            ];
+        }
+
+        ValidationHelper::validate($rules, 'employees/edit?id=' . $id, 'employee_error');
+
+        $success = $this->userModel->update($id, $name, $surname, $email, $state, $password !== '' ? $password : null);
 
         redirect('employees');
     }

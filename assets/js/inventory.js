@@ -335,7 +335,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const history = data.history || [];
                     
                     if (history.length === 0) {
-                        tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-3">No se registran movimientos en la bitácora.</td></tr>`;
+                        tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-3">No se registran movimientos en el historial.</td></tr>`;
                         return;
                     }
                     

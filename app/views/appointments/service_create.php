@@ -32,7 +32,7 @@ $serviceError = Session::getFlash('service_error');
         <div class="col-12 col-md-9 mx-auto mt-4 animate-fadeIn">
             <div class="card shadow border-0">
                 <div class="card-header py-3">
-                    <h1 class="card-title mb-0 fw-bold">Agregar servicio</h1>
+                    <h1 class="card-title mb-0 fw-bold"><i class="bi bi-bag-plus"></i> Agregar Servicio</h1>
                 </div>
                 <div class="card-body p-4">
                     <h5 class="mb-3">Datos del servicio</h5>
@@ -70,7 +70,7 @@ $serviceError = Session::getFlash('service_error');
                         </div>
 
                         <div class="col-auto m-1">
-                            <button type="submit" class="btn btn-golden-all btn-lg"><i class="bi bi-save"></i> Guardar servicio</button>
+                            <button type="submit" class="btn btn-golden-all btn-lg"><i class="bi bi-save"></i> Guardar Servicio</button>
                         </div>
                     </div>
                 </div>

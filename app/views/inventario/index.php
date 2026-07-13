@@ -260,7 +260,7 @@ require __DIR__ . '/../partials/modal.php';
 <!-- MODAL HISTORIAL DE MOVIMIENTOS -->
 <?php
 $modalId = 'modalHistory';
-$modalTitle = 'Bitácora Histórica de Ajustes y Movimientos';
+$modalTitle = 'Historial de Ajustes y Movimientos';
 ob_start();
 ?>
 <div class="table-responsive" style="max-height: 480px; overflow-y: auto;">

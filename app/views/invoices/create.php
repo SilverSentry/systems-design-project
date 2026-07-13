@@ -60,7 +60,7 @@ require __DIR__ . '/../layouts/head.php';
                                     <span class="fw-bold fs-5 text-dark" id="client-fullname">-</span>
                                 </div>
                                 <div class="col-12 col-sm-4">
-                                    <small class="text-muted d-block text-uppercase">Cédula / DNI</small>
+                                    <small class="text-muted d-block text-uppercase">Cédula</small>
                                     <span class="fw-bold fs-5 text-dark" id="client-dni">-</span>
                                 </div>
                                 <div class="col-12 col-sm-4">

@@ -94,18 +94,28 @@ class User extends Model
      * @param string $surname
      * @param string $email
      * @param int $stateId
+     * @param string|null $password
      * @return bool
      */
-    public function update(int $id, string $name, string $surname, string $email, int $stateId): bool
+    public function update(int $id, string $name, string $surname, string $email, int $stateId, ?string $password = null): bool
     {
-        $sql = "UPDATE " . $this->tableName . " SET nombre = :name, apellido = :surname, email = :email, id_estado = :state WHERE id = :id";
-        $stmt = $this->query($sql, [
+        $sql = "UPDATE " . $this->tableName . " SET nombre = :name, apellido = :surname, email = :email, id_estado = :state";
+        $params = [
             ':name' => $name,
             ':surname' => $surname,
             ':email' => $email,
             ':state' => $stateId,
             ':id' => $id
-        ]);
+        ];
+
+        if ($password !== null && $password !== '') {
+            $sql .= ", password = :password";
+            $params[':password'] = password_hash($password, PASSWORD_BCRYPT);
+        }
+
+        $sql .= " WHERE id = :id";
+
+        $stmt = $this->query($sql, $params);
 
         return $stmt->rowCount() > 0;
     }
